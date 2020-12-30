@@ -28,6 +28,7 @@
       program = "${pkgs.fish}/bin/fish";
       #args = [ "--init-command" "echo; neofetch; echo" ];
     };
+
   
   };
 

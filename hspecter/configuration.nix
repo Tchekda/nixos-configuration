@@ -102,11 +102,13 @@ in
     
   };
 
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
+  programs = {
+    gnupg.agent.enable = true;
 
+    ssh.startAgent = true;
+
+    fish.enable = true;
+  };
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
