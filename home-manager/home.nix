@@ -23,6 +23,13 @@
        signByDefault = true;
       };
     };
+
+    ssh = {
+      enable = true;
+      extraOptionOverrides = {"AddKeysToAgent" = "yes";};
+    };
+
+    fish = import ./fish.nix { inherit pkgs; };
   };
 
   services = {
