@@ -29,7 +29,7 @@
       #args = [ "--init-command" "echo; neofetch; echo" ];
     };
 
-  
+
   };
 
 }

@@ -28,8 +28,8 @@ in
       mouse_right_click = "close_current";
     };
     frame = {
-        width = 1;
-        color = "#aaaaaa";
+      width = 1;
+      color = "#aaaaaa";
     };
     urgency_low = {
       background = "#222222";
