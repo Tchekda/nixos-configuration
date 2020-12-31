@@ -56,6 +56,11 @@ in
 
   time.timeZone = "Europe/Paris";
 
+  nix.gc = {
+    automatic = true;
+    dates = "03:15";
+  };
+  
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
@@ -67,9 +72,20 @@ in
 
       layout = "us";
 
+      config = ''
+        Section "InputClass"
+          Identifier "mouse accel"
+          Driver "libinput"
+          MatchIsPointer "on"
+          Option "AccelProfile" "flat"
+          Option "AccelSpeed" "0"
+        EndSection
+      '';
+
       libinput = { 
         enable = true;
         naturalScrolling = true;
+        accelProfile = "flat";
         additionalOptions = ''MatchIsTouchpad "on"''; 
       };
     
@@ -86,11 +102,13 @@ in
 
     printing.enable = true;
     
-    logind.extraConfig = "
-      HandlePowerKey=ignore
-      HandleLidSwitch=ignore
-      HandleLidSwitchExternalPower=ignore
-    ";
+    logind = {
+      lidSwitch = "suspend";
+      lidSwitchExternalPower = "suspend-then-hibernate";
+      extraConfig = "HandlePowerKey=ignore";
+    };
+
+    
   
     acpid.enable = true;
 
@@ -100,8 +118,18 @@ in
 
     fwupd.enable = true;
     
+    upower = {
+      enable = true;
+      percentageLow = 15;
+      percentageCritical = 5;
+      percentageAction = 3;
+      criticalPowerAction = "Hibernate";
+    };
   };
 
+  systemd = {
+    sleep.extraConfig = "HibernateDelaySec=1h";
+  };
   programs = {
     gnupg.agent.enable = true;
 
@@ -126,8 +154,7 @@ in
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    wget nano git gnupg firefox
-    glibc
+    wget nano git gnupg firefox libnotify
   ];
 
   virtualisation.docker.enable = true;
