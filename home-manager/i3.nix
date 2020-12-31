@@ -5,11 +5,6 @@ let
       url = https://images.pexels.com/photos/2131614/pexels-photo-2131614.jpeg;
       sha256 = "1mgfdbh74vjkpab487c7g6r350wk48a4kv2125lh0i3bdvl710j6";
     };
-
-    locker = builtins.fetchurl {
-      url = https://wallpapercave.com/download/suits-wallpapers-wp2732676;
-      sha256 = "1mgfdbh74vjkpab487c7g6r350wk48a4kv2125lh0i3bdvl710j6";
-    };
 in
 {
   enable = true;
@@ -48,8 +43,9 @@ in
 
       "${modifier}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/risson/Pictures/Screenshots\"";
       "Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
+      "${modifier}+Shift+s" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
 
-      "XF86PowerOff" = "exec --no-startup-id ${pkgs.i3lock}/bin/i3lock -c 1e272e && systemctl suspend";
+      "XF86PowerOff" = "exec systemctl suspend-then-hibernate";
     };
 		
     startup = [

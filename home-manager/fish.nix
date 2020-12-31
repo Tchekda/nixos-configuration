@@ -1,7 +1,7 @@
 { pkgs, ... }:
-
 {
     enable = true;
+
 
     shellAliases = {
         ls = "ls --color=auto";
@@ -16,6 +16,7 @@
     shellAbbrs = {
         nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-config/hspecter/configuration.nix\" switch";
         ia = "ip a";
+        s = "sudo";
         ss = "sudo su";
         ls = "ls -lsah";
         ga = "git add .";
@@ -24,17 +25,26 @@
         gco = "git checkout";
     };
 
-    shellInit = "eval (ssh-agent -c)";
-
     plugins = [
         {
             name = "theme-lambda";
             src = pkgs.fetchFromGitHub {
-              owner = "hasanozgan";
+              owner = "tchekda";
               repo = "theme-lambda";
-              rev = "08377e75b860adca35e333b1bc2c30738b17fcba";
-              sha256 = "12nwkcm0b9bq1sq470drjd6dq08mi7y5v5wkrhay2kxn9v13mimg";
+              rev = "1d599f05dc560d7c9fa0660fa72e2d32251f6f65";
+              sha256 = "1s0pyc7nlxlynszlskmzrg57rq2nszbkzjq714hl1g5g19gxp95k";
             };
-          }
+        }
+        {
+            name = "fish-ssh-agent";
+            src = pkgs.fetchFromGitHub {
+              owner = "danhper";
+              repo = "fish-ssh-agent";
+              rev = "fd70a2afdd03caf9bf609746bf6b993b9e83be57";
+              sha256 = "1fvl23y9lylj4nz6k7yfja6v9jlsg8jffs2m5mq0ql4ja5vi5pkv";
+            };
+        }
     ];
+
+    functions = {"fish_greeting" = builtins.readFile ./fish_greeting.fish;};
 }
