@@ -1,18 +1,17 @@
 { pkgs, lib, ... }:
-
 let
-    wallpaper = builtins.fetchurl {
-      url = https://images.pexels.com/photos/2131614/pexels-photo-2131614.jpeg;
-      sha256 = "1mgfdbh74vjkpab487c7g6r350wk48a4kv2125lh0i3bdvl710j6";
-    };
+  wallpaper = builtins.fetchurl {
+    url = https://images.pexels.com/photos/2131614/pexels-photo-2131614.jpeg;
+    sha256 = "1mgfdbh74vjkpab487c7g6r350wk48a4kv2125lh0i3bdvl710j6";
+  };
 in
 {
   enable = true;
   package = pkgs.i3-gaps;
-  
+
   config = rec {
     modifier = "Mod4";
-    bars = [];
+    bars = [ ];
 
 
     keybindings = lib.mkOptionDefault {
@@ -47,7 +46,7 @@ in
 
       "XF86PowerOff" = "exec systemctl suspend-then-hibernate";
     };
-		
+
     startup = [
       {
         command = "${pkgs.feh}/bin/feh --bg-scale ${wallpaper}";
