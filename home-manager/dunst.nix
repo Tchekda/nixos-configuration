@@ -21,14 +21,14 @@ in
       horizontal_padding = 10;
       separator_height = 10;
       separator_color = "auto";
-      dmenu = "${pkgs.dmenu}/bin/dmenu -p dunst:";
+      dmenu = "${pkgs.rofi}/bin/rofi -dmenu -p dunst:";
       browser = "${pkgs.firefox}/bin/firefox -new-tab";
       mouse_left_click = "do_action";
       mouse_middle_click = "do_action, close_current";
       mouse_right_click = "close_current";
     };
     frame = {
-      width = 1;
+      width = 3;
       color = "#aaaaaa";
     };
     urgency_low = {

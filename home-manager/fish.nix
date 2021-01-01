@@ -15,6 +15,7 @@
 
   shellAbbrs = {
     nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-config/hspecter/configuration.nix\" switch";
+    vpn = "sudo openfortivpn -c /home/tchekda/nixos-config/home-manager/hspecter/vpn-config";
     ia = "ip a";
     s = "sudo";
     ss = "sudo su";

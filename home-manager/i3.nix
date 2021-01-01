@@ -20,14 +20,12 @@ in
       "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -modi drun -show drun";
       "${modifier}+Shift+d" = "exec ${pkgs.rofi}/bin/rofi -show window";
       "${modifier}+Shift+b" = "exec systemctl poweroff";
-      "${modifier}+backslash" = "exec --no-startup-id ${pkgs.i3lock}/bin/i3lock -n -c 1e272e";
+      "${modifier}+backslash" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
 
       "${modifier}+Ctrl+Left" = "move workspace to output left";
       "${modifier}+Ctrl+Right" = "move workspace to output right";
       "${modifier}+Ctrl+Up" = "move workspace to output up";
       "${modifier}+Ctrl+Down" = "move workspace to output down";
-
-
 
       "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
       "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
@@ -40,11 +38,9 @@ in
       "XF86MonBrightnessUp" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl -q s 5%+";
       "XF86MonBrightnessDown" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl -q s 5%-";
 
-      "${modifier}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/risson/Pictures/Screenshots\"";
+      "${modifier}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
       "Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
       "${modifier}+Shift+s" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
-
-      "XF86PowerOff" = "exec systemctl suspend-then-hibernate";
     };
 
     startup = [
