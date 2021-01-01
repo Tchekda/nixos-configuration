@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   unstable = import
-    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/29b658e67e0284b296e7b377d47960b5c2c4db08)
+    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/eef90463b3478020bdfcefa5c0d718d3380e635d)
     { config = config.nixpkgs.config; };
 in
 {
@@ -10,6 +10,7 @@ in
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
+      ./dev.nix
     ];
 
   boot = {
@@ -39,6 +40,7 @@ in
 
   networking = {
     hostName = "hspecter";
+
     interfaces = {
       enp2s0f0.useDHCP = true;
       enp5s0.useDHCP = true;
@@ -47,11 +49,7 @@ in
     wireless = {
       enable = true;
       userControlled.enable = true;
-      networks = {
-        "CIA Van #33" = {
-          pskRaw = "0654739de01ef3d86439717febd3b435e0e3bd525af1fd71fcd7ceb08272576e";
-        };
-      };
+      networks = import ./wireless.nix;
     };
   };
 
@@ -73,26 +71,33 @@ in
 
       layout = "us";
 
-      config = ''
-        Section "InputClass"
+      xautolock = {
+        enable = true;
+        locker = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
+        nowlocker = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
+        # extraOptions = ["-lockaftersleep"];
+      };
+
+      inputClassSections = [
+        ''
           Identifier "mouse accel"
           Driver "libinput"
           MatchIsPointer "on"
           Option "AccelProfile" "flat"
           Option "AccelSpeed" "0"
-        EndSection
-      '';
+        ''
+      ];
 
       libinput = {
         enable = true;
         naturalScrolling = true;
         accelProfile = "flat";
+        disableWhileTyping = true;
         additionalOptions = ''MatchIsTouchpad "on"'';
       };
 
       displayManager = {
         sddm.enable = true;
-        sessionCommands = "xrandr --output HDMI-1 --above eDP-1";
       };
 
       windowManager.i3 = {
@@ -104,12 +109,14 @@ in
     printing.enable = true;
 
     logind = {
-      lidSwitch = "suspend";
-      lidSwitchExternalPower = "suspend-then-hibernate";
-      extraConfig = "HandlePowerKey=ignore";
+      lidSwitch = "suspend-then-hibernate";
+      lidSwitchExternalPower = "ignore";
+      lidSwitchDocked = "ignore";
+      extraConfig = ''
+        HandlePowerKey=suspend-then-hibernate
+        HandleSuspendKey=ignore
+      '';
     };
-
-
 
     acpid.enable = true;
 
@@ -119,33 +126,39 @@ in
 
     fwupd.enable = true;
 
-    upower = {
-      enable = true;
-      percentageLow = 15;
-      percentageCritical = 5;
-      percentageAction = 3;
-      criticalPowerAction = "Hibernate";
-    };
+    blueman.enable = true;
+
   };
 
   systemd = {
     sleep.extraConfig = "HibernateDelaySec=1h";
   };
   programs = {
-    gnupg.agent.enable = true;
+    gnupg.agent = {
+      enable = true;
 
-    ssh.startAgent = true;
+      enableSSHSupport = true;
+      enableExtraSocket = true;
+    };
+
 
     fish.enable = true;
   };
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+
+  hardware = {
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+    };
+    bluetooth.enable = true;
+  };
 
   users.users.tchekda = {
     description = "David Tchekachev";
     isNormalUser = true;
     createHome = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" ];
+    extraGroups = [ "wheel" "docker" "networkmanager" "www-data" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+Shk2GUm7qNih/ynWNowbABxPzC9cl6FrcmFe713GmSk+q9eXVDhqbQ9zKlwfU56pK2cXUjukMP21L8vgX9raSze7MY1cBHJ9FzuTWqNrfcDguf80oqIXIcwzITEbOOk/unXcLQHsbBx33ydIg5SCLvpXs7AIs9v2kBrtRkv4W01muJHtHICRYvM3PlDsZeevhd7cEIzLJvB03clUUomTJTSWd3csFYk7mCRiJcvvQ3buxyXMPvwS528Zwp+qZSSq2dPLJZ+QOx3CpNF9XN+TswePdMqibi5a3R3AA4Rz/XoUOxDK46uJNBoudzDhjT79UAIawG4utaELeENWi4vyfyMTs5YOG8Q/5p74ibkbdyoXfsJzX8+bGfPQcvpk02uyXpz/qijjn81G01ssix8ebjNL2OaD6K7gme8Y5QIwonw/Dlk9NXvBSf5l/GTmZLaPLyPjo0Ag9LrZ4HZEPdP4t8xaKXrkwZi1LPDZkK3OkaNR4EwuBEXbvCbN8ITgoAlIIrUNnU2Y6bJ9/12AdOcrHIWwcbejrxHMXkZTrTPXYZ2P0nRCXD6NO2wKWRGUJJMQit5mSY0B+lRkDo/uA5SaDo9sSfWMsY7FvsKoM6rdrq2nUKOeZTkk553XgoxlKHSHMDh1y7SxKKgG1IScjY6AePXQEJD0A5grrrdfkQoy+w==" ];
   };

@@ -1,12 +1,13 @@
 { config, pkgs, lib, ... }:
 let
   unstable = import
-    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/29b658e67e0284b296e7b377d47960b5c2c4db08)
+    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/eef90463b3478020bdfcefa5c0d718d3380e635d)
     { config = config.nixpkgs.config; };
 in
 {
   imports = [
     ./local.nix
+    ./battery.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -28,31 +29,33 @@ in
       };
     };
 
-    ssh = {
-      enable = true;
-      extraOptionOverrides = { "AddKeysToAgent" = "yes"; };
-    };
+    ssh = import ./ssh.nix;
 
     fish = import ./fish.nix { inherit pkgs; };
+
+    autorandr = import ./autorandr.nix { inherit pkgs; };
 
   };
 
   services = {
     gpg-agent = {
-      enable = false;
-      defaultCacheTtl = 1800;
+      enable = true;
+      defaultCacheTtl = 7200;
+      maxCacheTtl = 7200;
       enableSshSupport = true;
+      enableExtraSocket = true;
     };
 
     polybar = import ./polybar.nix { inherit pkgs; };
 
-    dunst = import ./dunst.nix { inherit pkgs; };
+    dunst = import ./dunst.nix { inherit pkgs unstable; };
 
     screen-locker = {
       enable = true;
-      lockCmd = "${pkgs.i3lock}/bin/i3lock -c 1e272e";
-
+      lockCmd = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
     };
+
+    blueman-applet.enable = true;
 
   };
 
@@ -62,19 +65,23 @@ in
     packages = with pkgs; [
       feh
       brightnessctl
+      nixpkgs-fmt
       flameshot
       fortune
       htop
       neofetch
+      nerdfonts
+      dnsutils
       zip
       unzip
+      jq
       alacritty
       unrar
       gparted
       lnav
+      speedtest-cli
       pavucontrol
       firefox
-      docker-compose
       vscode
       unstable.jetbrains.jdk
       unstable.jetbrains-mono
@@ -83,7 +90,10 @@ in
       unstable.jetbrains.pycharm-professional
       discord
       teams
+      zoom-us
       bitwarden
+      molotov
+      thunderbird
     ];
   };
 
