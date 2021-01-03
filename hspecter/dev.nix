@@ -56,8 +56,7 @@ in
   services.phpfpm = {
     phpPackage = unstable.php80;
     pools.www = {
-      user = "nginx";
-      group = "nginx";
+      user = "nobody";
       settings = {
         pm = "dynamic";
         "listen.owner" = config.services.nginx.user;

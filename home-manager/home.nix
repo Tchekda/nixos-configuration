@@ -42,8 +42,8 @@ in
       enable = true;
       defaultCacheTtl = 7200;
       maxCacheTtl = 7200;
-      enableSshSupport = true;
-      enableExtraSocket = true;
+      # enableSshSupport = true;
+      # enableExtraSocket = true;
     };
 
     polybar = import ./polybar.nix { inherit pkgs; };
@@ -94,8 +94,27 @@ in
       bitwarden
       molotov
       thunderbird
+      tdesktop
+      pidgin
     ];
   };
+
+  systemd.user.services.caffeine-ng = {
+    Unit = {
+      Description = "Caffeine-ng, a locker inhibitor";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.caffeine-ng}/bin/caffeine";
+    };
+  };
+
 
 
   xsession.windowManager.i3 = import ./i3.nix { inherit pkgs lib; };

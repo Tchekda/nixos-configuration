@@ -20,6 +20,7 @@
     s = "sudo";
     ss = "sudo su";
     ls = "ls -lsah";
+    gs = "git status";
     ga = "git add .";
     gc = "git commit -m \"\"";
     gp = "git push";
