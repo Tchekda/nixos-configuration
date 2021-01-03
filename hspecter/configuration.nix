@@ -70,6 +70,7 @@ in
       enable = true;
 
       layout = "us";
+      xkbVariant = "altgr-intl";
 
       xautolock = {
         enable = true;
@@ -133,14 +134,16 @@ in
   systemd = {
     sleep.extraConfig = "HibernateDelaySec=1h";
   };
+
   programs = {
     gnupg.agent = {
       enable = true;
 
-      enableSSHSupport = true;
+      # enableSSHSupport = true;
       enableExtraSocket = true;
     };
 
+    ssh.startAgent = true;
 
     fish.enable = true;
   };

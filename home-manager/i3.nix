@@ -19,6 +19,7 @@ in
       "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
       "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -modi drun -show drun";
       "${modifier}+Shift+d" = "exec ${pkgs.rofi}/bin/rofi -show window";
+      "${modifier}+b" = "exec systemctl hibernate";
       "${modifier}+Shift+b" = "exec systemctl poweroff";
       "${modifier}+backslash" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
 
