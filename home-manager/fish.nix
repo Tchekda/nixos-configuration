@@ -2,7 +2,6 @@
 {
   enable = true;
 
-
   shellAliases = {
     ls = "ls --color=auto";
     ".." = "cd ..";

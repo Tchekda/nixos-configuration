@@ -63,7 +63,7 @@ in
 
       modules-left = "i3";
       modules-center = "";
-      modules-right = "cpu memory temperature alsa microphone battery backlight wireless-network wired-network date";
+      modules-right = "cpu memory temperature pulseaudio microphone battery backlight wireless-network wired-network date";
 
       spacing = 0;
 
@@ -79,7 +79,7 @@ in
       throttle-output-for = 10;
       throttle-input-for = 30;
 
-      screenchange-reload = false;
+      screenchange-reload = true;
 
       compositing-background = "source";
       compositing-foreground = "over";
@@ -173,8 +173,8 @@ in
       label-warn-foreground = "#f00";
     };
 
-    "module/alsa" = {
-      type = "internal/alsa";
+    "module/pulseaudio" = {
+      type = "internal/pulseaudio";
 
       format-volume = "VOL <label-volume>";
       format-volume-background = mf;
