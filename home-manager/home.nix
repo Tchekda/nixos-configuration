@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   unstable = import
-    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/eef90463b3478020bdfcefa5c0d718d3380e635d)
+    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/77d190f10931c1d06d87bf6d772bf65346c71777)
     { config = config.nixpkgs.config; };
 in
 {
@@ -19,15 +19,7 @@ in
 
     alacritty = import ./alacritty.nix { inherit pkgs; };
 
-    git = {
-      enable = true;
-      userName = "David Tchekachev";
-      userEmail = "contact" + "@" + "tchekda.fr";
-      signing = {
-        key = "A4EADA0F";
-        signByDefault = true;
-      };
-    };
+    git = import ./git.nix;
 
     ssh = import ./ssh.nix;
 
@@ -70,7 +62,6 @@ in
       fortune
       htop
       neofetch
-      nerdfonts
       dnsutils
       zip
       unzip
@@ -80,9 +71,13 @@ in
       gparted
       lnav
       speedtest-cli
+      spotify
       pavucontrol
-      firefox
+      evince
+      firefox-devedition-bin
       vscode
+      python39
+      dotnet-sdk_3
       unstable.jetbrains.jdk
       unstable.jetbrains-mono
       unstable.jetbrains.phpstorm

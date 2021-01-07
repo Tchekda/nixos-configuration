@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   unstable = import
-    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/eef90463b3478020bdfcefa5c0d718d3380e635d)
+    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/77d190f10931c1d06d87bf6d772bf65346c71777)
     { config = config.nixpkgs.config; };
 in
 {
@@ -107,7 +107,10 @@ in
       };
     };
 
-    printing.enable = true;
+    printing ={
+      enable = true;
+      drivers = [pkgs.gutenprint];
+    };
 
     logind = {
       lidSwitch = "suspend-then-hibernate";
@@ -128,6 +131,23 @@ in
     fwupd.enable = true;
 
     blueman.enable = true;
+
+    thinkfan = {
+      enable = true;
+      sensors = ''
+          tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 0)
+        '';
+      levels = ''
+          ("level auto",     0,      55)
+          (1,     48,     60)
+          (2,     50,     61)
+          (3,     55,     65)
+          (4,     55,     65)
+          (5,     60,     70)
+          (6,     65,     80)
+          (7,     77,     85)
+        '';
+    };
 
   };
 
@@ -154,7 +174,10 @@ in
       enable = true;
       package = pkgs.pulseaudioFull;
     };
-    bluetooth.enable = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = false;
+    };
   };
 
   users.users.tchekda = {

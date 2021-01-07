@@ -9,7 +9,7 @@ in
   enable = true;
   settings = {
     global = {
-      geometry = "0x10-30-50";
+      geometry = "400x10-30-50";
       frame_color = "#aaaaaa";
       font = "Droid Sans 14";
       sort = "yes";
@@ -48,9 +48,16 @@ in
       timeout = 10;
     };
 
+    # Spotify = {
+    #   appname="notify-send";
+    #   skip_display = true;
+    # };
+
     play_sound = {
       summary = "*";
       script = "${soundNotification}";
     };
+
+
   };
 }

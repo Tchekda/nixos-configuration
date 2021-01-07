@@ -32,6 +32,11 @@ in
       "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
       "XF86AudioMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
 
+      "${modifier}+Shift+Left" = "exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous";
+      "${modifier}+Shift+Right" = "exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next";
+      "${modifier}+Shift+Down" = "exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause";
+      "${modifier}+Shift+Up" = null;
+
       "${modifier}+XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
       "${modifier}+XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
       "XF86AudioMicMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
@@ -55,39 +60,11 @@ in
         always = true;
         notification = false;
       }
-      # (let monitorScript = with pkgs; writeScript "monitor.sh" ''
-      #     #!${runtimeShell}
-      #     SCREEN_LEFT=HDMI-1
-      #     SCREEN_RIGHT=eDP-1
-      #     START_DELAY=5
-
-      #     renice +19 $$ >/dev/null
-
-      #     sleep $START_DELAY
-
-      #     OLD_DUAL="dummy"
-
-      #     while [ 1 ]; do
-      #         DUAL=$(cat /sys/class/drm/card0-HDMI-A-1/status)
-
-      #         if [ "$OLD_DUAL" != "$DUAL" ]; then
-      #             if [ "$DUAL" == "connected" ]; then # Dual monitor setup
-      #                 xrandr --output $SCREEN_LEFT --auto --above $SCREEN_RIGHT
-      #             else # Single monitor setup
-      #                 xrandr --auto
-      #             fi
-      #             systemctl --user restart polybar.service
-      #             OLD_DUAL="$DUAL"
-      #         fi
-
-      #         # inotifywait -q -e close /sys/class/drm/card0-HDMI-1/status >/dev/null
-      #     done
-      #   '';
-      # in {
-      #   command = "${monitorScript}";
-      #   always = false;
-      #   notification = false;
-      # })
+      {
+        command = "${pkgs.autorandr}/bin/autorandr -c";
+        always = false;
+        notification = false;
+      }
     ];
   };
 }

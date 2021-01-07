@@ -20,8 +20,13 @@
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
     rpi = {
-      hostname = "pi.hole";
+      hostname = "192.168.2.253";
       user = "pi";
+      identityFile = "/home/tchekda/.ssh/id_rsa";
+    };
+    "git.cri.epita.fr" = {
+      hostname = "git.cri.epita.fr";
+      user = "david.tchekachev";
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
   };
