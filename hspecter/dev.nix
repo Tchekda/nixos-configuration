@@ -1,14 +1,14 @@
 { config, pkgs, ... }:
 let
-  unstable = import
-    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/77d190f10931c1d06d87bf6d772bf65346c71777)
-    { config = config.nixpkgs.config; };
+  unstable = import ../unstable.nix { config.allowUnfree = true; };
 in
 {
   networking.extraHosts = ''
     ::1 avenir.local
     ::1 phpinfo.local
   '';
+
+  users.users.tchekda.extraGroups = [ "www-data" ];
 
   services.nginx = {
     enable = true;

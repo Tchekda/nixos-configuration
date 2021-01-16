@@ -1,8 +1,7 @@
 { config, pkgs, lib, ... }:
 let
-  unstable = import
-    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/77d190f10931c1d06d87bf6d772bf65346c71777)
-    { config = config.nixpkgs.config; };
+  unstable = import ../unstable.nix { config.allowUnfree = true; };
+
 in
 {
   imports =
@@ -27,6 +26,9 @@ in
         enableCryptodisk = true;
       };
     };
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = true;
+    };
   };
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
@@ -42,29 +44,58 @@ in
     hostName = "hspecter";
 
     interfaces = {
-      enp2s0f0.useDHCP = true;
-      enp5s0.useDHCP = true;
+      # enp2s0f0.useDHCP = true;
+      enp5s0 = {
+        useDHCP = true;
+        ipv4.routes = [
+          { address = "172.20.0.0"; prefixLength = 14; via = "192.168.2.253"; }
+        ];
+      };
       wlp3s0.useDHCP = true;
     };
     wireless = {
       enable = true;
-      userControlled.enable = true;
-      networks = import ./wireless.nix;
     };
+
+    firewall = {
+      allowedUDPPorts = [ 51820 ]; # Clients and peers can use the same port, see listenport
+    };
+
+    # wg-quick.interfaces = {
+    #   pve-vpn = {
+    #     address = [ "192.168.1.153/32" "2001:bc8:2e2a:103::4/128" ];
+    #     dns = [ "192.168.1.102" "1.1.1.1" ];
+    #     privateKeyFile = "/home/tchekda/nixos-config/hspecter/wireguard-keys/wg.priv";
+    #     listenPort = 51820;
+
+    #     peers = [
+    #       {
+    #         publicKey = "wTSqfeMNBukTRrQKz+ZyDErN9tqUjttXua9iExJwIg0=";
+    #         allowedIPs = [ "0.0.0.0/0" "::/0" ];
+    #         # allowedIPs = [ "192.168.1.0/24" ];
+    #         endpoint = "[2001:bc8:2e2a:103::1]:51820";
+    #         # endpoint = "163.172.50.165:51820";
+    #         persistentKeepalive = 25;
+    #       }
+    #     ];
+    #   };
+    # };
   };
 
   time.timeZone = "Europe/Paris";
 
   nix.gc = {
     automatic = true;
-    dates = "03:15";
+    dates = "22:15";
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
+
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
+
   services = {
     xserver = {
       enable = true;
@@ -76,7 +107,6 @@ in
         enable = true;
         locker = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
         nowlocker = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
-        # extraOptions = ["-lockaftersleep"];
       };
 
       inputClassSections = [
@@ -107,9 +137,9 @@ in
       };
     };
 
-    printing ={
+    printing = {
       enable = true;
-      drivers = [pkgs.gutenprint];
+      drivers = [ pkgs.gutenprint ];
     };
 
     logind = {
@@ -135,24 +165,27 @@ in
     thinkfan = {
       enable = true;
       sensors = ''
-          tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 0)
-        '';
+        tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 0)
+      '';
       levels = ''
-          ("level auto",     0,      55)
-          (1,     48,     60)
-          (2,     50,     61)
-          (3,     55,     65)
-          (4,     55,     65)
-          (5,     60,     70)
-          (6,     65,     80)
-          (7,     77,     85)
-        '';
+        ("level auto",     0,      55)
+        (1,     48,     60)
+        (2,     50,     61)
+        (3,     55,     65)
+        (4,     55,     65)
+        (5,     60,     70)
+        (6,     65,     80)
+        (7,     77,     85)
+      '';
     };
+
 
   };
 
   systemd = {
-    sleep.extraConfig = "HibernateDelaySec=1h";
+    sleep.extraConfig = "HibernateDelaySec=30m";
+
+    # services.wg-quick-pve-vpn.wantedBy = [];
   };
 
   programs = {
@@ -184,7 +217,7 @@ in
     description = "David Tchekachev";
     isNormalUser = true;
     createHome = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" "www-data" ];
+    extraGroups = [ "wheel" "docker" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+Shk2GUm7qNih/ynWNowbABxPzC9cl6FrcmFe713GmSk+q9eXVDhqbQ9zKlwfU56pK2cXUjukMP21L8vgX9raSze7MY1cBHJ9FzuTWqNrfcDguf80oqIXIcwzITEbOOk/unXcLQHsbBx33ydIg5SCLvpXs7AIs9v2kBrtRkv4W01muJHtHICRYvM3PlDsZeevhd7cEIzLJvB03clUUomTJTSWd3csFYk7mCRiJcvvQ3buxyXMPvwS528Zwp+qZSSq2dPLJZ+QOx3CpNF9XN+TswePdMqibi5a3R3AA4Rz/XoUOxDK46uJNBoudzDhjT79UAIawG4utaELeENWi4vyfyMTs5YOG8Q/5p74ibkbdyoXfsJzX8+bGfPQcvpk02uyXpz/qijjn81G01ssix8ebjNL2OaD6K7gme8Y5QIwonw/Dlk9NXvBSf5l/GTmZLaPLyPjo0Ag9LrZ4HZEPdP4t8xaKXrkwZi1LPDZkK3OkaNR4EwuBEXbvCbN8ITgoAlIIrUNnU2Y6bJ9/12AdOcrHIWwcbejrxHMXkZTrTPXYZ2P0nRCXD6NO2wKWRGUJJMQit5mSY0B+lRkDo/uA5SaDo9sSfWMsY7FvsKoM6rdrq2nUKOeZTkk553XgoxlKHSHMDh1y7SxKKgG1IScjY6AePXQEJD0A5grrrdfkQoy+w==" ];
   };

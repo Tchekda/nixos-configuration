@@ -28,7 +28,7 @@ let
               systemctl hibernate
           fi
         fi
-    elif [[ $battery_capacity -ge 99 ]]; then
+    elif [[ $battery_capacity -ge 92 ]]; then
       notify "low" "Battery Charged" "You can unplug now"
     fi
   '';
