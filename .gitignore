@@ -1,2 +1,2 @@
 home-manager/hspecter/vpn-config
-hspecter/wireless.nix
+hspecter/wireguard-keys/

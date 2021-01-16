@@ -1,18 +1,55 @@
 { pkgs, config, lib, environment, ... }:
 let
-  unstable = import
-    (builtins.fetchTarball https://github.com/NixOS/nixpkgs/tarball/77d190f10931c1d06d87bf6d772bf65346c71777)
-    { config = config.nixpkgs.config; };
+  unstable = import ../../unstable.nix { config.allowUnfree = true; };
 in
 {
-  home.packages = with pkgs; [
-    openfortivpn
-    unstable.php80
-    unstable.php80Packages.composer2
-    yarn
-    docker-compose
-    postman
-    openssl
-    mailcatcher
+
+  home.packages = lib.mkMerge [ (import ../desktop-packages.nix { inherit pkgs unstable; }).packages (import ./packages.nix { inherit pkgs unstable; }).packages ];
+
+  imports = [
+    ../battery.nix
   ];
+
+  programs = {
+
+    autorandr = import ./autorandr.nix { inherit pkgs; };
+
+  };
+
+  services = {
+
+    polybar = import ./polybar.nix { inherit pkgs; };
+
+    dunst = import ../dunst.nix { inherit pkgs unstable; };
+
+    screen-locker = {
+      enable = true;
+      lockCmd = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
+    };
+
+    blueman-applet.enable = true;
+
+  };
+
+  systemd.user.services = {
+
+    caffeine-ng = {
+      Unit = {
+        Description = "Caffeine-ng, a locker inhibitor";
+        After = [ "graphical-session-pre.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+
+      Service = {
+        ExecStart = "${pkgs.caffeine-ng}/bin/caffeine";
+      };
+    };
+  };
+
+  xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
+
 }
