@@ -5,10 +5,12 @@
     unstable.php80
     unstable.php80Packages.composer2
     vscode
+    nodejs-14_x
     yarn
     docker-compose
     postman
     openssl
+    wkhtmltopdf
     mailcatcher
     dotnet-sdk_3
     unstable.jetbrains.jdk
@@ -16,6 +18,7 @@
     unstable.jetbrains.phpstorm
     unstable.jetbrains.rider
     unstable.jetbrains.pycharm-professional
+    unstable.jetbrains.webstorm
     # Applications
     teams
     molotov

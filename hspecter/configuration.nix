@@ -28,6 +28,7 @@ in
     };
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
+      "net.ipv6.route.max_size" = 8388608;
     };
   };
 
@@ -44,42 +45,21 @@ in
     hostName = "hspecter";
 
     interfaces = {
-      # enp2s0f0.useDHCP = true;
       enp5s0 = {
         useDHCP = true;
         ipv4.routes = [
           { address = "172.20.0.0"; prefixLength = 14; via = "192.168.2.253"; }
         ];
       };
-      wlp3s0.useDHCP = true;
-    };
-    wireless = {
-      enable = true;
     };
 
     firewall = {
-      allowedUDPPorts = [ 51820 ]; # Clients and peers can use the same port, see listenport
+      allowedUDPPorts = [ 51820 ];
     };
 
-    # wg-quick.interfaces = {
-    #   pve-vpn = {
-    #     address = [ "192.168.1.153/32" "2001:bc8:2e2a:103::4/128" ];
-    #     dns = [ "192.168.1.102" "1.1.1.1" ];
-    #     privateKeyFile = "/home/tchekda/nixos-config/hspecter/wireguard-keys/wg.priv";
-    #     listenPort = 51820;
-
-    #     peers = [
-    #       {
-    #         publicKey = "wTSqfeMNBukTRrQKz+ZyDErN9tqUjttXua9iExJwIg0=";
-    #         allowedIPs = [ "0.0.0.0/0" "::/0" ];
-    #         # allowedIPs = [ "192.168.1.0/24" ];
-    #         endpoint = "[2001:bc8:2e2a:103::1]:51820";
-    #         # endpoint = "163.172.50.165:51820";
-    #         persistentKeepalive = 25;
-    #       }
-    #     ];
-    #   };
-    # };
+    networkmanager = {
+      enable = true;
+    };
   };
 
   time.timeZone = "Europe/Paris";
@@ -184,15 +164,11 @@ in
 
   systemd = {
     sleep.extraConfig = "HibernateDelaySec=30m";
-
-    # services.wg-quick-pve-vpn.wantedBy = [];
   };
 
   programs = {
     gnupg.agent = {
       enable = true;
-
-      # enableSSHSupport = true;
       enableExtraSocket = true;
     };
 
@@ -206,6 +182,8 @@ in
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
+      support32Bit = true;
+      extraModules = [ pkgs.pulseaudio-modules-bt ];
     };
     bluetooth = {
       enable = true;
@@ -213,11 +191,13 @@ in
     };
   };
 
+  nixpkgs.config.pulseaudio = true;
+
   users.users.tchekda = {
     description = "David Tchekachev";
     isNormalUser = true;
     createHome = true;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" "docker" "audio" "networkmanager" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+Shk2GUm7qNih/ynWNowbABxPzC9cl6FrcmFe713GmSk+q9eXVDhqbQ9zKlwfU56pK2cXUjukMP21L8vgX9raSze7MY1cBHJ9FzuTWqNrfcDguf80oqIXIcwzITEbOOk/unXcLQHsbBx33ydIg5SCLvpXs7AIs9v2kBrtRkv4W01muJHtHICRYvM3PlDsZeevhd7cEIzLJvB03clUUomTJTSWd3csFYk7mCRiJcvvQ3buxyXMPvwS528Zwp+qZSSq2dPLJZ+QOx3CpNF9XN+TswePdMqibi5a3R3AA4Rz/XoUOxDK46uJNBoudzDhjT79UAIawG4utaELeENWi4vyfyMTs5YOG8Q/5p74ibkbdyoXfsJzX8+bGfPQcvpk02uyXpz/qijjn81G01ssix8ebjNL2OaD6K7gme8Y5QIwonw/Dlk9NXvBSf5l/GTmZLaPLyPjo0Ag9LrZ4HZEPdP4t8xaKXrkwZi1LPDZkK3OkaNR4EwuBEXbvCbN8ITgoAlIIrUNnU2Y6bJ9/12AdOcrHIWwcbejrxHMXkZTrTPXYZ2P0nRCXD6NO2wKWRGUJJMQit5mSY0B+lRkDo/uA5SaDo9sSfWMsY7FvsKoM6rdrq2nUKOeZTkk553XgoxlKHSHMDh1y7SxKKgG1IScjY6AePXQEJD0A5grrrdfkQoy+w==" ];
   };
@@ -236,5 +216,5 @@ in
 
   virtualisation.docker.enable = true;
 
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "20.09";
 }
