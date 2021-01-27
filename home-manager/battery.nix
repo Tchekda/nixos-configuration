@@ -28,8 +28,10 @@ let
               systemctl hibernate
           fi
         fi
-    elif [[ $battery_capacity -ge 92 ]]; then
-      notify "low" "Battery Charged" "You can unplug now"
+    else
+      if [[ $battery_capacity -ge 92 && $battery_capacity -le 93 ]]; then
+        notify "low" "Battery Charged" "You can unplug now"
+      fi
     fi
   '';
 
@@ -42,7 +44,7 @@ in
 
     Timer = {
       OnBootSec = "1m";
-      OnUnitInactiveSec = "1m";
+      OnUnitInactiveSec = "3m";
       Unit = "lowbatt.service";
     };
 

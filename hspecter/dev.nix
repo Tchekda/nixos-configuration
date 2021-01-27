@@ -26,13 +26,17 @@ in
       {
         "avenir.local" = vhost {
           root = "/var/www/Avenir/backend/public";
-          locations."/" = {
-            index = "index.php";
-            tryFiles = "$uri $uri/ /index.php$is_args$args";
-            extraConfig = ''
-              fastcgi_pass  unix:${config.services.phpfpm.pools.www.socket};
-              fastcgi_index index.php;
-            '';
+          locations = {
+            "/" = {
+              index = "index.php";
+              tryFiles = "$uri $uri/ /index.php$is_args$args";
+            };
+            "~ /.*\.php$" = {
+              extraConfig = ''
+                fastcgi_pass  unix:${config.services.phpfpm.pools.www.socket};
+                fastcgi_index index.php;
+              '';
+            };
           };
         };
         "phpinfo.local" = vhost {
@@ -56,7 +60,7 @@ in
   services.phpfpm = {
     phpPackage = unstable.php80;
     pools.www = {
-      user = "nobody";
+      user = config.services.nginx.group;
       settings = {
         pm = "dynamic";
         "listen.owner" = config.services.nginx.user;
@@ -65,8 +69,9 @@ in
         "pm.min_spare_servers" = 1;
         "pm.max_spare_servers" = 3;
         "pm.max_requests" = 500;
+        "security.limit_extensions" = "";
       };
     };
-    phpOptions = ''opcache.enable = 0'';
+    phpOptions = ''opcache.enable=0'';
   };
 }
