@@ -30,6 +30,7 @@ in
       "net.ipv4.ip_forward" = true;
       "net.ipv6.route.max_size" = 8388608;
     };
+    kernelModules = ["kvm-amd" "vfio-pci"];
   };
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
@@ -119,7 +120,7 @@ in
 
     printing = {
       enable = true;
-      drivers = [ pkgs.gutenprint ];
+      drivers = [ pkgs.gutenprint pkgs.hplipWithPlugin ];
     };
 
     logind = {
@@ -159,6 +160,14 @@ in
       '';
     };
 
+    avahi = {
+      enable = true;
+      publish = {
+        enable = true;
+        addresses = true;
+        workstation = true;
+      };
+    };
 
   };
 
@@ -176,6 +185,7 @@ in
 
     fish.enable = true;
   };
+
   sound.enable = true;
 
   hardware = {
@@ -197,7 +207,7 @@ in
     description = "David Tchekachev";
     isNormalUser = true;
     createHome = true;
-    extraGroups = [ "wheel" "docker" "audio" "networkmanager" ];
+    extraGroups = [ "wheel" "docker" "audio" "networkmanager" "libvirtd" ];
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+Shk2GUm7qNih/ynWNowbABxPzC9cl6FrcmFe713GmSk+q9eXVDhqbQ9zKlwfU56pK2cXUjukMP21L8vgX9raSze7MY1cBHJ9FzuTWqNrfcDguf80oqIXIcwzITEbOOk/unXcLQHsbBx33ydIg5SCLvpXs7AIs9v2kBrtRkv4W01muJHtHICRYvM3PlDsZeevhd7cEIzLJvB03clUUomTJTSWd3csFYk7mCRiJcvvQ3buxyXMPvwS528Zwp+qZSSq2dPLJZ+QOx3CpNF9XN+TswePdMqibi5a3R3AA4Rz/XoUOxDK46uJNBoudzDhjT79UAIawG4utaELeENWi4vyfyMTs5YOG8Q/5p74ibkbdyoXfsJzX8+bGfPQcvpk02uyXpz/qijjn81G01ssix8ebjNL2OaD6K7gme8Y5QIwonw/Dlk9NXvBSf5l/GTmZLaPLyPjo0Ag9LrZ4HZEPdP4t8xaKXrkwZi1LPDZkK3OkaNR4EwuBEXbvCbN8ITgoAlIIrUNnU2Y6bJ9/12AdOcrHIWwcbejrxHMXkZTrTPXYZ2P0nRCXD6NO2wKWRGUJJMQit5mSY0B+lRkDo/uA5SaDo9sSfWMsY7FvsKoM6rdrq2nUKOeZTkk553XgoxlKHSHMDh1y7SxKKgG1IScjY6AePXQEJD0A5grrrdfkQoy+w==" ];
   };
@@ -214,7 +224,14 @@ in
     libnotify
   ];
 
-  virtualisation.docker.enable = true;
+  virtualisation = {
+    docker.enable = true;
 
+    libvirtd = {
+        enable = true;
+        onBoot = "ignore";
+        qemuPackage = pkgs.qemu_kvm;
+    };
+  };
   system.stateVersion = "20.09";
 }
