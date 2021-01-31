@@ -2,6 +2,7 @@
 {
   packages = with pkgs; [
     # Dev
+    openfortivpn
     unstable.php80
     unstable.php80Packages.composer2
     vscode
@@ -23,6 +24,10 @@
     teams
     molotov
     pidgin
-    openfortivpn
+    zoom-us
+    # Virtualisation
+    virt-manager
+    win-virtio
+    virt-viewer
   ];
 }
