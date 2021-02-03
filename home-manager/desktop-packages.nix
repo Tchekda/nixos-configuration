@@ -12,7 +12,9 @@
     brightnessctl
     pavucontrol
     # Applications
+    papirus-icon-theme
     pcmanfm
+    gnome3.gnome-calculator
     libreoffice
     hunspell
     hunspellDicts.en-us-large

@@ -30,7 +30,7 @@ in
       "net.ipv4.ip_forward" = true;
       "net.ipv6.route.max_size" = 8388608;
     };
-    kernelModules = ["kvm-amd" "vfio-pci"];
+    kernelModules = [ "kvm-amd" "vfio-pci" ];
   };
 
   fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
@@ -48,9 +48,6 @@ in
     interfaces = {
       enp5s0 = {
         useDHCP = true;
-        ipv4.routes = [
-          { address = "172.20.0.0"; prefixLength = 14; via = "192.168.2.253"; }
-        ];
       };
     };
 
@@ -78,17 +75,12 @@ in
   };
 
   services = {
+    gnome3.at-spi2-core.enable = true;
     xserver = {
       enable = true;
 
       layout = "us";
       xkbVariant = "altgr-intl";
-
-      xautolock = {
-        enable = true;
-        locker = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
-        nowlocker = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
-      };
 
       inputClassSections = [
         ''
@@ -143,13 +135,15 @@ in
 
     blueman.enable = true;
 
+    autorandr.enable = true;
+
     thinkfan = {
       enable = true;
       sensors = ''
         tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 0)
       '';
       levels = ''
-        ("level auto",     0,      55)
+        (0,     0,      55)
         (1,     48,     60)
         (2,     50,     61)
         (3,     55,     65)
@@ -162,6 +156,7 @@ in
 
     avahi = {
       enable = true;
+      nssmdns = true;
       publish = {
         enable = true;
         addresses = true;
@@ -228,9 +223,9 @@ in
     docker.enable = true;
 
     libvirtd = {
-        enable = true;
-        onBoot = "ignore";
-        qemuPackage = pkgs.qemu_kvm;
+      enable = true;
+      onBoot = "ignore";
+      qemuPackage = pkgs.qemu_kvm;
     };
   };
   system.stateVersion = "20.09";

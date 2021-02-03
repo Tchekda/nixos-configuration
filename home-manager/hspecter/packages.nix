@@ -25,6 +25,8 @@
     molotov
     pidgin
     zoom-us
+    evince
+    
     # Virtualisation
     virt-manager
     win-virtio

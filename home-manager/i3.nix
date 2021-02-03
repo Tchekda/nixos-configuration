@@ -1,8 +1,8 @@
 { pkgs, lib, ... }:
 let
   wallpaper = builtins.fetchurl {
-    url = https://images.pexels.com/photos/2131614/pexels-photo-2131614.jpeg;
-    sha256 = "1mgfdbh74vjkpab487c7g6r350wk48a4kv2125lh0i3bdvl710j6";
+    url = https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg;
+    sha256 = "0pl43lrzfxdfgaa9plhlzv8z7ramkrdzmsvdmg03vr9klzqgpx0z";
   };
 in
 {
@@ -22,6 +22,7 @@ in
       "${modifier}+b" = "exec systemctl hibernate";
       "${modifier}+Shift+b" = "exec systemctl poweroff";
       "${modifier}+backslash" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
+      "${modifier}+Shift+t" = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr -c";
 
       "${modifier}+Ctrl+Left" = "move workspace to output left";
       "${modifier}+Ctrl+Right" = "move workspace to output right";
