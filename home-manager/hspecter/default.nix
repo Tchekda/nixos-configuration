@@ -1,6 +1,10 @@
 { pkgs, config, lib, environment, ... }:
 let
   unstable = import ../../unstable.nix { config.allowUnfree = true; };
+  screenlocker = builtins.fetchurl {
+    url = https://wallpapercave.com/wp/wp2732698.jpg;
+    sha256 = "18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
+  };
 in
 {
 
@@ -9,6 +13,8 @@ in
   imports = [
     ../battery.nix
   ];
+
+  xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
 
   programs = {
 
@@ -22,34 +28,35 @@ in
 
     dunst = import ../dunst.nix { inherit pkgs unstable; };
 
-    screen-locker = {
-      enable = true;
-      lockCmd = "${pkgs.i3lock-color}/bin/i3lock-color -c 1e272e --clock";
-    };
+    caffeine.enable = true;
 
-    blueman-applet.enable = true;
+    dropbox.enable = true;
 
   };
 
   systemd.user.services = {
 
-    caffeine-ng = {
+    xautolock = {
       Unit = {
-        Description = "Caffeine-ng, a locker inhibitor";
+        Description = "xautolock, session locker service";
         After = [ "graphical-session-pre.target" ];
         PartOf = [ "graphical-session.target" ];
       };
 
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
+      Install = { WantedBy = [ "graphical-session.target" ]; };
 
       Service = {
-        ExecStart = "${pkgs.caffeine-ng}/bin/caffeine";
+        ExecStart = ''
+          ${pkgs.xautolock}/bin/xautolock -detectsleep -time 15 \
+           -locker "${pkgs.i3lock-color}/bin/i3lock-color -ti ${screenlocker} \
+           --clock --pass-media-keys --pass-screen-keys --pass-power-keys --pass-volume-keys" \
+           -notify 10 \
+           -notifier "${pkgs.libnotify}/bin/notify-send 'Locking in 10 seconds'"
+        '';
+        Restart = "on-failure";
       };
     };
   };
 
-  xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
 
 }

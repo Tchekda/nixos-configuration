@@ -16,7 +16,7 @@
         family = "JetBrains Mono";
         style = "Regular";
       };
-      size = 11.0;
+      size = 8.5;
     };
 
     background_opacity = 0.65;
