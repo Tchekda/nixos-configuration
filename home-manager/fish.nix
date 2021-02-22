@@ -21,7 +21,7 @@
     ls = "ls -lsah";
     gs = "git status";
     ga = "git add .";
-    gc = "git commit -m \"\"";
+    gc = "git commit -a -m \"\"";
     gp = "git push";
     gco = "git checkout";
   };
