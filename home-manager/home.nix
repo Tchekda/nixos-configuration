@@ -31,11 +31,19 @@ in
       defaultCacheTtl = 7200;
       maxCacheTtl = 7200;
     };
+
+    redshift = {
+      enable = true;
+      provider = "geoclue2";
+    };
   };
 
   home = {
     username = "tchekda";
     homeDirectory = "/home/tchekda";
+    sessionVariables = {
+      PATH = "/home/tchekda/.local/bin:\${PATH}";
+    };
     packages = with pkgs; [
       nixpkgs-fmt
       fortune
@@ -50,6 +58,9 @@ in
       lnav
       speedtest-cli
       python39
+      python39Packages.pip
+      file
+      busybox
     ];
   };
 }

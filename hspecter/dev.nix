@@ -13,15 +13,8 @@ in
   services.nginx = {
     enable = true;
 
-    # recommendedGzipSettings = true;
-    # recommendedOptimisation = true;
-    # recommendedProxySettings = true;
-
     virtualHosts = let vhost = config: ({
       http2 = true;
-      # extraConfig = ''
-      #   charset UTF-8;
-      # '';
     } // config); in
       {
         "avenir.local" = vhost {
@@ -72,6 +65,9 @@ in
         "security.limit_extensions" = "";
       };
     };
-    phpOptions = ''opcache.enable=0'';
+    phpOptions = ''
+      opcache.enable=0
+      date.timezone = Europe/Paris
+    '';
   };
 }

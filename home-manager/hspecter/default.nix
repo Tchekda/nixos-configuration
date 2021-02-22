@@ -8,7 +8,13 @@ let
 in
 {
 
-  home.packages = lib.mkMerge [ (import ../desktop-packages.nix { inherit pkgs unstable; }).packages (import ./packages.nix { inherit pkgs unstable; }).packages ];
+  home = {
+    packages = lib.mkMerge [ (import ../desktop-packages.nix { inherit pkgs unstable; }).packages (import ./packages.nix { inherit pkgs unstable; }).packages ];
+
+    sessionVariables = {
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libgdiplus}/lib:\${LD_LIBRARY_PATH}";
+    };
+  };
 
   imports = [
     ../battery.nix
@@ -47,12 +53,12 @@ in
 
       Service = {
         ExecStart = ''
-          ${pkgs.xautolock}/bin/xautolock -noclose -detectsleep -time 15 \
+          ${pkgs.xautolock}/bin/xautolock -noclose -detectsleep -time 10 \
            -locker "${pkgs.i3lock-color}/bin/i3lock-color -ti ${screenlocker} \
            --clock --pass-media-keys --pass-screen-keys --pass-power-keys --pass-volume-keys" \
-           -notifier "${pkgs.libnotify}/bin/notify-send 'Locking in 10 seconds'" -notify 10 \
-           -killer "/run/current-system/systemd/bin/systemctl hibernate" -killtime 30
+           -notifier "${pkgs.libnotify}/bin/notify-send 'Locking in 30 seconds'" -notify 30 \
         '';
+        # -killer "/run/current-system/systemd/bin/systemctl hibernate" -killtime 15
         Restart = "on-failure";
       };
     };

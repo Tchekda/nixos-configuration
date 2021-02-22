@@ -1,9 +1,12 @@
 { pkgs, unstable, ... }:
+let
+  curstomPHP8 = unstable.php80.buildEnv { extraConfig = "date.timezone = Europe/Paris"; };
+in
 {
   packages = with pkgs; [
     # Dev
     openfortivpn
-    unstable.php80
+    curstomPHP8
     unstable.php80Packages.composer2
     vscode
     nodejs-14_x
@@ -14,6 +17,8 @@
     wkhtmltopdf
     mailcatcher
     dotnet-sdk_3
+    mono
+    libgdiplus
     unstable.jetbrains.jdk
     unstable.jetbrains-mono
     unstable.jetbrains.phpstorm
@@ -26,10 +31,14 @@
     pidgin
     zoom-us
     evince
-    
+
     # Virtualisation
     virt-manager
     win-virtio
     virt-viewer
+    libguestfs-with-appliance
+
+    # Scanner
+    xsane
   ];
 }
