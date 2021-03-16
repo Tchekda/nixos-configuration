@@ -9,7 +9,8 @@ in
     curstomPHP8
     unstable.php80Packages.composer2
     vscode
-    nodejs-14_x
+    sass
+    unstable.nodejs-15_x
     yarn
     docker-compose
     postman
@@ -19,6 +20,8 @@ in
     dotnet-sdk_3
     mono
     libgdiplus
+    graphviz
+    imagemagick7
     unstable.jetbrains.jdk
     unstable.jetbrains-mono
     unstable.jetbrains.phpstorm
