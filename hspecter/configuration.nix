@@ -90,6 +90,15 @@ in
     xserver = {
       enable = true;
 
+      videoDrivers = [ "amdgpu" ];
+
+      deviceSection = ''
+        Option "DRI" "3"
+        Option "TearFree" "true"
+      '';
+      useGlamor = true;
+
+
       layout = "us";
       xkbVariant = "altgr-intl";
 
@@ -177,6 +186,7 @@ in
 
     geoclue2.enable = true;
 
+
   };
 
   systemd = {
@@ -192,6 +202,8 @@ in
     ssh.startAgent = true;
 
     fish.enable = true;
+
+    dconf.enable = true;
   };
 
   sound.enable = true;
@@ -212,6 +224,15 @@ in
     sane = {
       enable = true;
       extraBackends = [ pkgs.sane-airscan ];
+    };
+
+    opengl = {
+      driSupport = true;
+      extraPackages = with pkgs; [
+        amdvlk
+        rocm-opencl-icd
+        rocm-opencl-runtime
+      ];
     };
   };
 
