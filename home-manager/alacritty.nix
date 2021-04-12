@@ -19,7 +19,7 @@
       size = 8.5;
     };
 
-    background_opacity = 0.65;
+    background_opacity = 0.90;
 
     shell = {
       program = "${pkgs.fish}/bin/fish";

@@ -289,7 +289,7 @@ in
     };
     "module/wireless-network" = {
       type = "internal/network";
-      interface = "wlp3s0";
+      interface = "wlan0";
       interval = "1.0";
       accumulate-stats = true;
       unknown-as-up = true;

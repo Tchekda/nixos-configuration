@@ -22,8 +22,10 @@ in
       grub = {
         enable = true;
         version = 2;
+        theme = pkgs.nixos-grub2-theme;
         efiSupport = true;
         device = "nodev";
+        useOSProber = true;
         enableCryptodisk = true;
         extraConfig = ''
           snd_rn_pci_acp3x.dmic_acpi_check=1
@@ -39,7 +41,7 @@ in
     kernelModules = [ "kvm-amd" "vfio-pci" ];
 
     extraModprobeConfig = ''
-      options snd_acp3x_rn
+      options snd_acp3x_rn dmic_acpi_check=1
     '';
 
   };
@@ -63,11 +65,16 @@ in
     };
 
     firewall = {
+      enable = true;
+      allowPing = true;
       allowedUDPPorts = [ 51820 ];
     };
 
+    wireless.iwd.enable = true;
+
     networkmanager = {
       enable = true;
+      wifi.backend = "iwd";
     };
   };
 
@@ -75,7 +82,8 @@ in
 
   nix.gc = {
     automatic = true;
-    dates = "22:15";
+    dates = "daily";
+    options = "--delete-older-than 10d";
   };
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -86,7 +94,11 @@ in
   };
 
   services = {
-    gnome3.at-spi2-core.enable = true;
+    gnome3 = {
+      at-spi2-core.enable = true;
+      gnome-keyring.enable = true;
+    };
+
     xserver = {
       enable = true;
 
@@ -122,12 +134,30 @@ in
 
       displayManager = {
         sddm.enable = true;
+        sessionCommands = ''
+          ${config.systemd.package}/bin/systemctl --user import-environment
+        '';
       };
 
       windowManager.i3 = {
         enable = true;
         package = pkgs.i3-gaps;
       };
+    };
+
+    picom = {
+      enable = true;
+      vSync = true;
+      shadow = true;
+      shadowOffsets = [ (-7) (-7) ];
+      shadowOpacity = 0.7;
+      shadowExclude = [ "window_type *= 'normal' && ! name ~= ''" ];
+      backend = "glx";
+      fade = true;
+      fadeDelta = 5;
+      activeOpacity = 1.0;
+      inactiveOpacity = 0.98;
+      menuOpacity = 0.8;
     };
 
     printing = {
@@ -185,8 +215,6 @@ in
     };
 
     geoclue2.enable = true;
-
-
   };
 
   systemd = {
@@ -214,6 +242,9 @@ in
       package = pkgs.pulseaudioFull;
       support32Bit = true;
       extraModules = [ pkgs.pulseaudio-modules-bt ];
+      configFile = pkgs.runCommand "default.pa" { } ''
+        grep -v module-role-cork ${config.hardware.pulseaudio.package}/etc/pulse/default.pa > $out
+      '';
     };
     bluetooth = {
       enable = true;
@@ -259,13 +290,15 @@ in
     libnotify
   ];
 
+  security.polkit.enable = true;
+
   virtualisation = {
     docker.enable = true;
 
     libvirtd = {
       enable = true;
       onBoot = "ignore";
-      qemuPackage = pkgs.qemu_kvm;
+      qemuPackage = pkgs.qemu_kvm.override { smbdSupport = true; };
     };
   };
   system.stateVersion = "20.09";

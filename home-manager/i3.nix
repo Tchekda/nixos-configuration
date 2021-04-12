@@ -66,6 +66,11 @@ in
         always = false;
         notification = false;
       }
+      {
+        command = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+        always = true;
+        notification = true;
+      }
     ];
   };
 }
