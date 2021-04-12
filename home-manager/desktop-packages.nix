@@ -7,7 +7,6 @@
     # Utils
     alacritty
     gparted
-    wpa_supplicant_gui
     networkmanagerapplet
     brightnessctl
     pavucontrol
@@ -23,7 +22,7 @@
     hunspell
     hunspellDicts.en-us-large
     hunspellDicts.fr-moderne
-    discord
+    unstable.discord
     bitwarden
     thunderbird
     tdesktop

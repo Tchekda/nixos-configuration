@@ -6,6 +6,7 @@ in
   networking.extraHosts = ''
     ::1 avenir.local
     ::1 phpinfo.local
+    127.0.0.1 dev.ivao.aero
   '';
 
   users.users.tchekda.extraGroups = [ "www-data" ];
@@ -68,6 +69,10 @@ in
     phpOptions = ''
       opcache.enable=0
       date.timezone = Europe/Paris
+      max_execution_time = 120
+      post_max_size = 500M
+      upload_max_filesize = 500M
+      memory_limit = 1G
     '';
   };
 }

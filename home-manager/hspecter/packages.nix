@@ -1,15 +1,20 @@
 { pkgs, unstable, ... }:
 let
-  curstomPHP8 = unstable.php80.buildEnv { extraConfig = "date.timezone = Europe/Paris"; };
+  curstomPHP8 = unstable.php80.buildEnv {
+    extraConfig =
+      ''date.timezone = Europe/Paris
+          memory_limit = 1G'';
+  };
 in
 {
   packages = with pkgs; [
     # Dev
     openfortivpn
     curstomPHP8
-    unstable.php80Packages.composer2
+    unstable.php80Packages.composer
     vscode
     sass
+    compass
     unstable.nodejs-15_x
     yarn
     docker-compose
@@ -18,6 +23,7 @@ in
     wkhtmltopdf
     mailcatcher
     dotnet-sdk_3
+    heroku
     mono
     libgdiplus
     graphviz
@@ -31,7 +37,7 @@ in
     # Applications
     teams
     molotov
-    pidgin
+    kvirc
     zoom-us
     evince
 
@@ -40,6 +46,7 @@ in
     win-virtio
     virt-viewer
     libguestfs-with-appliance
+    usbutils
 
     # Scanner
     xsane

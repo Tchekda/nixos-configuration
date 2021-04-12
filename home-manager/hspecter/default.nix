@@ -53,7 +53,7 @@ in
 
       Service = {
         ExecStart = ''
-          ${pkgs.xautolock}/bin/xautolock -noclose -detectsleep -time 10 \
+          ${pkgs.xautolock}/bin/xautolock -noclose -detectsleep -time 60 \
            -locker "${pkgs.i3lock-color}/bin/i3lock-color -ti ${screenlocker} \
            --clock --pass-media-keys --pass-screen-keys --pass-power-keys --pass-volume-keys" \
            -notifier "${pkgs.libnotify}/bin/notify-send 'Locking in 30 seconds'" -notify 30 \
