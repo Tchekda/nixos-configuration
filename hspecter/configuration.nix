@@ -189,18 +189,35 @@ in
 
     thinkfan = {
       enable = true;
+      smartSupport = true;
       sensors = ''
-        tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 0)
+        tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 128, 0, 0, -66, 0, 0, 0, 0, 0)
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp6_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp13_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp3_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp10_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp7_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp14_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp4_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp11_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp1_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp15_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp5_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp12_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp9_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp2_input
+        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp16_input
+        hwmon /sys/devices/virtual/thermal/thermal_zone0/hwmon5/temp1_input
       '';
       levels = ''
-        (0,     0,      55)
-        (1,     48,     60)
-        (2,     50,     61)
-        (3,     55,     65)
-        (4,     55,     65)
-        (5,     60,     70)
-        (6,     65,     80)
-        (7,     77,     85)
+        (0,  0,  50)
+        (1,  50,  60)
+        (2,  60,  65)
+        (3,  65,  70)
+        (4,  70,  75)
+        (5,  75,  80)
+        (6,  80,  85)
+        (7,  85,  32767)
       '';
     };
 
