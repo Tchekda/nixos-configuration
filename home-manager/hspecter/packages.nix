@@ -28,14 +28,13 @@ in
     libgdiplus
     graphviz
     imagemagick7
-    jetbrains.jdk
-    jetbrains-mono
-    jetbrains.phpstorm
+    unstable.jetbrains.jdk
+    unstable.jetbrains-mono
+    unstable.jetbrains.phpstorm
     jetbrains.rider
-    jetbrains.pycharm-professional
-    jetbrains.webstorm
+    unstable.jetbrains.webstorm
     # Applications
-    teams
+    unstable.teams
     molotov
     kvirc
     zoom-us
