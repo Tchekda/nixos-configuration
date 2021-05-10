@@ -34,11 +34,13 @@ in
       };
     };
 
+    extraModulePackages = with config.boot.kernelPackages; [ acpi_call tp_smapi ];
+
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
       "net.ipv6.route.max_size" = 8388608;
     };
-    kernelModules = [ "kvm-amd" "vfio-pci" ];
+    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "tp_smapi" ];
 
     extraModprobeConfig = ''
       options snd_acp3x_rn dmic_acpi_check=1
@@ -191,7 +193,7 @@ in
       enable = true;
       smartSupport = true;
       sensors = ''
-        tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 128, 0, 0, -66, 0, 0, 0, 0, 0)
+        tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0)
         hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp6_input
         hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp13_input
         hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp3_input
@@ -207,7 +209,6 @@ in
         hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp9_input
         hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp2_input
         hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp16_input
-        hwmon /sys/devices/virtual/thermal/thermal_zone0/hwmon5/temp1_input
       '';
       levels = ''
         (0,  0,  50)
@@ -284,7 +285,10 @@ in
     };
   };
 
-  nixpkgs.config.pulseaudio = true;
+  nixpkgs.config = {
+    pulseaudio = true;
+    allowUnfree = true;
+  };
 
   users.users.tchekda = {
     description = "David Tchekachev";
@@ -297,7 +301,6 @@ in
 
   home-manager.users.tchekda = import ../home-manager/home.nix;
 
-  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     wget
@@ -305,6 +308,7 @@ in
     git
     gnupg
     libnotify
+    wineWowPackages.stable
   ];
 
   security.polkit.enable = true;
