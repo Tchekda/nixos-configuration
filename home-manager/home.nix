@@ -38,6 +38,7 @@ in
     };
   };
 
+
   home = {
     username = "tchekda";
     homeDirectory = "/home/tchekda";
@@ -57,6 +58,7 @@ in
       unrar
       lnav
       speedtest-cli
+      mtr
       python39
       python39Packages.pip
       file

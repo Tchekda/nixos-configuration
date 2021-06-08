@@ -9,6 +9,9 @@ let
         "$2" "$3"
     }
 
+
+    
+
     battery_capacity=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/BAT0/capacity)
     battery_status=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/BAT0/status)
 

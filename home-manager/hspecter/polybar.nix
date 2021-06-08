@@ -63,13 +63,15 @@ in
 
       modules-left = "i3";
       modules-center = "";
-      modules-right = "cpu memory temperature pulseaudio microphone battery backlight wireless-network wired-network date";
+      # modules-right = "cpu memory temperature pulseaudio microphone battery backlight wireless-network wired-network date";
+      modules-right = "cpu temperature pulseaudio battery backlight wireless-network wired-network date";
 
       spacing = 0;
 
       dim-value = "1.";
 
-      tray-position = "none";
+      tray-position = "right";
+      tray-background = bg;
 
       enable-ipc = true;
     };

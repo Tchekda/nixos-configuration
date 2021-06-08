@@ -4,6 +4,7 @@
     # Dependencies
     feh
     flameshot
+    libnotify
     # Utils
     alacritty
     gparted
@@ -22,13 +23,14 @@
     hunspell
     hunspellDicts.en-us-large
     hunspellDicts.fr-moderne
-    unstable.discord
+    discord
     bitwarden
     thunderbird
     tdesktop
     signal-desktop
     spotify
     xournal
+    wineWowPackages.stable
     firefox-devedition-bin
   ];
 }

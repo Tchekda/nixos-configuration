@@ -52,7 +52,7 @@ in
     ensureUsers = [{ name = "root"; }];
   };
   services.phpfpm = {
-    phpPackage = unstable.php80;
+    phpPackage = pkgs.php80;
     pools.www = {
       user = config.services.nginx.group;
       settings = {

@@ -60,11 +60,7 @@ in
   networking = {
     hostName = "hspecter";
 
-    interfaces = {
-      enp5s0 = {
-        useDHCP = true;
-      };
-    };
+    enableIPv6 = true;
 
     firewall = {
       enable = true;
@@ -77,6 +73,23 @@ in
     networkmanager = {
       enable = true;
       wifi.backend = "iwd";
+    };
+
+    wg-quick.interfaces = {
+      wg0 = {
+        address = [ "192.168.1.153/32" "2001:bc8:2e2a:103::4/128" ];
+        dns = [ "2001:bc8:2e2a:102::1" "2606:4700:4700::1111" "192.168.1.102" "1.1.1.1" ];
+        privateKeyFile = "/home/tchekda/nixos-config/hspecter/wireguard-keys/wg.priv";
+
+        peers = [
+          {
+            publicKey = "wTSqfeMNBukTRrQKz+ZyDErN9tqUjttXua9iExJwIg0=";
+            allowedIPs = [ "0.0.0.0/0" "::/0" ];
+            endpoint = "163.172.50.165:51820";
+            persistentKeepalive = 25;
+          }
+        ];
+      };
     };
   };
 
@@ -96,7 +109,8 @@ in
   };
 
   services = {
-    gnome3 = {
+
+    gnome = {
       at-spi2-core.enable = true;
       gnome-keyring.enable = true;
     };
@@ -128,10 +142,12 @@ in
 
       libinput = {
         enable = true;
-        naturalScrolling = true;
-        accelProfile = "flat";
-        disableWhileTyping = true;
-        additionalOptions = ''MatchIsTouchpad "on"'';
+        touchpad = {
+          naturalScrolling = true;
+          accelProfile = "flat";
+          disableWhileTyping = true;
+          additionalOptions = ''MatchIsTouchpad "on"'';
+        };
       };
 
       displayManager = {
@@ -141,9 +157,13 @@ in
         '';
       };
 
-      windowManager.i3 = {
-        enable = true;
-        package = pkgs.i3-gaps;
+      desktopManager.gnome.enable = true;
+
+      windowManager = {
+        i3 = {
+          enable = true;
+          package = pkgs.i3-gaps;
+        };
       };
     };
 
@@ -192,34 +212,45 @@ in
     thinkfan = {
       enable = true;
       smartSupport = true;
-      sensors = ''
-        tp_thermal /proc/acpi/ibm/thermal (0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0)
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp6_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp13_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp3_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp10_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp7_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp14_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp4_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp11_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp1_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp15_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp5_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp12_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp9_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp2_input
-        hwmon /sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp16_input
-      '';
-      levels = ''
-        (0,  0,  50)
-        (1,  50,  60)
-        (2,  60,  65)
-        (3,  65,  70)
-        (4,  70,  75)
-        (5,  75,  80)
-        (6,  80,  85)
-        (7,  85,  32767)
-      '';
+      sensors = [
+        {
+          type = "tpacpi";
+          query = "/proc/acpi/ibm/thermal";
+        }
+        {
+          type = "hwmon";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp1_input";
+        }
+        {
+          type = "hwmon";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp2_input";
+        }
+        {
+          type = "hwmon";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp3_input";
+        }
+        {
+          type = "hwmon";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp4_input";
+        }
+        {
+          type = "hwmon";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp5_input";
+        }
+        {
+          type = "hwmon";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp6_input";
+        }
+      ];
+      levels = [
+        [ 0 0 55 ]
+        [ 1 48 60 ]
+        [ 2 50 61 ]
+        [ 3 52 63 ]
+        [ 6 56 65 ]
+        [ 7 60 85 ]
+        [ "level auto" 80 32767 ]
+      ];
     };
 
     avahi = {
@@ -227,6 +258,7 @@ in
       nssmdns = true;
       publish = {
         enable = true;
+        userServices = true;
         addresses = true;
         workstation = true;
       };
@@ -237,6 +269,11 @@ in
 
   systemd = {
     sleep.extraConfig = "HibernateDelaySec=30m";
+
+    services = {
+      wg-quick-wg0.wantedBy = lib.mkForce [ ];
+      NetworkManager-wait-online.enable = false;
+    };
   };
 
   programs = {
@@ -307,8 +344,9 @@ in
     nano
     git
     gnupg
-    libnotify
-    wineWowPackages.stable
+    gnome3.adwaita-icon-theme
+    gnomeExtensions.appindicator
+    gnome3.gnome-settings-daemon
   ];
 
   security.polkit.enable = true;

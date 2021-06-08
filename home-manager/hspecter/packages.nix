@@ -11,11 +11,11 @@ in
     # Dev
     openfortivpn
     curstomPHP8
-    unstable.php80Packages.composer
+    php80Packages.composer
     vscode
     sass
     compass
-    unstable.nodejs-15_x
+    nodejs-16_x
     yarn
     docker-compose
     postman
@@ -34,7 +34,7 @@ in
     jetbrains.rider
     unstable.jetbrains.webstorm
     # Applications
-    unstable.teams
+    teams
     molotov
     kvirc
     zoom-us
