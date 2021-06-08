@@ -1,6 +1,6 @@
 {
   enable = true;
-  extraOptionOverrides = { "AddKeysToAgent" = "yes"; };
+  extraOptionOverrides = { "AddKeysToAgent" = "yes"; "ForwardAgent" = "yes"; };
   matchBlocks = {
     deletec = {
       hostname = "192.168.230.10";
@@ -22,6 +22,12 @@
     rpi = {
       hostname = "192.168.2.253";
       user = "pi";
+      identityFile = "/home/tchekda/.ssh/id_rsa";
+    };
+    pi = {
+      hostname = "appart.tchekda.fr";
+      user = "pi";
+      port = 2217;
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
     "git.cri.epita.fr" = {
