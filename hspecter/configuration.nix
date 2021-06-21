@@ -93,7 +93,7 @@ in
     };
   };
 
-  time.timeZone = "Europe/Paris";
+  # time.timeZone = "Europe/Paris"; Because services.tzupdate is enabled
 
   nix.gc = {
     automatic = true;
@@ -165,21 +165,6 @@ in
           package = pkgs.i3-gaps;
         };
       };
-    };
-
-    picom = {
-      enable = true;
-      vSync = true;
-      shadow = true;
-      shadowOffsets = [ (-7) (-7) ];
-      shadowOpacity = 0.7;
-      shadowExclude = [ "window_type *= 'normal' && ! name ~= ''" ];
-      backend = "glx";
-      fade = true;
-      fadeDelta = 5;
-      activeOpacity = 1.0;
-      inactiveOpacity = 0.98;
-      menuOpacity = 0.8;
     };
 
     printing = {
@@ -265,6 +250,8 @@ in
     };
 
     geoclue2.enable = true;
+
+    tzupdate.enable = true;
   };
 
   systemd = {

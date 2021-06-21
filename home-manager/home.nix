@@ -36,6 +36,17 @@ in
       enable = true;
       provider = "geoclue2";
     };
+
+    picom = {
+      enable = true;
+      vSync = true;
+      shadow = true;
+      shadowExclude = [ "window_type *= 'normal' && ! name ~= ''" ];
+      backend = "glx";
+      fade = true;
+      fadeDelta = 5;
+    };
+
   };
 
 
@@ -57,7 +68,7 @@ in
       jq
       unrar
       lnav
-      speedtest-cli
+      iperf3
       mtr
       python39
       python39Packages.pip

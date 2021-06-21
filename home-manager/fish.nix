@@ -24,6 +24,7 @@
     gc = "git commit -a -m \"\"";
     gp = "git push";
     gco = "git checkout";
+    speedtest = "iperf3 -t 0 -c bouygues.testdebit.info -p 9201";
   };
 
   plugins = [
