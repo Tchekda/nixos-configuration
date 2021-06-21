@@ -32,5 +32,6 @@
     xournal
     wineWowPackages.stable
     firefox-devedition-bin
+    vlc
   ];
 }
