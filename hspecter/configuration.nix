@@ -1,12 +1,10 @@
 { config, pkgs, lib, ... }:
 let
   unstable = import ../unstable.nix { config.allowUnfree = true; };
-
 in
 {
   imports =
     [
-      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
       ./dev.nix
@@ -16,22 +14,8 @@ in
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
-      efi = {
-        canTouchEfiVariables = true;
-      };
-      grub = {
-        enable = true;
-        version = 2;
-        theme = pkgs.nixos-grub2-theme;
-        efiSupport = true;
-        device = "nodev";
-        useOSProber = true;
-        enableCryptodisk = true;
-        extraConfig = ''
-          snd_rn_pci_acp3x.dmic_acpi_check=1
-          acpi_backlight=vendor
-        '';
-      };
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
     };
 
     extraModulePackages = with config.boot.kernelPackages; [ acpi_call tp_smapi ];
@@ -40,21 +24,13 @@ in
       "net.ipv4.ip_forward" = true;
       "net.ipv6.route.max_size" = 8388608;
     };
+
     kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "tp_smapi" ];
 
     extraModprobeConfig = ''
       options snd_acp3x_rn dmic_acpi_check=1
     '';
 
-  };
-
-  fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
-  fileSystems."/home".options = [ "noatime" "nodiratime" "discard" ];
-
-  boot.initrd.luks.devices.luksroot = {
-    device = "/dev/disk/by-uuid/13a5c949-6966-4a84-9392-4981124fd71a";
-    preLVM = true;
-    allowDiscards = true;
   };
 
   networking = {
@@ -94,6 +70,12 @@ in
   };
 
   # time.timeZone = "Europe/Paris"; Because services.tzupdate is enabled
+  location = {
+    # provider = "geoclue2";
+    provider = "manual";
+    latitude = 48.8582;
+    longitude = 2.3387;
+  };
 
   nix.gc = {
     automatic = true;
@@ -152,12 +134,11 @@ in
 
       displayManager = {
         sddm.enable = true;
-        sessionCommands = ''
-          ${config.systemd.package}/bin/systemctl --user import-environment
-        '';
+        # sessionCommands = ''
+        #   ${config.systemd.package}/bin/systemctl --user import-environment
+        # '';
       };
 
-      desktopManager.gnome.enable = true;
 
       windowManager = {
         i3 = {
@@ -169,7 +150,7 @@ in
 
     printing = {
       enable = true;
-      drivers = [ pkgs.gutenprint pkgs.hplipWithPlugin ];
+      drivers = [ pkgs.cnijfilter2 pkgs.gutenprint pkgs.hplipWithPlugin ];
     };
 
     logind = {
@@ -249,7 +230,9 @@ in
       };
     };
 
-    geoclue2.enable = true;
+    geoclue2.enable = false;
+
+    redshift.enable = true;
 
     tzupdate.enable = true;
   };
@@ -261,6 +244,7 @@ in
       wg-quick-wg0.wantedBy = lib.mkForce [ ];
       NetworkManager-wait-online.enable = false;
     };
+
   };
 
   programs = {
@@ -313,14 +297,15 @@ in
     pulseaudio = true;
     allowUnfree = true;
   };
-
   users.users.tchekda = {
     description = "David Tchekachev";
     isNormalUser = true;
     createHome = true;
     extraGroups = [ "wheel" "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" ];
     shell = pkgs.fish;
-    openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC+Shk2GUm7qNih/ynWNowbABxPzC9cl6FrcmFe713GmSk+q9eXVDhqbQ9zKlwfU56pK2cXUjukMP21L8vgX9raSze7MY1cBHJ9FzuTWqNrfcDguf80oqIXIcwzITEbOOk/unXcLQHsbBx33ydIg5SCLvpXs7AIs9v2kBrtRkv4W01muJHtHICRYvM3PlDsZeevhd7cEIzLJvB03clUUomTJTSWd3csFYk7mCRiJcvvQ3buxyXMPvwS528Zwp+qZSSq2dPLJZ+QOx3CpNF9XN+TswePdMqibi5a3R3AA4Rz/XoUOxDK46uJNBoudzDhjT79UAIawG4utaELeENWi4vyfyMTs5YOG8Q/5p74ibkbdyoXfsJzX8+bGfPQcvpk02uyXpz/qijjn81G01ssix8ebjNL2OaD6K7gme8Y5QIwonw/Dlk9NXvBSf5l/GTmZLaPLyPjo0Ag9LrZ4HZEPdP4t8xaKXrkwZi1LPDZkK3OkaNR4EwuBEXbvCbN8ITgoAlIIrUNnU2Y6bJ9/12AdOcrHIWwcbejrxHMXkZTrTPXYZ2P0nRCXD6NO2wKWRGUJJMQit5mSY0B+lRkDo/uA5SaDo9sSfWMsY7FvsKoM6rdrq2nUKOeZTkk553XgoxlKHSHMDh1y7SxKKgG1IScjY6AePXQEJD0A5grrrdfkQoy+w==" ];
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAzZARI4tFaQ1T2g5Ug63IXpoLlKYTqnBoja/wam/+QsVH2I4/9t/LBS675+xWJ55UdTpxhkcHYplcvdR4PB3gR5rK/Eqqv7lZEpyriarfdiBuOS0XBYJANpDsGuzeAU7SPL2Kxn8FyWMxqQZeCHyO5fTXhOAUhay5C7n0ym7Ep1Lck3l9eT+sNOPNa5F+bnWheeQG4HkueBiSqt1nUCZA1NQnyvBAFP439/oNVkBXe5q/63eSuDdbq45h5HgR8512HZO857oceLql6PFWIhaG0eF0ifgwqcbNN7iNJ3wFUigb/nR0WZgJwLdUxzUIWyLZz/7Lwn+RatKIL/uicfb/ tchekda@Tchekda" # ASUS computer
+    ];
   };
 
   home-manager.users.tchekda = import ../home-manager/home.nix;
@@ -331,12 +316,15 @@ in
     nano
     git
     gnupg
-    gnome3.adwaita-icon-theme
-    gnomeExtensions.appindicator
-    gnome3.gnome-settings-daemon
   ];
 
-  security.polkit.enable = true;
+  security = {
+    polkit.enable = true;
+    pam.services = {
+      login.fprintAuth = true;
+      xscreensaver.fprintAuth = true;
+    };
+  };
 
   virtualisation = {
     docker.enable = true;
@@ -347,5 +335,5 @@ in
       qemuPackage = pkgs.qemu_kvm.override { smbdSupport = true; };
     };
   };
-  system.stateVersion = "20.09";
+  system.stateVersion = "21.05";
 }

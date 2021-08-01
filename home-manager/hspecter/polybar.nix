@@ -27,7 +27,7 @@ in
     };
 
     "bar/main" = {
-      monitor = "$\{env:MONITOR:}";
+      monitor = "$\{env:MONITOR:eDP}";
       monitor-strict = false;
       override-redirect = false;
 
@@ -72,6 +72,7 @@ in
 
       tray-position = "right";
       tray-background = bg;
+      tray-padding = 5;
 
       enable-ipc = true;
     };

@@ -13,7 +13,7 @@
   };
 
   shellAbbrs = {
-    nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-config/hspecter/configuration.nix\" switch";
+    nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
     vpn = "sudo openfortivpn -c /home/tchekda/nixos-config/home-manager/hspecter/vpn-config";
     ia = "ip a";
     s = "sudo";
@@ -31,10 +31,10 @@
     {
       name = "theme-lambda";
       src = pkgs.fetchFromGitHub {
-        owner = "tchekda";
+        owner = "hasanozgan";
         repo = "theme-lambda";
-        rev = "1d599f05dc560d7c9fa0660fa72e2d32251f6f65";
-        sha256 = "1s0pyc7nlxlynszlskmzrg57rq2nszbkzjq714hl1g5g19gxp95k";
+        rev = "9cf5825c31a1d09d37d87e681ac2fa1d771ef6d2";
+        sha256 = "1aq8r27n4ifickg7my039k618d7dllknyi4g7x742hcy19zr1336";
       };
     }
     {

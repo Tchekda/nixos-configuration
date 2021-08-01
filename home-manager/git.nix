@@ -3,7 +3,7 @@
   userName = "David Tchekachev";
   userEmail = "contact" + "@" + "tchekda.fr";
   signing = {
-    key = "A4EADA0F";
+    key = "D0A007EDA4EADA0F";
     signByDefault = true;
   };
   # extraConfig = {
