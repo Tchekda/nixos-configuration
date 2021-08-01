@@ -61,7 +61,7 @@
         };
         HDMI-A-0 = {
           enable = true;
-          primary = false;
+          primary = true;
           position = "0x0";
           mode = "1920x1080";
           gamma = "1.0:1.1:1.2";
@@ -186,7 +186,7 @@
           set -euo pipefail
 
           # Make sure that i3 is running
-          if [[ "$( ${pkgs.i3}/bin/i3-msg -t get_outputs | ${pkgs.jq}/bin/jq -r '.[] | select(.active == true) | .name' | wc -l )" -eq 1 ]]; then
+          if [[ "$( ${pkgs.i3}/bin/i3-msg -t get_outputs | ${pkgs.jq}/bin/jq -r '.[] | select(.active == true and .primary == true) | .name' | wc -l )" -eq 1 ]]; then
             # Figure out the identifier of the main monitor
             readonly main_monitor="$( ${pkgs.i3}/bin/i3-msg -t get_outputs | ${pkgs.jq}/bin/jq -r '.[] | select(.active == true and .primary == true) | .name' )"
 

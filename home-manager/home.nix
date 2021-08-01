@@ -32,11 +32,6 @@ in
       maxCacheTtl = 7200;
     };
 
-    redshift = {
-      enable = true;
-      provider = "geoclue2";
-    };
-
     picom = {
       enable = true;
       vSync = true;

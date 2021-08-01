@@ -3,7 +3,7 @@
   packages = with pkgs; [
     # Dependencies
     feh
-    flameshot
+    unstable.flameshot
     libnotify
     # Utils
     alacritty
@@ -31,7 +31,7 @@
     spotify
     xournal
     wineWowPackages.stable
-    firefox-devedition-bin
+    unstable.firefox-devedition-bin
     vlc
   ];
 }
