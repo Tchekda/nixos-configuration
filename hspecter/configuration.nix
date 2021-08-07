@@ -18,19 +18,24 @@ in
       efi.canTouchEfiVariables = true;
     };
 
-    extraModulePackages = with config.boot.kernelPackages; [ acpi_call tp_smapi ];
+    extraModulePackages = with config.boot.kernelPackages; [ acpi_call rtw89 ];
 
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
       "net.ipv6.route.max_size" = 8388608;
     };
 
-    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "tp_smapi" ];
+    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" ];
 
     extraModprobeConfig = ''
       options snd_acp3x_rn dmic_acpi_check=1
     '';
 
+    # Force use of the thinkpad_acpi driver for backlight control.
+    # This allows the backlight save/load systemd service to work.
+    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" ];
+
+    initrd.kernelModules = [ "amdgpu" ];
   };
 
   networking = {
@@ -42,6 +47,7 @@ in
       enable = true;
       allowPing = true;
       allowedUDPPorts = [ 51820 ];
+      checkReversePath = false; # https://nixos.wiki/wiki/WireGuard#Setting_up_WireGuard_with_NetworkManager
     };
 
     wireless.iwd.enable = true;
@@ -49,23 +55,6 @@ in
     networkmanager = {
       enable = true;
       wifi.backend = "iwd";
-    };
-
-    wg-quick.interfaces = {
-      wg0 = {
-        address = [ "192.168.1.153/32" "2001:bc8:2e2a:103::4/128" ];
-        dns = [ "2001:bc8:2e2a:102::1" "2606:4700:4700::1111" "192.168.1.102" "1.1.1.1" ];
-        privateKeyFile = "/home/tchekda/nixos-config/hspecter/wireguard-keys/wg.priv";
-
-        peers = [
-          {
-            publicKey = "wTSqfeMNBukTRrQKz+ZyDErN9tqUjttXua9iExJwIg0=";
-            allowedIPs = [ "0.0.0.0/0" "::/0" ];
-            endpoint = "163.172.50.165:51820";
-            persistentKeepalive = 25;
-          }
-        ];
-      };
     };
   };
 
@@ -185,27 +174,27 @@ in
         }
         {
           type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp1_input";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp1_input";
         }
         {
           type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp2_input";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp2_input";
         }
         {
           type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp3_input";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp3_input";
         }
         {
           type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp4_input";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp4_input";
         }
         {
           type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp5_input";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp5_input";
         }
         {
           type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp6_input";
+          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp6_input";
         }
       ];
       levels = [
@@ -235,6 +224,8 @@ in
     redshift.enable = true;
 
     tzupdate.enable = true;
+
+    tlp.enable = true; # Linux Advanced Power Management
   };
 
   systemd = {
@@ -263,6 +254,11 @@ in
   sound.enable = true;
 
   hardware = {
+    cpu.amd.updateMicrocode = true;
+    enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
+    firmware = with pkgs; [ sof-firmware rtw89-firmware ];
+    enableRedistributableFirmware = true;
+
     pulseaudio = {
       enable = true;
       package = pkgs.pulseaudioFull;
@@ -271,12 +267,20 @@ in
       configFile = pkgs.runCommand "default.pa" { } ''
         grep -v module-role-cork ${config.hardware.pulseaudio.package}/etc/pulse/default.pa > $out
       '';
+      extraConfig = "
+        load-module module-switch-on-connect
+      ";
     };
     bluetooth = {
       enable = true;
       powerOnBoot = false;
+      settings = {
+        # A2DP https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+        };
+      };
     };
-    firmware = [ pkgs.sof-firmware ];
 
     sane = {
       enable = true;
@@ -285,12 +289,14 @@ in
 
     opengl = {
       driSupport = true;
+      driSupport32Bit = true;
       extraPackages = with pkgs; [
         amdvlk
         rocm-opencl-icd
         rocm-opencl-runtime
       ];
     };
+
   };
 
   nixpkgs.config = {
@@ -316,6 +322,7 @@ in
     nano
     git
     gnupg
+    acpi
   ];
 
   security = {
