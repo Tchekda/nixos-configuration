@@ -232,7 +232,7 @@ in
     "module/battery" = {
       type = "internal/battery";
 
-      full-at = 90;
+      full-at = 89;
 
       battery = "BAT0"; # TODO: Better way to fill this
       adapter = "ADP1";
