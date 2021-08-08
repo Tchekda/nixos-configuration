@@ -32,7 +32,7 @@ let
           fi
         fi
     else
-      if [[ $battery_capacity -ge 92 && $battery_capacity -le 93 ]]; then
+      if [[ $battery_capacity -eq 87 ]]; then
         notify "low" "Battery Charged" "You can unplug now"
       fi
     fi
