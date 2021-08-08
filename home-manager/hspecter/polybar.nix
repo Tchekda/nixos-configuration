@@ -157,7 +157,7 @@ in
       warn-temperature = 70;
       units = true;
 
-      hwmon-path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp1_input";
+      hwmon-path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp1_input";
 
       format = "<label>";
       format-background = mf;
@@ -232,7 +232,7 @@ in
     "module/battery" = {
       type = "internal/battery";
 
-      full-at = 99;
+      full-at = 90;
 
       battery = "BAT0"; # TODO: Better way to fill this
       adapter = "ADP1";
