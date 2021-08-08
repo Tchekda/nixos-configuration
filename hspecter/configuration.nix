@@ -14,7 +14,10 @@ in
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 3;
+      };
       efi.canTouchEfiVariables = true;
     };
 
@@ -35,7 +38,11 @@ in
     # This allows the backlight save/load systemd service to work.
     kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" ];
 
-    initrd.kernelModules = [ "amdgpu" ];
+    initrd = {
+      enable = true;
+      kernelModules = [ "amdgpu" ];
+      availableKernelModules = [ "thinkpad_acpi" ];
+    };
   };
 
   networking = {
@@ -58,7 +65,11 @@ in
     };
   };
 
-  # time.timeZone = "Europe/Paris"; Because services.tzupdate is enabled
+  time = {
+    # timeZone = "Europe/Paris"; # Defined by tzdata service
+    hardwareClockInLocalTime = true;
+  };
+
   location = {
     # provider = "geoclue2";
     provider = "manual";
@@ -164,49 +175,33 @@ in
 
     autorandr.enable = true;
 
-    thinkfan = {
-      enable = true;
-      smartSupport = true;
-      sensors = [
-        {
-          type = "tpacpi";
-          query = "/proc/acpi/ibm/thermal";
-        }
-        {
-          type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp1_input";
-        }
-        {
-          type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp2_input";
-        }
-        {
-          type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp3_input";
-        }
-        {
-          type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp4_input";
-        }
-        {
-          type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp5_input";
-        }
-        {
-          type = "hwmon";
-          query = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp6_input";
-        }
-      ];
-      levels = [
-        [ 0 0 55 ]
-        [ 1 48 60 ]
-        [ 2 50 61 ]
-        [ 3 52 63 ]
-        [ 6 56 65 ]
-        [ 7 60 85 ]
-        [ "level auto" 80 32767 ]
-      ];
-    };
+    thinkfan =
+      {
+        enable = true;
+        smartSupport = true;
+        fans = [
+          {
+            query = "/proc/acpi/ibm/fan";
+            type = "tpacpi";
+          }
+        ];
+        sensors = [
+          {
+            type = "tpacpi";
+            query = "/proc/acpi/ibm/thermal";
+            indices = [ 0 ];
+          }
+        ];
+        levels = [
+          [ 0 0 55 ]
+          [ 1 50 60 ]
+          [ 2 55 65 ]
+          [ 3 60 70 ]
+          [ 6 65 75 ]
+          [ 7 70 80 ]
+          [ "level full-speed" 75 32767 ]
+        ];
+      };
 
     avahi = {
       enable = true;
@@ -269,6 +264,8 @@ in
       '';
       extraConfig = "
         load-module module-switch-on-connect
+        load-module module-bluetooth-policy
+        load-module module-bluetooth-discover
       ";
     };
     bluetooth = {
