@@ -28,7 +28,7 @@ in
       "net.ipv6.route.max_size" = 8388608;
     };
 
-    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" ];
+    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" ];
 
     extraModprobeConfig = ''
       options snd_acp3x_rn dmic_acpi_check=1
@@ -36,7 +36,7 @@ in
 
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
-    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" ];
+    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" "thinkpad_acpi.fan_control=1" ];
 
     initrd = {
       enable = true;
@@ -178,13 +178,17 @@ in
     thinkfan =
       {
         enable = true;
-        smartSupport = true;
-        fans = [
-          {
-            query = "/proc/acpi/ibm/fan";
-            type = "tpacpi";
-          }
-        ];
+        # smartSupport = true; # No HDD
+        # fans = [
+        #   {
+        #     query = "/proc/acpi/ibm/fan";
+        #     type = "tpacpi";
+        #   }
+        #   # {
+        #   #   query = "/sys/class/hwmon/hwmon2/pwm1";
+        #   #   type = "hwmon";
+        #   # }
+        # ];
         sensors = [
           {
             type = "tpacpi";
@@ -311,7 +315,8 @@ in
     ];
   };
 
-  home-manager.users.tchekda = import ../home-manager/home.nix;
+  home-manager.users.tchekda = import
+    ../home-manager/home.nix;
 
 
   environment.systemPackages = with pkgs; [

@@ -157,7 +157,7 @@ in
       warn-temperature = 70;
       units = true;
 
-      hwmon-path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon5/temp1_input";
+      hwmon-path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon2/temp1_input";
 
       format = "<label>";
       format-background = mf;
