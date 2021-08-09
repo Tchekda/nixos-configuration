@@ -224,7 +224,14 @@ in
 
     tzupdate.enable = true;
 
-    tlp.enable = true; # Linux Advanced Power Management
+    tlp = {
+      enable = false; # Linux Advanced Power Management : Kills some usb controllers, will need to figure out a solution
+      settings = {
+        RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
+        RADEON_DPM_PERF_LEVEL_ON_BAT = "auto";
+        USB_AUTOSUSPEND = 0;
+      };
+    };
   };
 
   systemd = {
