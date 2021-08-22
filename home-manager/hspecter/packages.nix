@@ -29,10 +29,7 @@ in
     graphviz
     imagemagick7
     unstable.jetbrains.jdk
-    unstable.jetbrains-mono
     unstable.jetbrains.phpstorm
-    jetbrains.rider
-    unstable.jetbrains.webstorm
     # Applications
     teams
     molotov
