@@ -12,10 +12,10 @@
     };
 
     font = {
-      normal = {
-        family = "JetBrains Mono";
-        style = "Regular";
-      };
+      # normal = {
+      #   family = "JetBrains Mono";
+      #   style = "Regular";
+      # };
       size = 8.5;
     };
 
