@@ -22,6 +22,10 @@ in
 
     fish = import ./fish.nix { inherit pkgs; };
 
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
   };
 
