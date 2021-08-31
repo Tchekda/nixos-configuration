@@ -209,7 +209,9 @@ in
 
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns = true; # Restart nscd in case stops working again
+      ipv4 = true;
+      ipv6 = true;
       publish = {
         enable = true;
         userServices = true;
@@ -351,5 +353,7 @@ in
       qemuPackage = pkgs.qemu_kvm.override { smbdSupport = true; };
     };
   };
-  system.stateVersion = "21.05";
+  system = {
+    stateVersion = "21.05";
+  };
 }
