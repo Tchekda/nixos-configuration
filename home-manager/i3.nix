@@ -30,10 +30,10 @@ in
       "${modifier}+Ctrl+Up" = "move workspace to output up";
       "${modifier}+Ctrl+Down" = "move workspace to output down";
 
-      "${modifier}+Alt+Left" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
-      "${modifier}+Alt+Right" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
-      "${modifier}+Alt+Up" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl pause";
-      "${modifier}+Alt+Down" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
+      "${modifier}+Mod1+Left" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
+      "${modifier}+Mod1+Right" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
+      "${modifier}+Mod1+Up" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl pause";
+      "${modifier}+Mod1+Down" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
 
       "${modifier}+Shift+Left" = "move left";
       "${modifier}+Shift+Right" = "move right";
