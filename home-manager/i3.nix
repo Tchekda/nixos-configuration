@@ -30,14 +30,20 @@ in
       "${modifier}+Ctrl+Up" = "move workspace to output up";
       "${modifier}+Ctrl+Down" = "move workspace to output down";
 
+      "${modifier}+Alt+Left" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
+      "${modifier}+Alt+Right" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
+      "${modifier}+Alt+Up" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl pause";
+      "${modifier}+Alt+Down" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
+
+      "${modifier}+Shift+Left" = "move left";
+      "${modifier}+Shift+Right" = "move right";
+      "${modifier}+Shift+Up" = "move up";
+      "${modifier}+Shift+Down" = "move down";
+
       "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
       "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
       "XF86AudioMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
 
-      "${modifier}+Shift+Left" = "exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous";
-      "${modifier}+Shift+Right" = "exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next";
-      "${modifier}+Shift+Down" = "exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause";
-      "${modifier}+Shift+Up" = null;
 
       "${modifier}+XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
       "${modifier}+XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
