@@ -15,7 +15,8 @@
     # Applications
     gsettings_desktop_schemas
     lxappearance
-    papirus-icon-theme
+    adapta-gtk-theme
+    gnome3.adwaita-icon-theme
     pcmanfm
     gnome3.gnome-calculator
     libgnome-keyring
