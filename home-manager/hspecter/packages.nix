@@ -5,6 +5,7 @@ let
       ''date.timezone = Europe/Paris
           memory_limit = 1G'';
   };
+  m68k = pkgs.qt5.callPackage ./m68k.nix { };
 in
 {
   packages = with pkgs; [
@@ -22,14 +23,12 @@ in
     openssl
     wkhtmltopdf
     mailcatcher
-    dotnet-sdk_3
     heroku
     mono
-    libgdiplus
-    graphviz
-    imagemagick7
     unstable.jetbrains.jdk
     unstable.jetbrains.phpstorm
+    # EPITA
+    m68k
     # Applications
     teams
     molotov

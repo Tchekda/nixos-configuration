@@ -43,6 +43,8 @@ in
       kernelModules = [ "amdgpu" ];
       availableKernelModules = [ "thinkpad_acpi" ];
     };
+
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   networking = {
@@ -77,12 +79,18 @@ in
     longitude = 2.3387;
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 10d";
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
+      "experimental-features = nix-command flakes";
+    binaryCaches = [ "https://cache.nix.cri.epita.fr" ];
+    binaryCachePublicKeys = [ "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 10d";
+    };
   };
-
   i18n.defaultLocale = "en_US.UTF-8";
 
   console = {
