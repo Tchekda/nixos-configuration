@@ -80,8 +80,8 @@ in
   };
 
   nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
+    package = pkgs.nixUnstable;
+    extraOptions =
       "experimental-features = nix-command flakes";
     binaryCaches = [ "https://cache.nix.cri.epita.fr" ];
     binaryCachePublicKeys = [ "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];

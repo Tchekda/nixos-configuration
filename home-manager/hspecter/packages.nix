@@ -28,6 +28,10 @@ in
     unstable.jetbrains.jdk
     unstable.jetbrains.phpstorm
     # EPITA
+    unstable.vscode-extensions.ms-vscode.cpptools
+    gnumake
+    gcc
+    gdb
     m68k
     # Applications
     teams
