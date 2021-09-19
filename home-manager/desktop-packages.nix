@@ -9,6 +9,7 @@
     alacritty
     gparted
     networkmanagerapplet
+    unstable.iwgtk
     brightnessctl
     pavucontrol
     xarchive
