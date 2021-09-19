@@ -249,6 +249,7 @@ in
 
     services = {
       wg-quick-wg0.wantedBy = lib.mkForce [ ];
+      cups-browsed.wantedBy = lib.mkForce [ ];
       NetworkManager-wait-online.enable = false;
     };
 
