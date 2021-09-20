@@ -12,7 +12,7 @@ in
     packages = lib.mkMerge [ (import ../desktop-packages.nix { inherit pkgs unstable; }).packages (import ./packages.nix { inherit pkgs unstable; }).packages ];
 
     sessionVariables = {
-      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:\${LD_LIBRARY_PATH}";
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:${unstable.glibc}/lib:\${LD_LIBRARY_PATH}";
     };
   };
 
