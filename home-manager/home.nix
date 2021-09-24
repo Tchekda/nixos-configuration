@@ -9,12 +9,12 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
+  news.display = "silent";
 
   programs = {
     home-manager.enable = true;
     command-not-found.enable = true;
 
-    alacritty = import ./alacritty.nix { inherit pkgs; };
 
     git = import ./git.nix;
 
@@ -28,6 +28,8 @@ in
     };
 
   };
+
+  systemd.user.startServices = true;
 
   services = {
     gpg-agent = {

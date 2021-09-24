@@ -24,9 +24,9 @@ in
     wkhtmltopdf
     mailcatcher
     heroku
-    mono
+    # mono
     unstable.jetbrains.jdk
-    unstable.jetbrains.phpstorm
+    jetbrains.phpstorm
     # EPITA
     unstable.vscode-extensions.ms-vscode.cpptools
     gnumake

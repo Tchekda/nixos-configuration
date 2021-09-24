@@ -3,7 +3,7 @@ let
   unstable = import ../../unstable.nix { config.allowUnfree = true; };
   screenlocker = builtins.fetchurl {
     url = https://wallpapercave.com/wp/wp2732698.jpg;
-    sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
+    sha256 = "sha256:1jspsg2h43lqqav4wp8ikrbm22ynx18479v7a49nsigi4657gln3";
   };
 in
 {
@@ -11,9 +11,9 @@ in
   home = {
     packages = lib.mkMerge [ (import ../desktop-packages.nix { inherit pkgs unstable; }).packages (import ./packages.nix { inherit pkgs unstable; }).packages ];
 
-    sessionVariables = {
-      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:${unstable.glibc}/lib:\${LD_LIBRARY_PATH}";
-    };
+    # sessionVariables = {
+    #   LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:\${LD_LIBRARY_PATH}";
+    # };
   };
 
   imports = [
@@ -23,6 +23,8 @@ in
   xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
 
   programs = {
+
+    alacritty = import ../alacritty.nix { inherit pkgs; };
 
     autorandr = import ./autorandr.nix { inherit pkgs; };
 
@@ -42,6 +44,8 @@ in
   };
 
   systemd.user.services = {
+
+    dropbox.Install.WantedBy = lib.mkForce [ ];
 
     xautolock = {
       Unit = {
