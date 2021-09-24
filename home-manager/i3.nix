@@ -15,7 +15,7 @@ in
     bars = [ ];
 
 
-    keybindings = lib.mkOptionDefault {
+    keybindings = {
 
       "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
       "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -modi drun -show drun";

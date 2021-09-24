@@ -333,8 +333,14 @@ in
     ];
   };
 
-  home-manager.users.tchekda = import
-    ../home-manager/home.nix;
+  home-manager.users.tchekda = {
+    programs.home-manager.enable = true;
+    home = {
+      username = "tchekda";
+      homeDirectory = "/home/tchekda";
+      packages = [pkgs.home-manager];
+    };
+  };
 
 
   environment.systemPackages = with pkgs; [
