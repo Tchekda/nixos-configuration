@@ -36,7 +36,8 @@ in
 
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
-    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" "thinkpad_acpi.fan_control=1" ];
+    # https://github.com/pop-os/pop/issues/782#issuecomment-571700843
+    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" "thinkpad_acpi.fan_control=1" "amdgpu.noretry=0" ];
 
     initrd = {
       enable = true;
@@ -113,6 +114,15 @@ in
       deviceSection = ''
         Option "DRI" "3"
         Option "TearFree" "true"
+      '';
+
+      extraConfig = ''
+                Section "OutputClass"
+                 Identifier "AMDgpu"
+                 MatchDriver "amdgpu"
+                 Driver "amdgpu"
+                 Option "TearFree" "true"
+        EndSection
       '';
       useGlamor = true;
 
@@ -311,8 +321,12 @@ in
       driSupport32Bit = true;
       extraPackages = with pkgs; [
         amdvlk
+        mesa.drivers
         rocm-opencl-icd
         rocm-opencl-runtime
+      ];
+      extraPackages32 = [
+        pkgs.driversi686Linux.amdvlk
       ];
     };
 
@@ -338,7 +352,7 @@ in
     home = {
       username = "tchekda";
       homeDirectory = "/home/tchekda";
-      packages = [pkgs.home-manager];
+      packages = [ pkgs.home-manager ];
     };
   };
 
