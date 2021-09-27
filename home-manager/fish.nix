@@ -2,8 +2,6 @@
 {
   enable = true;
 
-  shellInit = "echo Debug";
-
   shellAliases = {
     ls = "ls --color=auto";
     ".." = "cd ..";
