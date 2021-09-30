@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 let
   unstable = import ../unstable.nix { config.allowUnfree = true; };
+  init-shell-command = pkgs.callPackage ./init-shell-command.nix { };
 in
 {
   imports = [
@@ -15,6 +16,7 @@ in
     home-manager.enable = true;
     command-not-found.enable = true;
 
+    htop.enable = true;
 
     git = import ./git.nix;
 
@@ -59,8 +61,6 @@ in
     };
     packages = with pkgs; [
       nixpkgs-fmt
-      fortune
-      htop
       neofetch
       dnsutils
       whois
@@ -75,6 +75,7 @@ in
       python39Packages.pip
       file
       busybox
+      init-shell-command
     ];
   };
 }
