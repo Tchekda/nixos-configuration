@@ -6,16 +6,15 @@ let
           memory_limit = 1G'';
   };
   m68k = pkgs.qt5.callPackage ./m68k.nix { };
+
 in
 {
   packages = with pkgs; [
     # Dev
     openfortivpn
+    remmina
     curstomPHP8
     php80Packages.composer
-    vscode
-    sass
-    compass
     nodejs-16_x
     yarn
     docker-compose
@@ -23,12 +22,10 @@ in
     openssl
     wkhtmltopdf
     mailcatcher
-    heroku
     # mono
     unstable.jetbrains.jdk
     jetbrains.phpstorm
     # EPITA
-    unstable.vscode-extensions.ms-vscode.cpptools
     gnumake
     gcc
     gdb

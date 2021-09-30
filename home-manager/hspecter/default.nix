@@ -28,6 +28,27 @@ in
 
     autorandr = import ./autorandr.nix { inherit pkgs; };
 
+
+    vscode = {
+      enable = true;
+      extensions = with unstable.vscode-extensions; [
+        ms-vscode.cpptools
+        ms-vscode-remote.remote-ssh
+        ms-vsliveshare.vsliveshare
+      ];
+    };
+
+
+    fish = {
+      shellAbbrs = lib.mkMerge [
+        {
+          deletec = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/deletec-vpn";
+          ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
+        }
+      ];
+    };
+
+
   };
 
   services = {

@@ -18,5 +18,6 @@
     ".idea"
     "*.userprefs"
     "*.DotSettings.user"
+    ".direnv"
   ];
 }
