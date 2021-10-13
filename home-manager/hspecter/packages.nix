@@ -32,7 +32,7 @@ in
     m68k
     # Applications
     teams
-    molotov
+    unstable.molotov
     kvirc
     zoom-us
     evince
