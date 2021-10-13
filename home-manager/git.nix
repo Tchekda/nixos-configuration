@@ -19,5 +19,7 @@
     "*.userprefs"
     "*.DotSettings.user"
     ".direnv"
+    "*.d"
+    "*.o"
   ];
 }
