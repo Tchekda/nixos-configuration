@@ -13,6 +13,7 @@
     brightnessctl
     pavucontrol
     xarchive
+    pciutils
     # Applications
     gsettings_desktop_schemas
     lxappearance

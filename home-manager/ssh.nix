@@ -41,5 +41,10 @@
       user = "tchekda";
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
+    atr = {
+      hostname = "192.168.30.175";
+      user = "atr";
+      identityFile = "/home/tchekda/.ssh/id_rsa";
+    };
   };
 }
