@@ -31,10 +31,9 @@ in
 
     vscode = {
       enable = true;
-      extensions = with unstable.vscode-extensions; [
+      extensions = with pkgs.vscode-extensions; [
         ms-vscode.cpptools
         ms-vscode-remote.remote-ssh
-        ms-vsliveshare.vsliveshare
       ];
     };
 

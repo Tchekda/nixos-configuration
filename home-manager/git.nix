@@ -6,11 +6,6 @@
     key = "D0A007EDA4EADA0F";
     signByDefault = true;
   };
-  # extraConfig = {
-  #   core = {
-  #     autocrlf = true;
-  #   };
-  # };
   ignores = [
     "*.pdf"
     "bin"

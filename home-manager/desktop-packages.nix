@@ -14,6 +14,8 @@
     pavucontrol
     xarchive
     pciutils
+    iw
+    wirelesstools
     # Applications
     gsettings_desktop_schemas
     lxappearance

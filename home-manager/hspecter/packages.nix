@@ -1,9 +1,10 @@
 { pkgs, unstable, ... }:
 let
-  curstomPHP8 = unstable.php80.buildEnv {
+  curstomPHP8 = pkgs.php80.buildEnv {
     extraConfig =
       ''date.timezone = Europe/Paris
           memory_limit = 1G'';
+    extensions = { enabled, all }: enabled ++ [ all.xdebug ];
   };
   m68k = pkgs.qt5.callPackage ./m68k.nix { };
 
@@ -12,6 +13,7 @@ in
   packages = with pkgs; [
     # Dev
     openfortivpn
+    python39Packages.autopep8
     remmina
     curstomPHP8
     php80Packages.composer
