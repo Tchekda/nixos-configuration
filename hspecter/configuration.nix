@@ -45,6 +45,8 @@ in
       kernelModules = [ "amdgpu" ];
       availableKernelModules = [ "thinkpad_acpi" ];
     };
+
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   fileSystems."/mnt/fbx" = {
@@ -226,13 +228,14 @@ in
           }
         ];
         levels = [
-          [ 0 0 55 ]
-          [ 1 50 60 ]
-          [ 2 55 65 ]
-          [ 3 60 70 ]
-          [ 6 65 75 ]
-          [ 7 70 80 ]
-          [ "level full-speed" 75 32767 ]
+          [ "level auto" 0 32767 ]
+          # [ 0 0 55 ]
+          # [ 1 50 60 ]
+          # [ 2 55 65 ]
+          # [ 3 60 70 ]
+          # [ 6 65 75 ]
+          # [ 7 70 80 ]
+          # [ "level full-speed" 75 32767 ]
         ];
       };
 
