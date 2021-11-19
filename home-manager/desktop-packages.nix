@@ -1,6 +1,9 @@
 { pkgs, unstable, ... }:
+let
+  unstable = import ../unstable.nix { config.allowUnfree = true; };
+in
 {
-  packages = with pkgs; [
+  home.packages = with pkgs; [
     # Dependencies
     feh
     unstable.flameshot

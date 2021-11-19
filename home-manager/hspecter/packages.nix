@@ -1,4 +1,4 @@
-{ pkgs, unstable, ... }:
+{ pkgs, unstable, config, ... }:
 let
   curstomPHP8 = pkgs.php80.buildEnv {
     extraConfig =
@@ -7,10 +7,11 @@ let
     extensions = { enabled, all }: enabled ++ [ all.xdebug ];
   };
   m68k = pkgs.qt5.callPackage ./m68k.nix { };
+  unstable = import ../../unstable.nix { config.allowUnfree = true; };
 
 in
 {
-  packages = with pkgs; [
+  home.packages = with pkgs; [
     # Dev
     openfortivpn
     python39Packages.autopep8
@@ -39,7 +40,7 @@ in
     zoom-us
     evince
     filezilla
-    nixops
+    nixopsUnstable
 
     # Virtualisation
     virt-manager
