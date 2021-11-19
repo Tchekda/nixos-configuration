@@ -39,6 +39,7 @@ in
     zoom-us
     evince
     filezilla
+    nixops
 
     # Virtualisation
     virt-manager

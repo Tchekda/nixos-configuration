@@ -7,6 +7,10 @@ let
   };
 in
 {
+  imports = [
+    ../home.nix
+    ../battery.nix
+  ];
 
   home = {
     packages = lib.mkMerge [ (import ../desktop-packages.nix { inherit pkgs unstable; }).packages (import ./packages.nix { inherit pkgs unstable; }).packages ];
@@ -16,9 +20,6 @@ in
     # };
   };
 
-  imports = [
-    ../battery.nix
-  ];
 
   xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
 
@@ -43,6 +44,8 @@ in
         {
           deletec = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/deletec-vpn";
           ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
+          nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
+          hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/home.nix switch";
         }
       ];
     };
@@ -59,6 +62,16 @@ in
     caffeine.enable = true;
 
     dropbox.enable = true;
+
+    picom = {
+      enable = true;
+      vSync = true;
+      shadow = true;
+      shadowExclude = [ "window_type *= 'normal' && ! name ~= ''" ];
+      backend = "glx";
+      fade = true;
+      fadeDelta = 5;
+    };
 
 
   };

@@ -3,12 +3,12 @@
 {
   imports =
     [
-      # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../tchekda_user.nix
       ./nginx.nix
+      <home-manager/nixos>
     ];
 
-  # Use the GRUB 2 boot loader.
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
@@ -16,7 +16,7 @@
         enable = true;
         version = 2;
         splashImage = null;
-        device = "/dev/sda"; # or "nodev" for efi only
+        device = "/dev/sda";
       };
     };
   };
@@ -24,7 +24,7 @@
   time.timeZone = "Europe/Paris";
 
   networking = {
-    hostName = "kbennett"; # Define your hostname.
+    hostName = "kbennett";
 
     defaultGateway = { address = "10.0.10.1"; interface = "ens18"; };
 
@@ -38,29 +38,24 @@
     firewall.enable = false;
 
     interfaces.ens18 = {
-      ipv4 = {
-        #       addresses = [{ address = "10.0.10.67"; prefixLength = 24; }];
-      };
       ipv6 = {
         addresses = [{ address = "2a01:cb05:8fdb:2555:e490:e2ff:fe7b:497e"; prefixLength = 64; }];
       };
-      #      useDHCP = true;
       tempAddress = "disabled";
     };
 
     nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.tchekda = {
-    description = "David Tchekachev";
-    isNormalUser = true;
-    createHome = true;
-    extraGroups = [ "wheel" "docker" ];
-    shell = pkgs.fish;
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAzZARI4tFaQ1T2g5Ug63IXpoLlKYTqnBoja/wam/+QsVH2I4/9t/LBS675+xWJ55UdTpxhkcHYplcvdR4PB3gR5rK/Eqqv7lZEpyriarfdiBuOS0XBYJANpDsGuzeAU7SPL2Kxn8FyWMxqQZeCHyO5fTXhOAUhay5C7n0ym7Ep1Lck3l9eT+sNOPNa5F+bnWheeQG4HkueBiSqt1nUCZA1NQnyvBAFP439/oNVkBXe5q/63eSuDdbq45h5HgR8512HZO857oceLql6PFWIhaG0eF0ifgwqcbNN7iNJ3wFUigb/nR0WZgJwLdUxzUIWyLZz/7Lwn+RatKIL/uicfb/ tchekda@Tchekda" # ASUS computer
+  users.users = {
+    tchekda.extraGroups = [ "docker" ];
+    root.openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAavYBAIwKDDixRTBJbSHMpkCeN6OMfAMoypSVdYAgpY3OILAUj/HoIJp1uIiKlxJ+v4gLDPjaPWmPPiOW2O4EEiCTEV22DlhcFQZs7DY1Pf7WQnUW1g4PI35LUEWlBOghnB+D11ltU5odTBPVgu1HxNX6pbE1r2MLvox8xt+PHkqXvaPDX7QGPBuAAusK8trEUROObc6+umHPH1VeTK7H810kSGDy1JVPQgK28byh/yJcoHL53XGZ+nCYiuZVFfPmLofPP+LGzulGT2TwNcUiAA8Wv7skSNUdjzXJ4KRZlqIsYiey1vx0hq3+whfC3vLwMBvz90v0HTW+xtEnX4vqR4SeFfRaLpUXpY8rceICgo3XnBQyn/2NNpmbRIJWowK0ENA58psbxo4Z+2qa0is3XLvVc2yqcdd2dLRr+gk3qwEIRcY1m+oGw2u4kv4RkTvboVPTdQozUcTB5EfLKRPB3DnVwULIYbt3QJ5CnW+v+PqinHc2vmAeUaKOEwfufdE= tchekda@hspecter"
     ];
+  };
+
+  home-manager.users.tchekda = {
+    imports = [ ../home-manager/kbennett/default.nix ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -68,11 +63,10 @@
     nano
     git
     htop
-    lnav
   ];
-  # List services that you want to enable:
+
   virtualisation.docker.enable = true;
-  # Enable the OpenSSH daemon.
+
   services = {
     openssh.enable = true;
     qemuGuest.enable = true;
