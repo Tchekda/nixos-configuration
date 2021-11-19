@@ -4,9 +4,6 @@ let
   init-shell-command = pkgs.callPackage ./init-shell-command.nix { };
 in
 {
-  imports = [
-    ./local.nix
-  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -26,7 +23,6 @@ in
 
     direnv = {
       enable = true;
-#      nix-direnv.enable = true;
     };
 
   };
@@ -38,16 +34,6 @@ in
       enable = true;
       defaultCacheTtl = 7200;
       maxCacheTtl = 7200;
-    };
-
-    picom = {
-      enable = true;
-      vSync = true;
-      shadow = true;
-      shadowExclude = [ "window_type *= 'normal' && ! name ~= ''" ];
-      backend = "glx";
-      fade = true;
-      fadeDelta = 5;
     };
 
   };
@@ -77,5 +63,6 @@ in
       busybox
       init-shell-command
     ];
+    stateVersion = "21.05";
   };
 }
