@@ -2,3 +2,4 @@ home-manager/hspecter/*-vpn
 home-manager/hspecter/result
 hspecter/wg*
 hspecter/smb-secrets
+result
