@@ -52,7 +52,12 @@ in
     ensureUsers = [{ name = "root"; }];
   };
   services.phpfpm = {
-    phpPackage = pkgs.php80;
+    phpPackage = pkgs.php80.buildEnv {
+      extraConfig =
+        ''date.timezone = Europe/Paris
+          memory_limit = 1G'';
+      extensions = { enabled, all }: enabled ++ [ all.xdebug ];
+    };
     pools.www = {
       user = config.services.nginx.group;
       settings = {
@@ -73,6 +78,7 @@ in
       post_max_size = 500M
       upload_max_filesize = 500M
       memory_limit = 1G
+      xdebug.client_port = 9003
     '';
   };
 }

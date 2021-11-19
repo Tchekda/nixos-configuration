@@ -44,8 +44,6 @@ in
       kernelModules = [ "amdgpu" ];
       availableKernelModules = [ "thinkpad_acpi" ];
     };
-
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   fileSystems."/mnt/fbx" = {

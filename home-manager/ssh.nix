@@ -46,5 +46,11 @@
       user = "atr";
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
+    lgp = {
+      hostname = "2a01:cb05:8fdb:2555:e490:e2ff:fe7b:497e";
+      user = "tchekda";
+      identityFile = "/home/tchekda/.ssh/id_rsa";
+    };
   };
 }
+
