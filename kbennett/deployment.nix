@@ -1,6 +1,6 @@
 {
   # Describe your "deployment"
-  #   network.description = "Web server";
+  network.description = "LGP VM";
 
   # A single machine description.
   lgpserver = {

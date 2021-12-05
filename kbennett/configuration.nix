@@ -63,6 +63,7 @@
     nano
     git
     htop
+    lnav
   ];
 
   virtualisation.docker.enable = true;
