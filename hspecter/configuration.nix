@@ -97,8 +97,8 @@ in
     package = pkgs.nixUnstable;
     extraOptions =
       "experimental-features = nix-command flakes";
-    binaryCaches = [ "https://cache.nix.cri.epita.fr" ];
-    binaryCachePublicKeys = [ "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
+    binaryCaches = [ "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" "http://cache.nixos.org" ];
+    binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
     gc = {
       automatic = true;
       dates = "daily";
@@ -363,6 +363,7 @@ in
       homeDirectory = "/home/tchekda";
       packages = [ pkgs.home-manager ];
     };
+    imports = [ ../home-manager/hspecter/default.nix ];
   };
 
 

@@ -3,7 +3,7 @@ let
   unstable = import ../../unstable.nix { config.allowUnfree = true; };
   screenlocker = builtins.fetchurl {
     url = https://wallpapercave.com/wp/wp2732698.jpg;
-    sha256 = "sha256:1jspsg2h43lqqav4wp8ikrbm22ynx18479v7a49nsigi4657gln3";
+    sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
   };
 in
 {
@@ -12,13 +12,15 @@ in
     ../battery.nix
     ./packages.nix
     ../desktop-packages.nix
+    ./ssh.nix
   ];
-
 
 
   xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
 
   programs = {
+
+    home-manager.enable = true;
 
     alacritty = import ../alacritty.nix { inherit pkgs; };
 
