@@ -7,6 +7,7 @@
       ../tchekda_user.nix
       ./nginx.nix
       <home-manager/nixos>
+      ./containers.nix
     ];
 
   boot = {
@@ -35,7 +36,9 @@
       '';
     };
 
-    firewall.enable = false;
+    firewall = {
+      allowedTCPPorts = [ 22 443 ];
+    };
 
     interfaces.ens18 = {
       ipv6 = {

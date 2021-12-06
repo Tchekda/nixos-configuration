@@ -40,7 +40,7 @@ in
     zoom-us
     evince
     filezilla
-    nixopsUnstable
+    unstable.nixopsUnstable
 
     # Virtualisation
     virt-manager

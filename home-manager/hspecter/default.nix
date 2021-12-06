@@ -3,7 +3,7 @@ let
   unstable = import ../../unstable.nix { config.allowUnfree = true; };
   screenlocker = builtins.fetchurl {
     url = https://wallpapercave.com/wp/wp2732698.jpg;
-    sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
+    # sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
   };
 in
 {
