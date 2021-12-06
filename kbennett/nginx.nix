@@ -23,7 +23,6 @@
         };
       };
       "jackett.tchekda.fr" = {
-        default = true;
         http2 = true;
         onlySSL = true;
         sslCertificate = "/var/certs/cf-cert.pem";

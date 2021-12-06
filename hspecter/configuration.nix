@@ -104,6 +104,7 @@ in
       dates = "daily";
       options = "--delete-older-than 10d";
     };
+    trustedUsers = [ "root" "tchekda" ];
   };
   i18n.defaultLocale = "en_US.UTF-8";
 
