@@ -2,7 +2,7 @@
   # Describe your "deployment"
   network.description = "Scaleway Dedibox";
   # A single machine description.
-  lgpserver = {
+  mross = {
     deployment = {
       targetEnv = "libvirtd";
       libvirtd.imageDir = "/var/lib/libvirt/images";
