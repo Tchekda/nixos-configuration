@@ -4,6 +4,9 @@ let
   init-shell-command = pkgs.callPackage ./init-shell-command.nix { };
 in
 {
+  imports = [
+    ./git.nix
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -15,9 +18,10 @@ in
 
     htop.enable = true;
 
-    git = import ./git.nix;
-
-    ssh = import ./ssh.nix;
+    ssh = {
+      enable = true;
+      extraOptionOverrides = { "AddKeysToAgent" = "yes"; "ForwardAgent" = "yes"; };
+    };
 
     fish = import ./fish.nix { inherit pkgs; };
 

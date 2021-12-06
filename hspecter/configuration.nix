@@ -389,7 +389,7 @@ in
     libvirtd = {
       enable = true;
       onBoot = "ignore";
-      qemuPackage = pkgs.qemu_kvm.override { smbdSupport = true; };
+      qemu.package = pkgs.qemu_kvm.override { smbdSupport = true; };
     };
   };
   system = {

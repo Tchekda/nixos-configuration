@@ -32,13 +32,11 @@ in
     hunspellDicts.en-us-large
     hunspellDicts.fr-moderne
     unstable.discord
-    bitwarden
     thunderbird
     tdesktop
     signal-desktop
     spotify
     xournal
-    wineWowPackages.stable
     unstable.firefox-devedition-bin
     vlc
   ];
