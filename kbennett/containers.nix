@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   systemd.services.init-docker-network = {
     description = "Create the network bridge.";

@@ -13,7 +13,6 @@
   shellAbbrs = {
     ia = "ip a";
     s = "sudo";
-    ss = "sudo su";
     ls = "ls -lsah";
     gs = "git status";
     ga = "git add .";

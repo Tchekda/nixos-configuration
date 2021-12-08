@@ -4,3 +4,4 @@ hspecter/wg*
 hspecter/smb-secrets
 result
 llitt/peers
+ssl/*pem
