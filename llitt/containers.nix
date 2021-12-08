@@ -3,7 +3,6 @@
 
   virtualisation.oci-containers.containers = {
     pihole = {
-      autoStart = true;
       image = "pihole/pihole:latest";
       volumes = [
         "/var/lib/pihole/:/etc/pihole/"
@@ -32,7 +31,6 @@
     home-assistant = {
       #   image = "homeassistant/raspberrypi4-homeassistant:stable";
       image = "ghcr.io/home-assistant/home-assistant:stable";
-      autoStart = true;
       ports = [
         "127.0.0.1:8123:8123"
       ];
@@ -45,7 +43,6 @@
 
     bird-lg-proxy = {
       image = "xddxdd/bird-lgproxy-go";
-      autoStart = true;
       volumes = [
         "/run/bird.ctl:/var/run/bird/bird.ctl"
       ];
