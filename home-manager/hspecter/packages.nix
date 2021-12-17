@@ -25,6 +25,7 @@ in
     openssl
     wkhtmltopdf
     mailcatcher
+    dbeaver
     # mono
     unstable.jetbrains.jdk
     jetbrains.phpstorm

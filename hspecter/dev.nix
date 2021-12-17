@@ -48,6 +48,7 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
+    bind = "127.0.0.1";
     initialDatabases = [{ name = "avenir"; }];
     ensureUsers = [{ name = "root"; }];
   };
