@@ -27,12 +27,15 @@ in
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
       "net.ipv6.route.max_size" = 8388608;
+      "vm.swappiness" = 1;
     };
 
     kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" ];
 
     extraModprobeConfig = ''
       options snd_acp3x_rn dmic_acpi_check=1
+      options snd_hda_intel power_save=1
+      options iwlwifi 11n_disable=8 power_save=1 uapsd_disable=1
     '';
 
     # Force use of the thinkpad_acpi driver for backlight control.
@@ -178,6 +181,7 @@ in
           package = pkgs.i3-gaps;
         };
       };
+
     };
 
     printing = {
@@ -260,13 +264,16 @@ in
     tzupdate.enable = true;
 
     tlp = {
-      enable = false; # Linux Advanced Power Management : Kills some usb controllers, will need to figure out a solution
+      enable = true; # Linux Advanced Power Management : Kills some usb controllers, will need to figure out a solution
       settings = {
         RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
         RADEON_DPM_PERF_LEVEL_ON_BAT = "auto";
-        USB_AUTOSUSPEND = 0;
+        # USB_AUTOSUSPEND = 0;
       };
     };
+
+    fstrim.enable = true;
+
   };
 
   systemd = {
@@ -295,6 +302,8 @@ in
 
   sound.enable = true;
 
+  powerManagement.powertop.enable = true;
+
   hardware = {
     cpu.amd.updateMicrocode = true;
     enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
@@ -317,7 +326,9 @@ in
     };
     bluetooth = {
       enable = true;
-      powerOnBoot = false;
+      hsphfpd.enable = true;
+      package = pkgs.bluezFull;
+      # powerOnBoot = false;
       settings = {
         # A2DP https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
         General = {
