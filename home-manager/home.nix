@@ -2,6 +2,7 @@
 let
   unstable = import ../unstable.nix { config.allowUnfree = true; };
   init-shell-command = pkgs.callPackage ./init-shell-command.nix { };
+  my_lnav = if pkgs.system == "x86_64-linux" then [ pkgs.lnav ] else [ ];
 in
 {
   imports = [
@@ -39,9 +40,6 @@ in
       defaultCacheTtl = 7200;
       maxCacheTtl = 7200;
     };
-
-
-
   };
 
 
@@ -60,7 +58,6 @@ in
       unzip
       jq
       unrar
-      lnav
       iperf3
       mtr
       python39
@@ -68,7 +65,7 @@ in
       file
       busybox
       init-shell-command
-    ];
+    ] ++ my_lnav;
     stateVersion = "21.05";
   };
 }

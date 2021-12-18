@@ -35,7 +35,7 @@
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
     delta = {
-      hostname = "39damurk.fbxos.fr";
+      hostname = "swheeler.tchekda.fr";
       port = 2217;
       user = "tchekda";
       identityFile = "/home/tchekda/.ssh/id_rsa";
