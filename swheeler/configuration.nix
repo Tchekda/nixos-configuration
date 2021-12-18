@@ -23,7 +23,7 @@
   networking = {
     hostName = "swheeler";
 
-    firewall.allowedTCPPorts = [ 22 2217 ];
+    firewall.allowedTCPPorts = [ 2217 ];
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
@@ -68,7 +68,10 @@
   };
 
   services = {
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      ports = [ 2217 ];
+    };
     qemuGuest.enable = true;
   };
 
