@@ -1,4 +1,5 @@
 # nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=iso.nix
+# aarch64 --argstr system aarch64-linux 
 
 { config, pkgs, ... }:
 {
@@ -22,9 +23,7 @@
   networking = {
     hostName = "swheeler";
 
-    # dhcpcd.enable = true;
-
-    firewall.enable = false;
+    firewall.allowedTCPPorts = [ 22 2217 ];
 
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {
@@ -53,16 +52,13 @@
     nano
     git
     htop
-    # lnav
   ];
 
   home-manager.users.tchekda = {
     imports = [ ../home-manager/swheeler/default.nix ];
   };
 
-  systemd.services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
   users.users = {
-    tchekda.extraGroups = [ "docker" ];
     root = {
       shell = pkgs.fish;
       openssh.authorizedKeys.keys = [
@@ -70,8 +66,6 @@
       ];
     };
   };
-
-  virtualisation.docker.enable = true;
 
   services = {
     openssh.enable = true;
