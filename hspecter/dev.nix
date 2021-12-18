@@ -52,6 +52,18 @@ in
     initialDatabases = [{ name = "avenir"; }];
     ensureUsers = [{ name = "root"; }];
   };
+
+  services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_14;
+    ensureUsers = [{
+      name = "tchekda";
+      ensurePermissions = {
+        "ALL TABLES IN SCHEMA public" = "ALL PRIVILEGES";
+      };
+    }];
+  };
+
   services.phpfpm = {
     phpPackage = pkgs.php80.buildEnv {
       extraConfig =
