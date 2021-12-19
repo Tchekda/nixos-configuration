@@ -31,13 +31,13 @@ in
     hunspell
     hunspellDicts.en-us-large
     hunspellDicts.fr-moderne
-    unstable.discord
+    discord
     thunderbird
     tdesktop
     signal-desktop
     spotify
     xournal
-    unstable.firefox-devedition-bin
+    firefox-devedition-bin
     vlc
   ];
 }

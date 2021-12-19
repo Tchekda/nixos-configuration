@@ -21,18 +21,6 @@
       '';
   };
   virtualisation.oci-containers.containers = {
-    flaresolverr = {
-      image = "ghcr.io/flaresolverr/flaresolverr:latest";
-      ports = [
-        "127.0.0.1:8191:8191"
-      ];
-      environment = {
-        LOG_LEVEL = "info";
-        CAPTCHA_SOLVER = "hcaptcha-solver";
-      };
-      extraOptions = [ "--network=flaresolverr" ];
-    };
-
     jackett = {
       image = "ghcr.io/linuxserver/jackett";
       ports = [
@@ -48,6 +36,18 @@
         PGID = "1000";
         TZ = "Europe/Paris";
         AUTO_UPDATE = "true";
+      };
+      extraOptions = [ "--network=flaresolverr" ];
+    };
+
+    flaresolverr = {
+      image = "ghcr.io/flaresolverr/flaresolverr:latest";
+      ports = [
+        "127.0.0.1:8191:8191"
+      ];
+      environment = {
+        LOG_LEVEL = "info";
+        CAPTCHA_SOLVER = "hcaptcha-solver";
       };
       extraOptions = [ "--network=flaresolverr" ];
     };

@@ -35,7 +35,7 @@ in
     gdb
     m68k
     # Applications
-    unstable.teams
+    teams
     unstable.molotov
     kvirc
     zoom-us

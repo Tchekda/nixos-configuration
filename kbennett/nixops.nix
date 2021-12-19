@@ -1,12 +1,17 @@
 {
   # Describe your "deployment"
-  network.description = "LGP VM";
+  network = {
+    description = "LGP VM";
+    storage.legacy = {
+      databasefile = "~/.nixops/deployments.nixops";
+    };
+  };
 
   # A single machine description.
-  lgpserver = {
+  kbennett = {
     deployment = {
       targetEnv = "none";
-      targetHost = "2a01:cb05:8fdb:2555:e490:e2ff:fe7b:497e";
+      targetHost = "lgp";
     };
 
     imports = [ ./configuration.nix ];
