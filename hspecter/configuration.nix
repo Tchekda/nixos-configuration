@@ -52,6 +52,19 @@ in
     binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+  };
+
+  environment.systemPackages = with pkgs; [
+    acpi
+    git
+    gnupg
+    nano
+    wget
+  ];
+
   fileSystems."/mnt/fbx" = {
     device = "//192.168.2.254/Freebox";
     fsType = "cifs";
@@ -62,6 +75,99 @@ in
 
       in
       [ "${automount_opts},credentials=/home/tchekda/nixos-configuration/hspecter/smb-secrets" ];
+  };
+
+  hardware = {
+    cpu.amd.updateMicrocode = true;
+    enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
+    firmware = with pkgs; [ sof-firmware rtw89-firmware ];
+    enableRedistributableFirmware = true;
+
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+      support32Bit = true;
+      extraModules = [ pkgs.pulseaudio-modules-bt ];
+      configFile = pkgs.runCommand "default.pa" { } ''
+        grep -v module-role-cork ${config.hardware.pulseaudio.package}/etc/pulse/default.pa > $out
+      '';
+      extraConfig = "
+        load-module module-switch-on-connect
+        load-module module-bluetooth-policy
+        load-module module-bluetooth-discover
+      ";
+    };
+    bluetooth = {
+      enable = true;
+      hsphfpd.enable = true;
+      package = pkgs.bluezFull;
+      # powerOnBoot = false;
+      settings = {
+        # A2DP https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+        };
+      };
+    };
+
+    sane = {
+      enable = true;
+      extraBackends = [ pkgs.sane-airscan ];
+    };
+
+    opengl = {
+      driSupport = true;
+      driSupport32Bit = true;
+      setLdLibraryPath = true;
+      extraPackages = with pkgs; [
+        amdvlk
+        mesa.drivers
+        rocm-opencl-icd
+        rocm-opencl-runtime
+      ];
+      extraPackages32 = [
+        pkgs.driversi686Linux.amdvlk
+      ];
+    };
+
+  };
+
+  home-manager.users.tchekda = {
+    programs.home-manager.enable = true;
+    home = {
+      username = "tchekda";
+      homeDirectory = "/home/tchekda";
+      packages = [ pkgs.home-manager ];
+    };
+    imports = [ ../home-manager/hspecter/default.nix ];
+  };
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  location = {
+    # provider = "geoclue2";
+    provider = "manual";
+    latitude = 48.8582;
+    longitude = 2.3387;
+  };
+
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions =
+      "experimental-features = nix-command flakes";
+    binaryCaches = [ "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" "http://cache.nixos.org" ];
+    binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 10d";
+    };
+    trustedUsers = [ "root" "tchekda" ];
+  };
+
+  nixpkgs.config = {
+    pulseaudio = true;
+    allowUnfree = true;
   };
 
   networking = {
@@ -84,36 +190,17 @@ in
     };
   };
 
-  time = {
-    # timeZone = "Europe/Paris"; # Defined by tzdata service
-    hardwareClockInLocalTime = true;
-  };
+  powerManagement.powertop.enable = true;
 
-  location = {
-    # provider = "geoclue2";
-    provider = "manual";
-    latitude = 48.8582;
-    longitude = 2.3387;
-  };
-
-  nix = {
-    package = pkgs.nixUnstable;
-    extraOptions =
-      "experimental-features = nix-command flakes";
-    binaryCaches = [ "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" "http://cache.nixos.org" ];
-    binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 10d";
+  programs = {
+    gnupg.agent = {
+      enable = true;
+      enableExtraSocket = true;
     };
-    trustedUsers = [ "root" "tchekda" ];
-  };
-  i18n.defaultLocale = "en_US.UTF-8";
 
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "us";
+    ssh.startAgent = true;
+
+    dconf.enable = true;
   };
 
   services = {
@@ -276,6 +363,8 @@ in
 
   };
 
+  sound.enable = true;
+
   systemd = {
     sleep.extraConfig = "HibernateDelaySec=30m";
 
@@ -287,105 +376,10 @@ in
 
   };
 
-  programs = {
-    gnupg.agent = {
-      enable = true;
-      enableExtraSocket = true;
-    };
-
-    ssh.startAgent = true;
-
-    fish.enable = true;
-
-    dconf.enable = true;
+  users.users = {
+    tchekda.extraGroups = [ "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" ];
+    root.shell = pkgs.fish;
   };
-
-  sound.enable = true;
-
-  powerManagement.powertop.enable = true;
-
-  hardware = {
-    cpu.amd.updateMicrocode = true;
-    enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
-    firmware = with pkgs; [ sof-firmware rtw89-firmware ];
-    enableRedistributableFirmware = true;
-
-    pulseaudio = {
-      enable = true;
-      package = pkgs.pulseaudioFull;
-      support32Bit = true;
-      extraModules = [ pkgs.pulseaudio-modules-bt ];
-      configFile = pkgs.runCommand "default.pa" { } ''
-        grep -v module-role-cork ${config.hardware.pulseaudio.package}/etc/pulse/default.pa > $out
-      '';
-      extraConfig = "
-        load-module module-switch-on-connect
-        load-module module-bluetooth-policy
-        load-module module-bluetooth-discover
-      ";
-    };
-    bluetooth = {
-      enable = true;
-      hsphfpd.enable = true;
-      package = pkgs.bluezFull;
-      # powerOnBoot = false;
-      settings = {
-        # A2DP https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
-        General = {
-          Enable = "Source,Sink,Media,Socket";
-        };
-      };
-    };
-
-    sane = {
-      enable = true;
-      extraBackends = [ pkgs.sane-airscan ];
-    };
-
-    opengl = {
-      driSupport = true;
-      driSupport32Bit = true;
-      setLdLibraryPath = true;
-      extraPackages = with pkgs; [
-        amdvlk
-        mesa.drivers
-        rocm-opencl-icd
-        rocm-opencl-runtime
-      ];
-      extraPackages32 = [
-        pkgs.driversi686Linux.amdvlk
-      ];
-    };
-
-  };
-
-  nixpkgs.config = {
-    pulseaudio = true;
-    allowUnfree = true;
-  };
-
-
-  users.users.tchekda.extraGroups = [ "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" ];
-
-
-  home-manager.users.tchekda = {
-    programs.home-manager.enable = true;
-    home = {
-      username = "tchekda";
-      homeDirectory = "/home/tchekda";
-      packages = [ pkgs.home-manager ];
-    };
-    imports = [ ../home-manager/hspecter/default.nix ];
-  };
-
-
-  environment.systemPackages = with pkgs; [
-    wget
-    nano
-    git
-    gnupg
-    acpi
-  ];
 
   security = {
     polkit.enable = true;
@@ -393,6 +387,15 @@ in
       login.fprintAuth = true;
       xscreensaver.fprintAuth = true;
     };
+  };
+
+  system = {
+    stateVersion = "21.05";
+  };
+
+  time = {
+    # timeZone = "Europe/Paris"; # Defined by tzdata service
+    hardwareClockInLocalTime = true;
   };
 
   virtualisation = {
@@ -403,8 +406,5 @@ in
       onBoot = "ignore";
       qemu.package = pkgs.qemu_kvm.override { smbdSupport = true; };
     };
-  };
-  system = {
-    stateVersion = "21.05";
   };
 }
