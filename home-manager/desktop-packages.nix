@@ -15,12 +15,14 @@ in
     unstable.iwgtk
     brightnessctl
     pavucontrol
+    pulseaudio
     xarchive
     pciutils
     iw
     wirelesstools
     # Applications
     gsettings_desktop_schemas
+    ddcui
     lxappearance
     adapta-gtk-theme
     gnome3.adwaita-icon-theme

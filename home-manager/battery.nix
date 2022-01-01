@@ -31,10 +31,10 @@ let
               systemctl hibernate
           fi
         fi
-    else
-      if [[ $battery_capacity -eq 87 ]]; then
-        notify "low" "Battery Charged" "You can unplug now"
-      fi
+    # else
+    #  if [[ $battery_capacity -eq 87 ]]; then
+    #    notify "low" "Battery Charged" "You can unplug now"
+    #  fi
     fi
   '';
 

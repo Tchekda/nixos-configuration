@@ -15,6 +15,10 @@ in
     ./ssh.nix
   ];
 
+  home.sessionPath = [
+    "/home/tchekda/.yarn/bin"
+  ];
+
 
   xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
 
@@ -97,6 +101,7 @@ in
         Restart = "on-failure";
       };
     };
+
     xss-lock = {
       Unit = {
         Description = "xss-lock, session locker service";

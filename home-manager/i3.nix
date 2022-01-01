@@ -23,6 +23,7 @@ in
       "${modifier}+b" = "exec systemctl hibernate";
       "${modifier}+Shift+b" = "exec systemctl poweroff";
       "${modifier}+backslash" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
+      "${modifier}+l" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
       "${modifier}+Shift+t" = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr -c";
 
       "${modifier}+Ctrl+Left" = "move workspace to output left";
@@ -35,6 +36,10 @@ in
       "${modifier}+Mod1+Up" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl pause";
       "${modifier}+Mod1+Down" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
 
+      "XF86AudioPrev" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
+      "XF86AudioNext" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
+      "XF86AudioPlay" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
+
       "${modifier}+Shift+Left" = "move left";
       "${modifier}+Shift+Right" = "move right";
       "${modifier}+Shift+Up" = "move up";
@@ -44,13 +49,14 @@ in
       "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
       "XF86AudioMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
 
-
       "${modifier}+XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
       "${modifier}+XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
       "XF86AudioMicMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 
       "XF86MonBrightnessUp" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl -q s 5%+";
       "XF86MonBrightnessDown" = "exec --no-startup-id ${pkgs.brightnessctl}/bin/brightnessctl -q s 5%-";
+
+      "XF86Calculator" = "exec --no-startup-id ${pkgs.gnome3.gnome-calculator}/bin/gnome-calculator";
 
       "${modifier}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
       "Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
