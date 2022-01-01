@@ -64,7 +64,7 @@ in
       modules-left = "i3";
       modules-center = "";
       # modules-right = "cpu memory temperature pulseaudio microphone battery backlight wireless-network wired-network date";
-      modules-right = "cpu temperature pulseaudio battery backlight wireless-network wired-network date";
+      modules-right = "cpu temperature pulseaudio battery backlight wireless-network direct-wired-network dock-wired-network date";
 
       spacing = 0;
 
@@ -274,7 +274,7 @@ in
       label = "%percentage%%";
     };
 
-    "module/wired-network" = {
+    "module/direct-wired-network" = {
       type = "internal/network";
       interface = "enp5s0";
 
@@ -290,6 +290,24 @@ in
       format-connected-padding = 2;
       label-connected = "L : D %downspeed:2% | U %upspeed:2%";
     };
+
+    "module/dock-wired-network" = {
+      type = "internal/network";
+      interface = "enp7s0f3u1u1";
+
+      interval = "1.0";
+
+      accumulate-stats = true;
+      unknown-as-up = true;
+
+      format-connected = "<label-connected>";
+      format-connected-background = mf;
+      format-connected-underline = bg;
+      format-connected-overline = bg;
+      format-connected-padding = 2;
+      label-connected = "L : D %downspeed:2% | U %upspeed:2%";
+    };
+
     "module/wireless-network" = {
       type = "internal/network";
       interface = "wlan0";

@@ -19,6 +19,8 @@
       "*.d"
       "*.o"
       ".vscode"
+      "shell.nix"
+      ".envrc"
     ];
   };
 }

@@ -46,9 +46,9 @@ in
   home = {
     username = "tchekda";
     homeDirectory = "/home/tchekda";
-    sessionVariables = {
-      PATH = "/home/tchekda/.local/bin:\${PATH}";
-    };
+    sessionPath = [
+      "/home/tchekda/.local/bin"
+    ];
     packages = with pkgs; [
       nixpkgs-fmt
       neofetch

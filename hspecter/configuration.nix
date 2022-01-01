@@ -22,7 +22,7 @@ in
       efi.canTouchEfiVariables = true;
     };
 
-    extraModulePackages = with config.boot.kernelPackages; [ acpi_call rtw89 ];
+    extraModulePackages = with config.boot.kernelPackages; [ acpi_call rtw89 ddcci-driver ];
 
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
@@ -30,11 +30,10 @@ in
       "vm.swappiness" = 1;
     };
 
-    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" ];
+    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" "hid_logitech_hidpp" "i2c-dev" ];
 
     extraModprobeConfig = ''
       options snd_acp3x_rn dmic_acpi_check=1
-      options snd_hda_intel power_save=1
       options iwlwifi 11n_disable=8 power_save=1 uapsd_disable=1
     '';
 
@@ -61,6 +60,7 @@ in
     acpi
     git
     gnupg
+    hicolor-icon-theme
     nano
     wget
   ];
@@ -78,28 +78,10 @@ in
   };
 
   hardware = {
-    cpu.amd.updateMicrocode = true;
-    enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
-    firmware = with pkgs; [ sof-firmware rtw89-firmware ];
-    enableRedistributableFirmware = true;
 
-    pulseaudio = {
-      enable = true;
-      package = pkgs.pulseaudioFull;
-      support32Bit = true;
-      extraModules = [ pkgs.pulseaudio-modules-bt ];
-      configFile = pkgs.runCommand "default.pa" { } ''
-        grep -v module-role-cork ${config.hardware.pulseaudio.package}/etc/pulse/default.pa > $out
-      '';
-      extraConfig = "
-        load-module module-switch-on-connect
-        load-module module-bluetooth-policy
-        load-module module-bluetooth-discover
-      ";
-    };
     bluetooth = {
       enable = true;
-      hsphfpd.enable = true;
+      # hsphfpd.enable = true;
       package = pkgs.bluezFull;
       # powerOnBoot = false;
       settings = {
@@ -110,9 +92,19 @@ in
       };
     };
 
-    sane = {
+
+    cpu.amd.updateMicrocode = true;
+
+    enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
+    enableRedistributableFirmware = true;
+
+    firmware = with pkgs; [ sof-firmware rtw89-firmware ];
+
+    i2c.enable = true;
+
+    logitech.wireless = {
       enable = true;
-      extraBackends = [ pkgs.sane-airscan ];
+      enableGraphical = true;
     };
 
     opengl = {
@@ -130,6 +122,10 @@ in
       ];
     };
 
+    sane = {
+      enable = true;
+      extraBackends = [ pkgs.sane-airscan ];
+    };
   };
 
   home-manager.users.tchekda = {
@@ -203,133 +199,18 @@ in
     dconf.enable = true;
   };
 
+
+  security = {
+    polkit.enable = true;
+    pam.services = {
+      login.fprintAuth = true;
+      xscreensaver.fprintAuth = true;
+    };
+    rtkit.enable = true;
+  };
+
   services = {
-
-    gnome = {
-      at-spi2-core.enable = true;
-      gnome-keyring.enable = true;
-    };
-
-    xserver = {
-      enable = true;
-
-      videoDrivers = [ "amdgpu" ];
-
-      deviceSection = ''
-        Option "DRI" "3"
-        Option "TearFree" "true"
-      '';
-
-      extraConfig = ''
-                Section "OutputClass"
-                 Identifier "AMDgpu"
-                 MatchDriver "amdgpu"
-                 Driver "amdgpu"
-                 Option "TearFree" "true"
-        EndSection
-      '';
-      useGlamor = true;
-
-
-      layout = "us";
-      xkbVariant = "altgr-intl";
-
-      inputClassSections = [
-        ''
-          Identifier "mouse accel"
-          Driver "libinput"
-          MatchIsPointer "on"
-          Option "AccelProfile" "flat"
-          Option "AccelSpeed" "0"
-        ''
-      ];
-
-      libinput = {
-        enable = true;
-        touchpad = {
-          naturalScrolling = true;
-          accelProfile = "flat";
-          disableWhileTyping = true;
-          additionalOptions = ''MatchIsTouchpad "on"'';
-        };
-      };
-
-      displayManager = {
-        sddm.enable = true;
-        # sessionCommands = ''
-        #   ${config.systemd.package}/bin/systemctl --user import-environment
-        # '';
-      };
-
-
-      windowManager = {
-        i3 = {
-          enable = true;
-          package = pkgs.i3-gaps;
-        };
-      };
-
-    };
-
-    printing = {
-      enable = true;
-      drivers = [ pkgs.cnijfilter2 pkgs.gutenprint pkgs.hplipWithPlugin ];
-    };
-
-    logind = {
-      lidSwitch = "suspend-then-hibernate";
-      lidSwitchExternalPower = "ignore";
-      lidSwitchDocked = "ignore";
-      extraConfig = ''
-        HandlePowerKey=suspend-then-hibernate
-        HandleSuspendKey=ignore
-      '';
-    };
-
     acpid.enable = true;
-
-    fprintd.enable = true;
-
-    openssh.enable = true;
-
-    fwupd.enable = true;
-
-    blueman.enable = true;
-
-    autorandr.enable = true;
-
-    thinkfan =
-      {
-        enable = true;
-        # smartSupport = true; # No HDD
-        # fans = [
-        #   {
-        #     query = "/proc/acpi/ibm/fan";
-        #     type = "tpacpi";
-        #   }
-        #   # {
-        #   #   query = "/sys/class/hwmon/hwmon2/pwm1";
-        #   #   type = "hwmon";
-        #   # }
-        # ];
-        sensors = [
-          {
-            type = "tpacpi";
-            query = "/proc/acpi/ibm/thermal";
-            indices = [ 0 ];
-          }
-        ];
-        levels = [
-          [ "level auto" 0 32767 ]
-          # [ 0 0 55 ]
-          # [ 1 50 60 ]
-          # [ 2 55 65 ]
-          # [ 3 60 70 ]
-          # [ 6 65 75 ]
-          # [ 7 70 80 ]
-          # [ "level full-speed" 75 32767 ]
-        ];
-      };
 
     avahi = {
       enable = true;
@@ -344,26 +225,164 @@ in
       };
     };
 
+    autorandr.enable = true;
+
+    blueman.enable = true;
+
+    ddccontrol.enable = true;
+
+    fprintd.enable = true;
+
+    fstrim.enable = true;
+
+    fwupd.enable = true;
+
     geoclue2.enable = false;
 
+    gnome = {
+      at-spi2-core.enable = true;
+      gnome-keyring.enable = true;
+    };
+
+    logind = {
+      lidSwitch = "suspend-then-hibernate";
+      lidSwitchExternalPower = "ignore";
+      lidSwitchDocked = "ignore";
+      extraConfig = ''
+        HandlePowerKey=suspend-then-hibernate
+        HandleSuspendKey=ignore
+      '';
+    };
+
+    openssh.enable = true;
+
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      media-session.config.bluez-monitor.rules = [
+        # https://gist.github.com/iwantroca/90eb080ea130e232cbe0d48f3595e846
+        {
+          # Matches all cards
+          matches = [{ "device.name" = "~bluez_card.*"; }];
+          actions = {
+            "update-props" = {
+              "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+              # automatically switch between HSP/HFP and A2DP profiles when an input stream is detected https://wiki.archlinux.org/title/PipeWire
+              "bluez5.autoswitch-profile" = true;
+              # mSBC is not expected to work on all headset + adapter combinations.
+              "bluez5.msbc-support" = true;
+              # SBC-XQ is not expected to work on all headset + adapter combinations.
+              "bluez5.sbc-xq-support" = true;
+            };
+          };
+        }
+        {
+          matches = [
+            # Matches all sources
+            { "node.name" = "~bluez_input.*"; }
+            # Matches all outputs
+            { "node.name" = "~bluez_output.*"; }
+          ];
+          actions = {
+            "node.pause-on-idle" = false;
+          };
+        }
+      ];
+    };
+
+    printing = {
+      enable = true;
+      drivers = [ pkgs.cnijfilter2 pkgs.gutenprint pkgs.hplipWithPlugin ];
+    };
     redshift.enable = true;
 
-    tzupdate.enable = true;
+    thinkfan = {
+      enable = true;
+      sensors = [{
+        type = "tpacpi";
+        query = "/proc/acpi/ibm/thermal";
+        indices = [ 0 ];
+      }];
+      levels = [ [ "level auto" 0 32767 ] ];
+    };
 
     tlp = {
-      enable = true; # Linux Advanced Power Management : Kills some usb controllers, will need to figure out a solution
+      enable = false; # Linux Advanced Power Management : Kills some usb controllers, will need to figure out a solution
       settings = {
         RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
         RADEON_DPM_PERF_LEVEL_ON_BAT = "auto";
-        # USB_AUTOSUSPEND = 0;
+        TLP_DEBUG = "arg bat disk lock nm path pm ps rf run sysfs udev usb";
       };
     };
 
-    fstrim.enable = true;
+    tzupdate.enable = true;
+
+    xserver = {
+      enable = true;
+
+      deviceSection = ''
+        Option "DRI" "3"
+        Option "TearFree" "true"
+      '';
+
+      displayManager.sddm.enable = true;
+
+      extraConfig = ''
+                Section "OutputClass"
+                 Identifier "AMDgpu"
+                 MatchDriver "amdgpu"
+                 Driver "amdgpu"
+                 Option "TearFree" "true"
+        EndSection
+      '';
+
+      inputClassSections = [
+        ''
+          Identifier "mouse accel"
+          Driver "libinput"
+          MatchIsPointer "on"
+          Option "AccelProfile" "flat"
+          Option "AccelSpeed" "0"
+        ''
+      ];
+
+      layout = "us";
+
+      libinput = {
+        enable = true;
+        touchpad = {
+          naturalScrolling = true;
+          accelProfile = "flat";
+          disableWhileTyping = true;
+          additionalOptions = ''MatchIsTouchpad "on"'';
+        };
+      };
+
+      useGlamor = true;
+
+      videoDrivers = [ "amdgpu" ];
+
+      windowManager = {
+        i3 = {
+          enable = true;
+          package = pkgs.i3-gaps;
+        };
+      };
+
+      xkbVariant = "altgr-intl";
+
+
+    };
 
   };
 
   sound.enable = true;
+
+  system = {
+    stateVersion = "21.05";
+  };
 
   systemd = {
     sleep.extraConfig = "HibernateDelaySec=30m";
@@ -373,29 +392,16 @@ in
       cups-browsed.wantedBy = lib.mkForce [ ];
       NetworkManager-wait-online.enable = false;
     };
-
-  };
-
-  users.users = {
-    tchekda.extraGroups = [ "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" ];
-    root.shell = pkgs.fish;
-  };
-
-  security = {
-    polkit.enable = true;
-    pam.services = {
-      login.fprintAuth = true;
-      xscreensaver.fprintAuth = true;
-    };
-  };
-
-  system = {
-    stateVersion = "21.05";
   };
 
   time = {
     # timeZone = "Europe/Paris"; # Defined by tzdata service
     hardwareClockInLocalTime = true;
+  };
+
+  users.users = {
+    tchekda.extraGroups = [ "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" "i2c" ];
+    root.shell = pkgs.fish;
   };
 
   virtualisation = {

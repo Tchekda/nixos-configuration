@@ -26,6 +26,7 @@ in
     wkhtmltopdf
     mailcatcher
     dbeaver
+    httpstat
     # mono
     unstable.jetbrains.jdk
     jetbrains.phpstorm
@@ -39,6 +40,7 @@ in
     unstable.molotov
     kvirc
     zoom-us
+    slack
     evince
     filezilla
     unstable.nixopsUnstable
