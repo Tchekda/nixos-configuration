@@ -13,6 +13,8 @@ in
     ./packages.nix
     ../desktop-packages.nix
     ./ssh.nix
+    ../alacritty.nix
+    ./autorandr.nix
   ];
 
   home.sessionPath = [
@@ -25,11 +27,6 @@ in
   programs = {
 
     home-manager.enable = true;
-
-    alacritty = import ../alacritty.nix { inherit pkgs; };
-
-    autorandr = import ./autorandr.nix { inherit pkgs; };
-
 
     vscode = {
       enable = true;

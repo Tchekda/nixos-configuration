@@ -225,8 +225,6 @@ in
       };
     };
 
-    autorandr.enable = true;
-
     blueman.enable = true;
 
     ddccontrol.enable = true;

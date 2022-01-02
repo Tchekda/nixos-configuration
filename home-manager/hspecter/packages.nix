@@ -1,6 +1,6 @@
 { pkgs, unstable, config, ... }:
 let
-  curstomPHP8 = pkgs.php80.buildEnv {
+  customPHP8 = pkgs.php80.buildEnv {
     extraConfig =
       ''date.timezone = Europe/Paris
           memory_limit = 1G'';
@@ -16,7 +16,7 @@ in
     openfortivpn
     python39Packages.autopep8
     remmina
-    curstomPHP8
+    customPHP8
     php80Packages.composer
     nodejs-16_x
     yarn
