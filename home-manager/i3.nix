@@ -24,7 +24,7 @@ in
       "${modifier}+Shift+b" = "exec systemctl poweroff";
       "${modifier}+backslash" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
       "${modifier}+l" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
-      "${modifier}+Shift+t" = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr -c";
+      "${modifier}+Shift+t" = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr --match-edid -c";
 
       "${modifier}+Ctrl+Left" = "move workspace to output left";
       "${modifier}+Ctrl+Right" = "move workspace to output right";
@@ -75,7 +75,7 @@ in
         notification = false;
       }
       {
-        command = "${pkgs.autorandr}/bin/autorandr -c";
+        command = "${pkgs.autorandr}/bin/autorandr --match-edid -c";
         always = false;
         notification = false;
       }
