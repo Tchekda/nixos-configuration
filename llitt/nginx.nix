@@ -18,14 +18,23 @@
       };
       "ha.tchekda.fr" = {
         http2 = true;
+        enableSSL = false;
         # forceSSL = true;
         # enableACME = true;
         extraConfig = ''
           proxy_buffering off;
+          error_log /var/log/nginx/error.log debug;
         '';
         locations."/" = {
           proxyPass = "http://127.0.0.1:8123";
           proxyWebsockets = true;
+          extraConfig = ''
+            proxy_redirect off;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+          '';
         };
       };
     };
