@@ -8,6 +8,7 @@ let
     ${pkgs.bird2}/bin/birdc reload in all
   '';
   bgp = import peers/bgp.nix { };
+  bird-lg-proxy = pkgs.callPackage ./bird-lg.nix { mod = "proxy"; };
 in
 {
   systemd.timers.dn42-roa = {
@@ -24,6 +25,19 @@ in
   };
 
   systemd.services = {
+    bird-lg-proxy = {
+      enable = true;
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      description = "Bird LG Proxy";
+      unitConfig = {
+        Type = "simple";
+      };
+      serviceConfig = {
+        ExecStart = "${bird-lg-proxy}/bin/proxy --bird /run/bird.ctl";
+      };
+    };
+
     dn42-roa = {
       after = [ "network.target" ];
       description = "DN42 ROA Updated";
