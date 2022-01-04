@@ -63,19 +63,5 @@
         "--add-host=host.docker.internal:host-gateway"
       ];
     };
-
-    # https://github.com/xddxdd/bird-lg-go#build-docker-images
-    bird-lg-proxy = {
-      image = "local/bird-lgproxy-go";
-      volumes = [
-        "/run/bird.ctl:/var/run/bird/bird.ctl"
-      ];
-      ports = [
-        "172.20.4.98:8000:8000"
-      ];
-      extraOptions = [
-        "--network=local_net"
-      ];
-    };
   };
 }
