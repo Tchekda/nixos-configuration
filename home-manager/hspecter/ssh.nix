@@ -18,14 +18,14 @@
       port = 9137;
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
-    rpi = {
+    llitt = {
       hostname = "192.168.2.253";
-      user = "pi";
+      user = "tchekda";
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };
-    pi = {
+    rllitt = {
       hostname = "appart.tchekda.fr";
-      user = "pi";
+      user = "tchekda";
       port = 2217;
       identityFile = "/home/tchekda/.ssh/id_rsa";
     };

@@ -23,16 +23,21 @@ in
     before = [ "bird.service" ];
   };
 
-  systemd.services.dn42-roa = {
-    after = [ "network.target" ];
-    description = "DN42 ROA Updated";
-    unitConfig = {
-      Type = "one-shot";
-    };
-    serviceConfig = {
-      ExecStart = "${script}/bin/update-roa";
+  systemd.services = {
+    dn42-roa = {
+      after = [ "network.target" ];
+      description = "DN42 ROA Updated";
+      unitConfig = {
+        Type = "one-shot";
+      };
+      serviceConfig = {
+        ExecStart = "${script}/bin/update-roa";
+      };
     };
   };
+
+
+
   services.bird2 = {
     enable = true;
     checkConfig = false;
