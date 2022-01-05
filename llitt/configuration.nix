@@ -78,6 +78,8 @@
     };
   };
 
+  documentation.enable = false;
+
   users.users = {
     tchekda.extraGroups = [ "docker" "bird2" ];
     root = {
@@ -118,5 +120,4 @@
   };
 
   system.stateVersion = "22.05"; # Did you read the comment?
-
 }

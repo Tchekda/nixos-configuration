@@ -51,6 +51,9 @@
 
   };
 
+  documentation.enable = false;
+
+
   users.users = {
     tchekda.extraGroups = [ "docker" ];
     root = {

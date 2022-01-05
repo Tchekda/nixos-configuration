@@ -25,18 +25,18 @@ in
   };
 
   systemd.services = {
-    bird-lg-proxy = {
-      enable = true;
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      description = "Bird LG Proxy";
-      unitConfig = {
-        Type = "simple";
-      };
-      serviceConfig = {
-        ExecStart = "${bird-lg-proxy}/bin/proxy --bird /run/bird.ctl";
-      };
-    };
+    # bird-lg-proxy = {
+    #   enable = true;
+    #   after = [ "network.target" ];
+    #   wantedBy = [ "multi-user.target" ];
+    #   description = "Bird LG Proxy";
+    #   unitConfig = {
+    #     Type = "simple";
+    #   };
+    #   serviceConfig = {
+    #     ExecStart = "${bird-lg-proxy}/bin/proxy --bird /run/bird.ctl";
+    #   };
+    # };
 
     dn42-roa = {
       after = [ "network.target" ];
@@ -52,11 +52,23 @@ in
 
 
 
-  services.bird2 = {
-    enable = true;
-    checkConfig = false;
-    config = builtins.readFile ./bird.conf + lib.concatStrings (builtins.map
-      (x: "
+  services = {
+    bird-lg = {
+      proxy = {
+        enable = true;
+        allowedIPs = [ "172.20.4.97" "172.20.4.98" ];
+      };
+      frontend = {
+        enable = false;
+        servers = [ "fr-par" "fr-lyn" ];
+        domain = "node.tchekda.dn42";
+      };
+    };
+    bird2 = {
+      enable = true;
+      checkConfig = false;
+      config = builtins.readFile ./bird.conf + lib.concatStrings (builtins.map
+        (x: "
       protocol bgp ${x.name} from dnpeers {
         neighbor ${x.neigh} as ${x.as};
         ${if x.multi || x.v4 then "
@@ -75,6 +87,7 @@ in
         " else ""}
     }
         ")
-      bgp.sessions) + bgp.extraConfig;
+        bgp.sessions) + bgp.extraConfig;
+    };
   };
 }
