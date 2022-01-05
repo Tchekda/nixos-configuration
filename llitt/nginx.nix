@@ -41,6 +41,6 @@
   };
   security.acme = {
     acceptTerms = true;
-    email = "contact@tchekda.fr";
+    defaults.email = "contact@tchekda.fr";
   };
 }
