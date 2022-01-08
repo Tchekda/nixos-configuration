@@ -18,10 +18,12 @@
       };
       "ha.tchekda.fr" = {
         http2 = true;
-        enableSSL = false;
-        # forceSSL = true;
-        # enableACME = true;
+        addSSL = true;
+        sslCertificate = "/etc/cf-cert";
+        sslCertificateKey = "/etc/cf-key";
         extraConfig = ''
+          ssl_client_certificate /etc/origin-pull-ca;
+          ssl_verify_client on;
           proxy_buffering off;
           error_log /var/log/nginx/error.log debug;
         '';
