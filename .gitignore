@@ -3,5 +3,6 @@ home-manager/hspecter/result
 hspecter/wg*
 hspecter/smb-secrets
 result
-llitt/peers
+llitt/dn42/peers/bgp.nix
+llitt/dn42/peers/tunnels.nix
 ssl/*pem
