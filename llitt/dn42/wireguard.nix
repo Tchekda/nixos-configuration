@@ -4,6 +4,8 @@ let
   defaultLocalIPv6 = "fe80::1722:98/64";
 in
 {
+  environment.systemPackages = [ pkgs.wireguard ];
+
   networking.wireguard.interfaces = import peers/tunnels.nix rec {
     customTunnel = listenPort: privateKey: publicKey: endpoint: name: tunnelIPv4: tunnelIPv6: localIPv4: localIPv6: isOspf: {
       listenPort = listenPort;

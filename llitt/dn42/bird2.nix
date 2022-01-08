@@ -80,4 +80,6 @@ in
         bgp.sessions) + bgp.extraConfig;
     };
   };
+
+  users.users.tchekda.extraGroups = [ "bird2" ];
 }

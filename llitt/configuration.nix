@@ -12,12 +12,6 @@
 
   boot = {
     # kernelPackages = pkgs.linuxPackages_rpi4;
-    kernel.sysctl = {
-      "net.ipv4.ip_forward" = 1;
-      "net.ipv6.conf.all.forwarding" = 1;
-      "net.ipv4.conf.default.rp_filter" = 0;
-      "net.ipv4.conf.all.rp_filter" = 0;
-    };
     loader = {
       raspberryPi = {
         enable = true;
@@ -60,25 +54,15 @@
 
     defaultGateway6 = { address = "fe80::8e97:eaff:fe33:30b6"; interface = "eth0"; };
 
-    interfaces = {
-      lo = {
-        ipv4.addresses = [{ address = "172.20.4.98"; prefixLength = 32; }];
-        ipv6.addresses = [
-          { address = "fd54:fe4b:9ed1:2::1"; prefixLength = 128; }
-          { address = "fe80::1"; prefixLength = 128; }
-        ];
-      };
-
-      eth0 = {
-        ipv6.addresses = [{ address = "2a01:e0a:2b1:f401::1"; prefixLength = 64; }];
-      };
+    interfaces.eth0 = {
+      ipv6.addresses = [{ address = "2a01:e0a:2b1:f401::1"; prefixLength = 64; }];
     };
   };
 
   documentation.enable = false;
 
   users.users = {
-    tchekda.extraGroups = [ "docker" "bird2" ];
+    tchekda.extraGroups = [ "docker" ];
     root = {
       shell = pkgs.fish;
       openssh.authorizedKeys.keys = [
@@ -97,7 +81,6 @@
     git
     htop
     libraspberrypi
-    wireguard
   ];
 
   virtualisation.docker.enable = true;
