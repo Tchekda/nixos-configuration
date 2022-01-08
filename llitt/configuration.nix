@@ -3,14 +3,11 @@
 {
   imports =
     [
-      #   ./hardware-configuration.nix
       ../tchekda_user.nix
-      # <nixos/modules/installer/sd-card/sd-image-armv7l-multiplatform.nix>
       <home-manager/nixos>
       ./containers.nix
       ./nginx.nix
-      ./wireguard.nix
-      ./bird2.nix
+      ./dn42
     ];
 
   boot = {

@@ -25,19 +25,6 @@ in
   };
 
   systemd.services = {
-    # bird-lg-proxy = {
-    #   enable = true;
-    #   after = [ "network.target" ];
-    #   wantedBy = [ "multi-user.target" ];
-    #   description = "Bird LG Proxy";
-    #   unitConfig = {
-    #     Type = "simple";
-    #   };
-    #   serviceConfig = {
-    #     ExecStart = "${bird-lg-proxy}/bin/proxy --bird /run/bird.ctl";
-    #   };
-    # };
-
     dn42-roa = {
       after = [ "network.target" ];
       description = "DN42 ROA Updated";
@@ -64,6 +51,7 @@ in
         domain = "node.tchekda.dn42";
       };
     };
+
     bird2 = {
       enable = true;
       checkConfig = false;
@@ -73,6 +61,7 @@ in
         neighbor ${x.neigh} as ${x.as};
         ${if x.multi || x.v4 then "
         ipv4 {
+                extended next hop on;
                 import where dn42_import_filter(${x.link},25,34);
                 export where dn42_export_filter(${x.link},25,34);
                 import keep filtered;
@@ -80,6 +69,7 @@ in
         " else ""}
         ${if x.multi || x.v6 then "
         ipv6 {
+                extended next hop on;
                 import where dn42_import_filter(${x.link},25,34);
                 export where dn42_export_filter(${x.link},25,34);
                 import keep filtered;
