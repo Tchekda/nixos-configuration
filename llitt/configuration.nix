@@ -76,11 +76,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    wget
-    nano
     git
     htop
     libraspberrypi
+    nano
+    tcpdump
+    wget
   ];
 
   virtualisation.docker.enable = true;
