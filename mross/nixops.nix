@@ -2,7 +2,9 @@
   # Describe your "deployment"
   network = {
     description = "Scaleway Dedibox";
-    storage.memory = { };
+    storage.legacy = {
+      databasefile = "~/.nixops/deployments.nixops";
+    };
   };
 
   media = {
