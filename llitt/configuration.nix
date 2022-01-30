@@ -84,7 +84,10 @@
     wget
   ];
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    extraOptions = "--ipv6 --fixed-cidr-v6 2a01:0e0a:02b1:f401:1::/80";
+  };
 
   services = {
     openssh.enable = true;

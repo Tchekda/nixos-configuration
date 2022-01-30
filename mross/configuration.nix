@@ -13,6 +13,10 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
+    kernel.sysctl = {
+      "net.ipv6.conf.all.forwarding" = 1;
+      "net.ipv6.conf.all.proxy_ndp" = 1;
+    };
     loader = {
       systemd-boot.enable = true;
       systemd-boot.configurationLimit = 3;
@@ -20,7 +24,22 @@
     };
   };
 
-  time.timeZone = "Europe/Paris";
+  documentation.enable = false;
+
+
+  environment.systemPackages = with pkgs; [
+    dnsutils
+    git
+    htop
+    lnav
+    nano
+    tcpdump
+    wget
+  ];
+
+  home-manager.users.tchekda = {
+    imports = [ ../home-manager/mross/default.nix ];
+  };
 
   networking = {
     hostName = "media";
@@ -51,8 +70,16 @@
 
   };
 
-  documentation.enable = false;
+  nixpkgs.config.allowUnfree = true;
 
+  services = {
+    openssh.enable = true;
+    qemuGuest.enable = true;
+  };
+
+  system.stateVersion = "21.11";
+
+  time.timeZone = "Europe/Paris";
 
   users.users = {
     tchekda.extraGroups = [ "docker" ];
@@ -64,28 +91,8 @@
     };
   };
 
-  home-manager.users.tchekda = {
-    imports = [ ../home-manager/mross/default.nix ];
+  virtualisation.docker = {
+    enable = true;
+    extraOptions = "--ipv6 --fixed-cidr-v6 2001:bc8:2e2a:201:1::/80";
   };
-
-  environment.systemPackages = with pkgs; [
-    wget
-    nano
-    git
-    htop
-    lnav
-    dnsutils
-  ];
-
-  virtualisation.docker.enable = true;
-
-  services = {
-    openssh.enable = true;
-    qemuGuest.enable = true;
-  };
-
-
-  nixpkgs.config.allowUnfree = true;
-
-  system.stateVersion = "21.11";
 }

@@ -7,6 +7,7 @@ let
     extensions = { enabled, all }: enabled ++ [ all.xdebug ];
   };
   m68k = pkgs.qt5.callPackage ./m68k.nix { };
+  redli = pkgs.callPackage ./redli.nix { };
   unstable = import ../../unstable.nix { config.allowUnfree = true; };
 
 in
@@ -25,8 +26,10 @@ in
     openssl
     wkhtmltopdf
     mailcatcher
-    dbeaver
     httpstat
+    dbeaver
+    mongodb-compass
+    redli
     # mono
     unstable.jetbrains.jdk
     jetbrains.phpstorm

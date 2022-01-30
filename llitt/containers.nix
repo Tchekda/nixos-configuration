@@ -14,7 +14,7 @@
         # crash the whole service.
         check=$(${dockercli} network ls | grep "local_net" || true)
         if [ -z "$check" ]; then
-          ${dockercli} network create local_net
+          ${dockercli} network create local_net --subnet=2a01:0e0a:02b1:f401:2::/80 --gateway=2a01:e0a:2b1:f401:2::1 --ipv6
         else
           echo "local_net already exists in docker"
         fi
