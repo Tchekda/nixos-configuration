@@ -82,6 +82,33 @@ in
           };
         };
       };
+      "double-dock-rbt" = {
+        fingerprint = {
+          eDP =
+            "00ffffffffffff0006af3d5700000000001c0104a51f1178022285a5544d9a270e505400000001010101010101010101010101010101b43780a070383e401010350035ae100000180000000f0000000000000000000000000020000000fe0041554f0a202020202020202020000000fe004231343048414e30352e37200a0070";
+          DisplayPort-2 =
+            "00ffffffffffff0010acc4a14c5a34331a1f0104a5351e783a5625ab534f9d25105054a54b00714f8180a9c0d1c081c081cf01010101023a801871382d40582c45000f282100001e000000ff00325137324746330a2020202020000000fc0044454c4c205032343232480a20000000fd00384c1e5311010a202020202020005d";
+        };
+
+        config = {
+          eDP = {
+            enable = true;
+            primary = true;
+            position = "1920x0";
+            mode = "1920x1080";
+            gamma = "1.0:1.1:1.2";
+            rate = "60.03";
+          };
+          DisplayPort-2 = {
+            enable = true;
+            primary = false;
+            position = "0x0";
+            mode = "1920x1080";
+            gamma = "1.0:1.1:1.2";
+            rate = "60.00";
+          };
+        };
+      };
       "second" = {
         fingerprint = {
           eDP =
