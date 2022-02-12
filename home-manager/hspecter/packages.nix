@@ -44,17 +44,16 @@ in
     kvirc
     zoom-us
     slack
+    element-desktop
     evince
     filezilla
     unstable.nixopsUnstable
-
     # Virtualisation
     virt-manager
     win-virtio
     virt-viewer
     libguestfs-with-appliance
     usbutils
-
     # Scanner
     xsane
   ];

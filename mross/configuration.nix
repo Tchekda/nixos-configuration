@@ -9,6 +9,7 @@
       ./nginx.nix
       ./seedbox.nix
       ./containers.nix
+      (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ];
 
   boot = {
@@ -75,6 +76,7 @@
   services = {
     openssh.enable = true;
     qemuGuest.enable = true;
+    vscode-server.enable = true;
   };
 
   system.stateVersion = "21.11";

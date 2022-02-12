@@ -280,7 +280,7 @@ in
 
       interval = "1.0";
 
-      accumulate-stats = true;
+      accumulate-stats = false;
       unknown-as-up = true;
 
       format-connected = "<label-connected>";
@@ -293,11 +293,11 @@ in
 
     "module/dock-wired-network" = {
       type = "internal/network";
-      interface = "enp7s0f3u1u1";
+      interface-type = "enp7s0f3u1u1";
 
       interval = "1.0";
 
-      accumulate-stats = true;
+      accumulate-stats = false;
       unknown-as-up = true;
 
       format-connected = "<label-connected>";

@@ -79,6 +79,7 @@
       };
       "seedbox.tchekda.fr" = {
         http2 = true;
+        default = true;
         # onlySSL = true;
         addSSL = true;
         sslCertificate = "/etc/cf-cert";
@@ -91,12 +92,12 @@
           "/" = {
             proxyPass = "http://127.0.0.1:3000";
           };
-          "/RPC2" = {
-            extraConfig = ''
-              include ${pkgs.nginx}/conf/scgi_params;
-              scgi_pass localhost:5000;
-            '';
-          };
+          # "/RPC2" = {
+          #   extraConfig = ''
+          #     include ${pkgs.nginx}/conf/scgi_params;
+          #     scgi_pass unix:/run/rtorrent/rpc.sock;
+          #   '';
+          # };
         };
       };
       "sonarr.tchekda.fr" = {

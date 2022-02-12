@@ -49,7 +49,7 @@
         protocol.pex.set = 1
         trackers.use_udp.set = 1
         network.port_range.set = 40000-59000
-        network.port_random.set = yes
+        # network.port_random.set = no
         log.add_output = "debug", "log"
         system.umask.set = 0022
       '';

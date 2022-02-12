@@ -8,6 +8,7 @@
       ./containers.nix
       ./nginx.nix
       ./dn42
+      (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ];
 
   boot = {
@@ -101,6 +102,7 @@
         };
       }];
     };
+    vscode-server.enable = true;
   };
 
   system.stateVersion = "22.05"; # Did you read the comment?
