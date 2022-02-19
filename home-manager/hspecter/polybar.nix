@@ -280,7 +280,7 @@ in
 
       interval = "1.0";
 
-      accumulate-stats = false;
+      accumulate-stats = true;
       unknown-as-up = true;
 
       format-connected = "<label-connected>";
@@ -297,7 +297,7 @@ in
 
       interval = "1.0";
 
-      accumulate-stats = false;
+      accumulate-stats = true;
       unknown-as-up = true;
 
       format-connected = "<label-connected>";

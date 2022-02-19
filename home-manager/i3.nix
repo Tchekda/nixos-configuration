@@ -58,9 +58,9 @@ in
 
       "XF86Calculator" = "exec --no-startup-id ${pkgs.gnome3.gnome-calculator}/bin/gnome-calculator";
 
-      "${modifier}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
-      "Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
-      "${modifier}+Shift+s" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
+      "${modifier}+Print" = "exec --no-startup-id ${unstable.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
+      "Print" = "exec --no-startup-id ${unstable.flameshot}/bin/flameshot gui";
+      "${modifier}+Shift+s" = "exec --no-startup-id ${unstable.flameshot}/bin/flameshot gui";
     };
 
     startup = [

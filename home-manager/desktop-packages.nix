@@ -33,7 +33,7 @@ in
     hunspell
     hunspellDicts.en-us-large
     hunspellDicts.fr-moderne
-    discord
+    unstable.discord
     thunderbird
     tdesktop
     signal-desktop
