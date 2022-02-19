@@ -8,6 +8,7 @@
       ../../tchekda_user.nix
       (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
       ./nginx.nix
+      ./wireguard.nix
     ];
 
   boot = {
@@ -29,6 +30,7 @@
     iotop
     lnav
     nano
+    tcpdump
     wget
   ];
 
