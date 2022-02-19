@@ -20,6 +20,8 @@
     };
   };
 
+  documentation.enable = false;
+
   environment.systemPackages = with pkgs; [
     git
     htop
@@ -42,7 +44,10 @@
       interface = "eth0";
     };
 
-    firewall.allowedTCPPorts = [ 2217 ];
+    firewall = {
+      allowedTCPPorts = [ 53 2217 ];
+      allowedUDPPorts = [ 53 ];
+    };
 
     hostName = "swheeler";
 
@@ -56,7 +61,7 @@
       tempAddress = "disabled";
     };
 
-    nameservers = [ "2606:4700:4700::1111 1.1.1.1 192.168.0.254" ];
+    nameservers = [ "2606:4700:4700::1111" "1.1.1.1" "192.168.0.254" ];
 
     usePredictableInterfaceNames = false;
   };
@@ -66,6 +71,7 @@
     dates = "daily";
     options = "--delete-older-than 10d";
   };
+
   nixpkgs.config.allowUnfree = true;
 
   services = {
@@ -73,13 +79,13 @@
       enable = true;
       ports = [ 2217 ];
     };
+
     qemuGuest.enable = true;
   };
 
   system.stateVersion = "21.11";
 
   time.timeZone = "Europe/Paris";
-
 
   users.users = {
     root = {
