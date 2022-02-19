@@ -42,8 +42,9 @@ in
       ssl_session_tickets off;
       ssl_prefer_server_ciphers off;
 
-      ssl_stapling on;
-      ssl_stapling_verify on;
+      # Disabled because CF Origin CA 
+      # ssl_stapling on;
+      # ssl_stapling_verify on;
 
       ssl_ecdh_curve secp384r1;
 
@@ -102,15 +103,52 @@ in
         http2 = true;
         onlySSL = true;
         serverName = "pve.tchekda.fr";
+        serverAliases = [ "sd-102001.dedibox.fr" ];
         locations."/" = { proxyPass = "https://192.168.1.1:8006"; };
-        sslCertificate = "/root/ssl/pveproxy-ssl.pem";
-        sslCertificateKey = "/root/ssl/pveproxy-ssl.key";
+        sslCertificate = "/etc/ssl/pveproxy-ssl.pem"; # Copied by SCP from pve host
+        sslCertificateKey = "/etc/ssl/pveproxy-ssl.key";
       };
       proxmox_cert = {
         http2 = true;
         serverName = "pve.tchekda.fr";
-        locations."/" = { proxyPass = "https://192.168.1.1:80"; };
+        serverAliases = [ "sd-102001.dedibox.fr" ];
+        locations."/" = {
+          proxyPass = "http://192.168.1.1:80";
+        };
+      };
+      "radarr.tchekda.fr" = proxy "http://192.168.1.201";
+      "seedbox.tchekda.fr" = proxy "http://192.168.1.201";
+      "sonarr.tchekda.fr" = proxy "http://192.168.1.201";
+      smtp_web_ui = {
+        http2 = true;
+        serverName = "smtp.tchekda.fr";
+        serverAliases = [
+          "autoconfig.tchekda.fr"
+          "autodiscover.tchekda.fr"
+        ];
+        enableACME = true;
+        onlySSL = true;
+        locations."/" = {
+          proxyPass = "https://192.168.1.200";
+          extraConfig = ''client_max_body_size 100M;'';
+        };
+      };
+      smtp_cert = {
+        http2 = true;
+        serverName = "smtp.tchekda.fr";
+        locations."/" = { proxyPass = "http://192.168.1.200"; };
+      };
+      "znc.tchekda.fr" = {
+        http2 = true;
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = { proxyPass = "http://192.168.1.101:1722"; };
       };
     };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    email = "contact@tchekda.fr";
   };
 }

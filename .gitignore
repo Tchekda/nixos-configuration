@@ -6,3 +6,4 @@ result
 llitt/dn42/peers/bgp.nix
 llitt/dn42/peers/tunnels.nix
 ssl/*pem
+mross/ct/wg-vpn.key
