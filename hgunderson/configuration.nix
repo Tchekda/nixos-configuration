@@ -9,14 +9,6 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    # loader = {
-    #   grub = {
-    #     enable = true;
-    #     device = "/dev/sda";
-    #     splashImage = null;
-    #     version = 2;
-    #   };
-    # };
   };
 
   environment.systemPackages = with pkgs; [
@@ -25,6 +17,7 @@
     lnav
     nano
     neofetch
+    speedtest-cli
     wget
   ];
 
@@ -43,7 +36,6 @@
     firewall = {
       allowedTCPPorts = [ 22 ];
     };
-
 
     hostName = "hgunderson";
 
