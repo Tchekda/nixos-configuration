@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 {
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1; # Already set in dn42 config
+    "net.ipv4.ip_forward" = 1;
     "net.ipv6.conf.all.forwarding" = 1;
     "net.ipv6.conf.all.proxy_ndp" = 1;
   };
