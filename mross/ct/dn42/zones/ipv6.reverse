@@ -1,0 +1,17 @@
+; This file was built using fmDNS 3.4.1 on Sun, 16 Feb 2020 22:19:24 +0100 Europe/Paris
+
+$TTL 1d
+1.d.e.9.b.4.e.f.4.5.d.f.ip6.arpa. IN SOA ns1.tchekda.dn42. contact.tchekda.fr. (
+		2020020801	; Serial
+		2h		; Refresh
+		1h		; Retry
+		2w		; Expire
+		1d )		; Negative caching of TTL
+
+; Name servers
+1.d.e.9.b.4.e.f.4.5.d.f.ip6.arpa.      IN   NS   ns1.tchekda.dn42.
+
+; Addresses point to hosts
+1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.0.0.0      IN   PTR   fr-par.node.tchekda.dn42.
+1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.2.0.0.0      IN   PTR   fr-lyn.node.tchekda.dn42.
+

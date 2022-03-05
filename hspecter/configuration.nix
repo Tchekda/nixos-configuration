@@ -112,7 +112,7 @@ in
       driSupport32Bit = true;
       setLdLibraryPath = true;
       extraPackages = with pkgs; [
-        amdvlk
+        unstable.amdvlk
         mesa.drivers
         rocm-opencl-icd
         rocm-opencl-runtime
@@ -148,8 +148,8 @@ in
   };
 
   nix = {
-    # package = pkgs.nixUnstable;
-    # extraOptions = "experimental-features = nix-command flakes";
+    package = pkgs.nixUnstable;
+    extraOptions = "experimental-features = nix-command flakes";
     binaryCaches = [ "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" "http://cache.nixos.org" ];
     binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
     gc = {

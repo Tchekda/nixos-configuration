@@ -27,9 +27,20 @@ let
 
   vhost = config: vhostWith config "";
   folder = path: folderWith path "";
-  proxy = address: proxyWith address "";
+  proxy = address: proxyWith address ''
+    proxy_http_version 1.1;
+
+    proxy_set_header Upgrade $http_upgrade;
+
+    proxy_set_header Connection $http_connection;
+  '';
 in
 {
+  # Temp fix https://github.com/NixOS/nixpkgs/issues/87698#issuecomment-971505170
+  systemd.tmpfiles.rules = [
+    "Z '/var/cache/nginx' 0750 nginx nginx -"
+  ];
+
   services.nginx = {
     enable = true;
     recommendedGzipSettings = true;
@@ -57,6 +68,7 @@ in
       "dn42.tchekda.fr" = proxy "http://192.168.1.101";
       "files.tchekda.fr" = appFolder "/var/www/files.tchekda.fr/";
       "lg42.tchekda.fr" = proxy "http://192.168.1.101:5000";
+      # "lg42.tchekda.fr" = proxy "http://127.0.0.1:5000";
       "pac.tchekda.fr" = folderWith "/var/www/pac.tchekda.fr/" ''
         auth_basic "Security";
         auth_basic_user_file /var/www/pac.tchekda.fr/.htpasswd;
@@ -149,6 +161,6 @@ in
 
   security.acme = {
     acceptTerms = true;
-    email = "contact@tchekda.fr";
+    defaults.email = "contact@tchekda.fr";
   };
 }

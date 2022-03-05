@@ -9,16 +9,12 @@
       (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
       ./nginx.nix
       ./wireguard.nix
+      ./dn42
     ];
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     isContainer = true;
-    # loader = {
-    #   systemd-boot.enable = true;
-    #   systemd-boot.configurationLimit = 3;
-    #   efi.canTouchEfiVariables = true;
-    # };
   };
 
   documentation.enable = false;
@@ -64,7 +60,7 @@
       address = "2001:bc8:2e2a:1::1";
       interface = "eth0";
     };
-    nameservers = [ "62.210.16.6 2606:4700:4700::1111 1.1.1.1" ];
+    nameservers = [ "62.210.16.6" "2606:4700:4700::1111" "1.1.1.1" ];
 
   };
 

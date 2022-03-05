@@ -61,6 +61,24 @@
         user = "nginx";
         group = "nginx";
       };
+      zone-tchekda-dn42 = {
+        text = builtins.readFile ./ct/dn42/zones/tchekda.dn42;
+        target = "zones/tchekda.dn42";
+        user = "named";
+        group = "named";
+      };
+      zone-ipv4-reverse = {
+        text = builtins.readFile ./ct/dn42/zones/ipv4.reverse;
+        target = "zones/ipv4.reverse";
+        user = "named";
+        group = "named";
+      };
+      zone-ipv6-reverse = {
+        text = builtins.readFile ./ct/dn42/zones/ipv6.reverse;
+        target = "zones/ipv6.reverse";
+        user = "named";
+        group = "named";
+      };
     };
 
     imports = [ ./ct/configuration.nix ];

@@ -48,6 +48,7 @@ in
     evince
     filezilla
     unstable.nixopsUnstable
+    termius
     # Virtualisation
     virt-manager
     win-virtio
