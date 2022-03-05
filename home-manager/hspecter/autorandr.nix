@@ -40,7 +40,7 @@ in
           eDP = {
             enable = true;
             primary = true;
-            position = "0x1080";
+            position = "1920x0";
             mode = "1920x1080";
             gamma = "1.0:1.1:1.2";
             rate = "60.03";

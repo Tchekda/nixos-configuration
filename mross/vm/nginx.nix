@@ -2,6 +2,10 @@
 {
   services.nginx = {
     enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
     virtualHosts = {
       "plex.tchekda.fr" = {
         # Since we want a secure connection, we force SSL
@@ -92,12 +96,15 @@
           "/" = {
             proxyPass = "http://127.0.0.1:3000";
           };
-          # "/RPC2" = {
-          #   extraConfig = ''
-          #     include ${pkgs.nginx}/conf/scgi_params;
-          #     scgi_pass unix:/run/rtorrent/rpc.sock;
-          #   '';
-          # };
+          "/RPC2" = {
+            extraConfig = ''
+              allow 127.0.0.1;
+              allow ::1;
+              deny all;
+              include ${pkgs.nginx}/conf/scgi_params;
+              scgi_pass unix:/run/rtorrent/rpc.sock;
+            '';
+          };
         };
       };
       "sonarr.tchekda.fr" = {
@@ -111,6 +118,13 @@
         '';
         locations."/" = {
           proxyPass = "http://127.0.0.1:8989";
+          extraConfig = ''
+            proxy_http_version 1.1;
+
+            proxy_set_header Upgrade $http_upgrade;
+
+            proxy_set_header Connection $http_connection;
+          '';
         };
       };
       "radarr.tchekda.fr" = {
@@ -125,6 +139,13 @@
         '';
         locations."/" = {
           proxyPass = "http://127.0.0.1:7878";
+          extraConfig = ''
+            proxy_http_version 1.1;
+
+            proxy_set_header Upgrade $http_upgrade;
+
+            proxy_set_header Connection $http_connection;
+          '';
         };
       };
     };

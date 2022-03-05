@@ -30,6 +30,7 @@ in
 
     vscode = {
       enable = true;
+      package = unstable.vscode;
       extensions = with pkgs.vscode-extensions; [
         ms-vscode.cpptools
         ms-vscode-remote.remote-ssh

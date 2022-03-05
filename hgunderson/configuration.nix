@@ -11,6 +11,8 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
+  documentation.enable = false;
+
   environment.systemPackages = with pkgs; [
     git
     htop
@@ -55,7 +57,6 @@
     usePredictableInterfaceNames = false;
   };
 
-  documentation.enable = false;
 
   services = {
     openssh.enable = true;

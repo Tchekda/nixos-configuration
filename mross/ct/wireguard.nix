@@ -5,8 +5,8 @@ let
 in
 {
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1;
-    "net.ipv6.conf.all.forwarding" = 1;
+    # "net.ipv4.ip_forward" = 1; # Already set in dn42 config
+    # "net.ipv6.conf.all.forwarding" = 1;
     "net.ipv6.conf.all.proxy_ndp" = 1;
   };
 
@@ -17,7 +17,7 @@ in
     wireguard = {
       enable = true;
       interfaces.vpn = {
-        ips = [ "192.168.1.103/24" "2001:bc8:2e2a:103::1/64" ];
+        ips = [ "192.168.1.103/32" "2001:bc8:2e2a:103::1/64" ];
         listenPort = 51822;
         privateKey = builtins.readFile ./wg-vpn.key;
         allowedIPsAsRoutes = true;

@@ -1,0 +1,28 @@
+; This file was built using fmDNS 3.4.1 on Mon, 04 Jan 2021 14:24:22 +0000 UTC
+
+$TTL 1d
+tchekda.dn42. IN SOA ns1.tchekda.fr. contact.tchekda.fr. (
+		2021010405	; Serial
+		2h		; Refresh
+		1h		; Retry
+		2w		; Expire
+		1d )		; Negative caching of TTL
+
+; Name servers
+tchekda.dn42.                  IN   NS   ns1.tchekda.dn42.
+
+; Host addresses
+tchekda.dn42.                  IN   A   172.20.4.97
+fr-lyn.node.tchekda.dn42.      IN   A   172.20.4.98
+fr-par.node.tchekda.dn42.      IN   A   172.20.4.97
+ns1.tchekda.dn42.              IN   A   172.20.4.97
+
+; Host addresses
+tchekda.dn42.                  IN   AAAA   fd54:fe4b:9ed1:1::1
+fr-lyn.node.tchekda.dn42.      IN   AAAA   fd54:fe4b:9ed1:2::1
+fr-par.node.tchekda.dn42.      IN   AAAA   fd54:fe4b:9ed1:1::1
+ns1.tchekda.dn42.              IN   AAAA   fd54:fe4b:9ed1:1::1
+
+; Aliases
+lg42                           IN   CNAME   tchekda.dn42.
+peer.tchekda.dn42.             IN   CNAME   fr-par.node.tchekda.dn42.

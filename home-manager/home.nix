@@ -21,7 +21,9 @@ in
 
     ssh = {
       enable = true;
-      extraOptionOverrides = { "AddKeysToAgent" = "yes"; "ForwardAgent" = "yes"; };
+      extraOptionOverrides = { "AddKeysToAgent" = "yes"; };
+      forwardAgent = true;
+      serverAliveInterval = 60;
     };
 
     fish = import ./fish.nix { inherit pkgs; };

@@ -7,6 +7,7 @@ in
     ::1 avenir.local
     ::1 phpinfo.local
     127.0.0.1 dev.ivao.aero
+    51.210.156.214 status.ivao.aero
   '';
 
   users.users.tchekda.extraGroups = [ "www-data" ];

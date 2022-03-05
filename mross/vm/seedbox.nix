@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }:
 {
-  users.groups.media.members = [ "plex" "radarr" "sonarr" "deluge" "tchekda" ];
+  users.groups.media.members = [ "plex" "radarr" "sonarr" "deluge" "tchekda" "nginx" ];
 
   networking.firewall = {
     # Deluge incoming
@@ -51,7 +51,8 @@
         network.port_range.set = 40000-59000
         # network.port_random.set = no
         log.add_output = "debug", "log"
-        system.umask.set = 0022
+        system.umask.set = 000
+        schedule2 = scgi_permission,0,0,"execute.nothrow=chmod,777,/run/rtorrent/rpc.sock"
       '';
     };
   };
