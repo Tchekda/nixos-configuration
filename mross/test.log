@@ -1,0 +1,859 @@
+trace: warning: The extraArgs argument to eval-config.nix is deprecated. Please set config._module.args instead.
+trace: warning: The extraArgs argument to eval-config.nix is deprecated. Please set config._module.args instead.
+building all machine configurations...
+trace: warning: The extraArgs argument to eval-config.nix is deprecated. Please set config._module.args instead.
+error: 'wireguard' has been renamed to/replaced by 'wireguard-tools'
+
+       … while evaluating 'checkInPkgs'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:21:20:
+
+           20|   # Make sure that we are not shadowing something from all-packages.nix.
+           21|   checkInPkgs = n: alias:
+             |                    ^
+           22|     if builtins.hasAttr n super
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:30:12:
+
+           29|         (removeRecurseForDerivations
+           30|           (checkInPkgs n alias)))
+             |            ^
+           31|       aliases;
+
+       … while evaluating 'removeRecurseForDerivations'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:8:33:
+
+            7|   # to appear while listing all the packages available.
+            8|   removeRecurseForDerivations = alias: with lib;
+             |                                 ^
+            9|     if alias.recurseForDerivations or false
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:29:10:
+
+           28|       removeDistribute
+           29|         (removeRecurseForDerivations
+             |          ^
+           30|           (checkInPkgs n alias)))
+
+       … while evaluating 'isDerivation'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:330:18:
+
+          329|   */
+          330|   isDerivation = x: isAttrs x && x ? type && x.type == "derivation";
+             |                  ^
+          331|
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:16:8:
+
+           15|   removeDistribute = alias: with lib;
+           16|     if isDerivation alias then
+             |        ^
+           17|       dontDistribute alias
+
+       … while evaluating 'removeDistribute'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:15:22:
+
+           14|   # sets from building on Hydra.
+           15|   removeDistribute = alias: with lib;
+             |                      ^
+           16|     if isDerivation alias then
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:28:7:
+
+           27|     lib.mapAttrs (n: alias:
+           28|       removeDistribute
+             |       ^
+           29|         (removeRecurseForDerivations
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/top-level/aliases.nix:27:22:
+
+           26|   mapAliases = aliases:
+           27|     lib.mapAttrs (n: alias:
+             |                      ^
+           28|       removeDistribute
+
+       … from call site
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:400:38:
+
+          399|               elemType
+          400|               [{ inherit (def) file; value = def'; }]
+             |                                      ^
+          401|             ).optionalValue
+
+       … while evaluating 'dischargeProperties'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:698:25:
+
+          697|   */
+          698|   dischargeProperties = def:
+             |                         ^
+          699|     if def._type or "" == "merge" then
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:627:137:
+
+          626|         defs' = concatMap (m:
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+             |                                                                                                                                         ^
+          628|         ) defs;
+
+       … while evaluating definitions from `/home/tchekda/nixos-configuration/mross/ct/wireguard.nix':
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:626:28:
+
+          625|         # Process mkMerge and mkIf properties.
+          626|         defs' = concatMap (m:
+             |                            ^
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:626:17:
+
+          625|         # Process mkMerge and mkIf properties.
+          626|         defs' = concatMap (m:
+             |                 ^
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+
+       … while evaluating the attribute 'values'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:739:7:
+
+          738|     in {
+          739|       values = concatMap (def: if getPrio def == highestPrio then [(strip def)] else []) defs;
+             |       ^
+          740|       inherit highestPrio;
+
+       … while evaluating the attribute 'values'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:640:9:
+
+          639|       in {
+          640|         values = defs''';
+             |         ^
+          641|         inherit (defs'') highestPrio;
+
+       … while evaluating the attribute 'optionalValue'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:658:5:
+
+          657|
+          658|     optionalValue =
+             |     ^
+          659|       if isDefined then { value = mergedValue; }
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:396:21:
+
+          395|         map (x: x.value) (filter (x: x ? value) (concatLists (imap1 (n: def:
+          396|           imap1 (m: def':
+             |                     ^
+          397|             (mergeDefinitions
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/lists.nix:116:32:
+
+          115|   */
+          116|   imap1 = f: list: genList (n: f (n + 1) (elemAt list n)) (length list);
+             |                                ^
+          117|
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/lists.nix:116:29:
+
+          115|   */
+          116|   imap1 = f: list: genList (n: f (n + 1) (elemAt list n)) (length list);
+             |                             ^
+          117|
+
+       … from call site
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:395:35:
+
+          394|       merge = loc: defs:
+          395|         map (x: x.value) (filter (x: x ? value) (concatLists (imap1 (n: def:
+             |                                   ^
+          396|           imap1 (m: def':
+
+       … from call site
+
+       … while evaluating 'merge'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:394:20:
+
+          393|       check = isList;
+          394|       merge = loc: defs:
+             |                    ^
+          395|         map (x: x.value) (filter (x: x ? value) (concatLists (imap1 (n: def:
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:648:59:
+
+          647|       if isDefined then
+          648|         if all (def: type.check def.value) defsFinal then type.merge loc defsFinal
+             |                                                           ^
+          649|         else let allInvalid = filter (def: ! type.check def.value) defsFinal;
+
+       … while evaluating the attribute 'mergedValue'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:646:5:
+
+          645|     # Type-check the remaining definitions, and merge them. Or throw if no definitions.
+          646|     mergedValue =
+             |     ^
+          647|       if isDefined then
+
+       … while evaluating the option `environment.systemPackages':
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:612:9:
+
+          611|     in warnDeprecation opt //
+          612|       { value = builtins.addErrorContext "while evaluating the option `${showOption loc}':" value;
+             |         ^
+          613|         inherit (res.defsFinal') highestPrio;
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:191:72:
+
+          190|           # For definitions that have an associated option
+          191|           declaredConfig = mapAttrsRecursiveCond (v: ! isOption v) (_: v: v.value) options;
+             |                                                                        ^
+          192|
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:304:20:
+
+          303|               then recurse (path ++ [name]) value
+          304|               else f (path ++ [name]) value;
+             |                    ^
+          305|         in mapAttrs g;
+
+       … while evaluating 'g'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:301:19:
+
+          300|           g =
+          301|             name: value:
+             |                   ^
+          302|             if isAttrs value && cond value
+
+       … from call site
+
+       … while evaluating the attribute 'passAsFile'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/build-support/buildenv/default.nix:77:5:
+
+           76|     # XXX: The size is somewhat arbitrary
+           77|     passAsFile = if builtins.stringLength pkgs >= 128*1024 then [ "pkgs" ] else [ ];
+             |     ^
+           78|   }
+
+       … while evaluating the attribute 'passAsFile' of the derivation 'system-path'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/stdenv/generic/make-derivation.nix:205:7:
+
+          204|     // (lib.optionalAttrs (attrs ? name || (attrs ? pname && attrs ? version)) {
+          205|       name =
+             |       ^
+          206|         let
+
+       … while evaluating 'check'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:386:15:
+
+          385|       name = "path";
+          386|       check = x: isCoercibleToString x && builtins.substring 0 1 (toString x) == "/";
+             |               ^
+          387|       merge = mergeEqualOption;
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:648:22:
+
+          647|       if isDefined then
+          648|         if all (def: type.check def.value) defsFinal then type.merge loc defsFinal
+             |                      ^
+          649|         else let allInvalid = filter (def: ! type.check def.value) defsFinal;
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:648:17:
+
+          647|       if isDefined then
+          648|         if all (def: type.check def.value) defsFinal then type.merge loc defsFinal
+             |                 ^
+          649|         else let allInvalid = filter (def: ! type.check def.value) defsFinal;
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:648:12:
+
+          647|       if isDefined then
+          648|         if all (def: type.check def.value) defsFinal then type.merge loc defsFinal
+             |            ^
+          649|         else let allInvalid = filter (def: ! type.check def.value) defsFinal;
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:659:27:
+
+          658|     optionalValue =
+          659|       if isDefined then { value = mergedValue; }
+             |                           ^
+          660|       else {};
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:395:14:
+
+          394|       merge = loc: defs:
+          395|         map (x: x.value) (filter (x: x ? value) (concatLists (imap1 (n: def:
+             |              ^
+          396|           imap1 (m: def':
+
+       … from call site
+
+       … while evaluating the attribute 'serviceDirectories' of the derivation 'dbus-1'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/stdenv/generic/make-derivation.nix:205:7:
+
+          204|     // (lib.optionalAttrs (attrs ? name || (attrs ? pname && attrs ? version)) {
+          205|       name =
+             |       ^
+          206|         let
+
+       … while evaluating 'check'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:386:15:
+
+          385|       name = "path";
+          386|       check = x: isCoercibleToString x && builtins.substring 0 1 (toString x) == "/";
+             |               ^
+          387|       merge = mergeEqualOption;
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:648:22:
+
+          647|       if isDefined then
+          648|         if all (def: type.check def.value) defsFinal then type.merge loc defsFinal
+             |                      ^
+          649|         else let allInvalid = filter (def: ! type.check def.value) defsFinal;
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:648:17:
+
+          647|       if isDefined then
+          648|         if all (def: type.check def.value) defsFinal then type.merge loc defsFinal
+             |                 ^
+          649|         else let allInvalid = filter (def: ! type.check def.value) defsFinal;
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:648:12:
+
+          647|       if isDefined then
+          648|         if all (def: type.check def.value) defsFinal then type.merge loc defsFinal
+             |            ^
+          649|         else let allInvalid = filter (def: ! type.check def.value) defsFinal;
+
+       … while evaluating the attribute 'mergedValue'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:646:5:
+
+          645|     # Type-check the remaining definitions, and merge them. Or throw if no definitions.
+          646|     mergedValue =
+             |     ^
+          647|       if isDefined then
+
+       … while evaluating the option `environment.etc.dbus-1.source':
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:612:9:
+
+          611|     in warnDeprecation opt //
+          612|       { value = builtins.addErrorContext "while evaluating the option `${showOption loc}':" value;
+             |         ^
+          613|         inherit (res.defsFinal') highestPrio;
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:191:72:
+
+          190|           # For definitions that have an associated option
+          191|           declaredConfig = mapAttrsRecursiveCond (v: ! isOption v) (_: v: v.value) options;
+             |                                                                        ^
+          192|
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:304:20:
+
+          303|               then recurse (path ++ [name]) value
+          304|               else f (path ++ [name]) value;
+             |                    ^
+          305|         in mapAttrs g;
+
+       … while evaluating 'g'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:301:19:
+
+          300|           g =
+          301|             name: value:
+             |                   ^
+          302|             if isAttrs value && cond value
+
+       … from call site
+
+       … while evaluating 'escapeShellArg'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/strings.nix:318:20:
+
+          317|   */
+          318|   escapeShellArg = arg: "'${replaceStrings ["'"] ["'\\''"] (toString arg)}'";
+             |                    ^
+          319|
+
+       … from call site
+
+       … while evaluating 'concatMapStringsSep'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/strings.nix:110:5:
+
+          109|     # List of input strings
+          110|     list: concatStringsSep sep (map f list);
+             |     ^
+          111|
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/etc/etc.nix:54:43:
+
+           53|     mkdir -p "$out/etc"
+           54|     ${concatMapStringsSep "\n" (etcEntry: escapeShellArgs [
+             |                                           ^
+           55|       "makeEtcEntry"
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/etc/etc.nix:54:33:
+
+           53|     mkdir -p "$out/etc"
+           54|     ${concatMapStringsSep "\n" (etcEntry: escapeShellArgs [
+             |                                 ^
+           55|       "makeEtcEntry"
+
+       … from call site
+
+       … while evaluating 'concatMapStringsSep'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/strings.nix:110:5:
+
+          109|     # List of input strings
+          110|     list: concatStringsSep sep (map f list);
+             |     ^
+          111|
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/etc/etc.nix:54:7:
+
+           53|     mkdir -p "$out/etc"
+           54|     ${concatMapStringsSep "\n" (etcEntry: escapeShellArgs [
+             |       ^
+           55|       "makeEtcEntry"
+
+       … while evaluating the attribute 'buildCommand' of the derivation 'etc'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/stdenv/generic/make-derivation.nix:205:7:
+
+          204|     // (lib.optionalAttrs (attrs ? name || (attrs ? pname && attrs ? version)) {
+          205|       name =
+             |       ^
+          206|         let
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:474:44:
+
+          473|       defnsByName' = byName "config" (module: value:
+          474|           [{ inherit (module) file; inherit value; }]
+             |                                            ^
+          475|         ) configs;
+
+       … while evaluating 'atDepth'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:60:17:
+
+           59|       len = length attrPath;
+           60|       atDepth = n:
+             |                 ^
+           61|         if n == len
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:63:39:
+
+           62|         then value
+           63|         else { ${elemAt attrPath n} = atDepth (n + 1); };
+             |                                       ^
+           64|     in atDepth 0;
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:453:58:
+
+          452|         # Push down position info.
+          453|         (map (def: mapAttrs (n: v: { inherit (def) file; value = v; }) def.value) defs);
+             |                                                          ^
+          454|       emptyValue = { value = {}; };
+
+       … while evaluating 'dischargeProperties'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:698:25:
+
+          697|   */
+          698|   dischargeProperties = def:
+             |                         ^
+          699|     if def._type or "" == "merge" then
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:627:137:
+
+          626|         defs' = concatMap (m:
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+             |                                                                                                                                         ^
+          628|         ) defs;
+
+       … while evaluating definitions from `/home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/etc/etc.nix':
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:626:28:
+
+          625|         # Process mkMerge and mkIf properties.
+          626|         defs' = concatMap (m:
+             |                            ^
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:626:17:
+
+          625|         # Process mkMerge and mkIf properties.
+          626|         defs' = concatMap (m:
+             |                 ^
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+
+       … while evaluating the attribute 'values'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:739:7:
+
+          738|     in {
+          739|       values = concatMap (def: if getPrio def == highestPrio then [(strip def)] else []) defs;
+             |       ^
+          740|       inherit highestPrio;
+
+       … while evaluating the attribute 'values'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:640:9:
+
+          639|       in {
+          640|         values = defs''';
+             |         ^
+          641|         inherit (defs'') highestPrio;
+
+       … while evaluating the attribute 'optionalValue.value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:658:5:
+
+          657|
+          658|     optionalValue =
+             |     ^
+          659|       if isDefined then { value = mergedValue; }
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/types.nix:447:29:
+
+          446|       merge = loc: defs:
+          447|         zipAttrsWith (name: defs:
+             |                             ^
+          448|           let merged = mergeDefinitions (loc ++ [name]) elemType defs;
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:369:15:
+
+          368|       inherit name;
+          369|       value = f name (catAttrs name sets);
+             |               ^
+          370|     }) names);
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:421:24:
+
+          420|     let f = attrPath:
+          421|       zipAttrsWith (n: values:
+             |                        ^
+          422|         let here = attrPath ++ [n]; in
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:369:15:
+
+          368|       inherit name;
+          369|       value = f name (catAttrs name sets);
+             |               ^
+          370|     }) names);
+
+       … while evaluating the attribute 'system.build.etcActivationCommands'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:369:7:
+
+          368|       inherit name;
+          369|       value = f name (catAttrs name sets);
+             |       ^
+          370|     }) names);
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:474:44:
+
+          473|       defnsByName' = byName "config" (module: value:
+          474|           [{ inherit (module) file; inherit value; }]
+             |                                            ^
+          475|         ) configs;
+
+       … while evaluating 'dischargeProperties'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:698:25:
+
+          697|   */
+          698|   dischargeProperties = def:
+             |                         ^
+          699|     if def._type or "" == "merge" then
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:627:137:
+
+          626|         defs' = concatMap (m:
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+             |                                                                                                                                         ^
+          628|         ) defs;
+
+       … while evaluating definitions from `/home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/etc/etc-activation.nix':
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:626:28:
+
+          625|         # Process mkMerge and mkIf properties.
+          626|         defs' = concatMap (m:
+             |                            ^
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:626:17:
+
+          625|         # Process mkMerge and mkIf properties.
+          626|         defs' = concatMap (m:
+             |                 ^
+          627|           map (value: { inherit (m) file; inherit value; }) (builtins.addErrorContext "while evaluating definitions from `${m.file}':" (dischargeProperties m.value))
+
+       … while evaluating the attribute 'values'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:739:7:
+
+          738|     in {
+          739|       values = concatMap (def: if getPrio def == highestPrio then [(strip def)] else []) defs;
+             |       ^
+          740|       inherit highestPrio;
+
+       … while evaluating the attribute 'values'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:640:9:
+
+          639|       in {
+          640|         values = defs''';
+             |         ^
+          641|         inherit (defs'') highestPrio;
+
+       … while evaluating the attribute 'mergedValue'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:646:5:
+
+          645|     # Type-check the remaining definitions, and merge them. Or throw if no definitions.
+          646|     mergedValue =
+             |     ^
+          647|       if isDefined then
+
+       … while evaluating the option `system.activationScripts.etc.text':
+
+       … while evaluating the attribute 'value'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:612:9:
+
+          611|     in warnDeprecation opt //
+          612|       { value = builtins.addErrorContext "while evaluating the option `${showOption loc}':" value;
+             |         ^
+          613|         inherit (res.defsFinal') highestPrio;
+
+       … while evaluating anonymous lambda
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/modules.nix:191:72:
+
+          190|           # For definitions that have an associated option
+          191|           declaredConfig = mapAttrsRecursiveCond (v: ! isOption v) (_: v: v.value) options;
+             |                                                                        ^
+          192|
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:304:20:
+
+          303|               then recurse (path ++ [name]) value
+          304|               else f (path ++ [name]) value;
+             |                    ^
+          305|         in mapAttrs g;
+
+       … while evaluating 'g'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/attrsets.nix:301:19:
+
+          300|           g =
+          301|             name: value:
+             |                   ^
+          302|             if isAttrs value && cond value
+
+       … from call site
+
+       … while evaluating the attribute 'text'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/activation/activation-script.nix:9:5:
+
+            8|   addAttributeName = mapAttrs (a: v: v // {
+            9|     text = ''
+             |     ^
+           10|       #### Activation script snippet ${a}:
+
+       … while evaluating 'id'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/trivial.nix:14:5:
+
+           13|     # The value to return
+           14|     x: x;
+             |     ^
+           15|
+
+       … from call site
+
+       … while evaluating 'textClosureMap'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/lib/strings-with-deps.nix:75:35:
+
+           74|
+           75|   textClosureMap = f: predefined: names:
+             |                                   ^
+           76|     concatStringsSep "\n" (map f (textClosureList predefined names));
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/activation/activation-script.nix:49:9:
+
+           48|
+           49|       ${textClosureMap id (withDrySnippets) (attrNames withDrySnippets)}
+             |         ^
+           50|
+
+       … while evaluating 'systemActivationScript'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/activation/activation-script.nix:20:33:
+
+           19|
+           20|   systemActivationScript = set: onlyDry: let
+             |                                 ^
+           21|     set' = mapAttrs (_: v: if isString v then (noDepEntry v) // { supportsDryActivation = false; } else v) set;
+
+       … from call site
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/activation/activation-script.nix:137:18:
+
+          136|       apply = set: set // {
+          137|         script = systemActivationScript set false;
+             |                  ^
+          138|       };
+
+       … while evaluating the attribute 'system.activationScripts.script'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/system/activation/activation-script.nix:137:9:
+
+          136|       apply = set: set // {
+          137|         script = systemActivationScript set false;
+             |         ^
+          138|       };
+
+       … while evaluating the attribute 'activationScript' of the derivation 'nixos-system-nixos-22.05pre-git'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/stdenv/generic/make-derivation.nix:205:7:
+
+          204|     // (lib.optionalAttrs (attrs ? name || (attrs ? pname && attrs ? version)) {
+          205|       name =
+             |       ^
+          206|         let
+
+       … while evaluating anonymous lambda
+
+       at /nix/store/lnni2g8gr0pkvf1lad4ryss4d2pkiqpy-python3-3.9.10-env/lib/python3.9/site-packages/nix/eval-machine-info.nix:240:54:
+
+          239|         mkdir -p $out
+          240|         ${toString (lib.attrValues (lib.mapAttrs (n: v: ''
+             |                                                      ^
+          241|           ln -s ${v.config.system.build.toplevel} $out/${n}
+
+       … from call site
+
+       … while evaluating the attribute 'buildCommand' of the derivation 'nixops-machines'
+
+       at /home/tchekda/Prog/NixOS/nixpkgs/pkgs/stdenv/generic/make-derivation.nix:205:7:
+
+          204|     // (lib.optionalAttrs (attrs ? name || (attrs ? pname && attrs ? version)) {
+          205|       name =
+             |       ^
+          206|         let
+error: evaluation of the deployment specification failed

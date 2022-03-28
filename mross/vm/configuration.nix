@@ -39,6 +39,7 @@
     wget
   ];
 
+
   home-manager.users.tchekda = {
     imports = [ ../../home-manager/mross/default.nix ];
   };

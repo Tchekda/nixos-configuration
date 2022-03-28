@@ -48,13 +48,13 @@ in
         enable = true;
         servers = [ "fr-par" "fr-lyn" ];
         domain = "node.tchekda.dn42";
-        listenAddress = "127.0.0.1:5000";
+        listenAddress = "127.0.0.1:5050";
       };
     };
 
     bird2 = {
       enable = true;
-      checkConfig = false;
+      checkConfig = false; # Can't import ROA before-hand
       config = builtins.readFile ./bird.conf + lib.concatStrings (builtins.map
         (x: "
       protocol bgp ${x.name} from dnpeers {

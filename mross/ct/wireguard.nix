@@ -10,7 +10,7 @@ in
     "net.ipv6.conf.all.proxy_ndp" = 1;
   };
 
-  environment.systemPackages = [ pkgs.wireguard ];
+  environment.systemPackages = [ pkgs.wireguard-tools ];
 
   networking = {
     firewall.allowedUDPPorts = [ 51822 ];

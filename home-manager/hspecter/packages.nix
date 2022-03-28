@@ -40,7 +40,7 @@ in
     m68k
     # Applications
     teams
-    unstable.molotov
+    molotov
     kvirc
     zoom-us
     slack
@@ -49,6 +49,7 @@ in
     filezilla
     unstable.nixopsUnstable
     termius
+    transmission-gtk
     # Virtualisation
     virt-manager
     win-virtio
