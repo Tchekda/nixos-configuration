@@ -12,7 +12,7 @@ in
     alacritty
     gparted
     networkmanagerapplet
-    unstable.iwgtk
+    iwgtk
     brightnessctl
     pavucontrol
     pulseaudio

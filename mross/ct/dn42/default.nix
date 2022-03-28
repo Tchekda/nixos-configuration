@@ -3,6 +3,7 @@
     # ./wireguard.nix
     ./bird2.nix
     ./bind.nix
+    ./gre.nix
   ];
 
   boot.kernel.sysctl = {

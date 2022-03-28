@@ -63,19 +63,20 @@ in
     hicolor-icon-theme
     nano
     wget
+    wireguard
   ];
 
-  fileSystems."/mnt/fbx" = {
-    device = "//192.168.2.254/Freebox";
-    fsType = "cifs";
-    options =
-      let
-        # this line prevents hanging on network split
-        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+  # fileSystems."/mnt/fbx" = {
+  #   device = "//192.168.2.254/Freebox";
+  #   fsType = "cifs";
+  #   options =
+  #     let
+  #       # this line prevents hanging on network split
+  #       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
 
-      in
-      [ "${automount_opts},credentials=/home/tchekda/nixos-configuration/hspecter/smb-secrets" ];
-  };
+  #     in
+  #     [ "${automount_opts},credentials=/home/tchekda/nixos-configuration/hspecter/smb-secrets" ];
+  # };
 
   hardware = {
 
@@ -141,10 +142,10 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   location = {
-    # provider = "geoclue2";
-    provider = "manual";
-    latitude = 48.8582;
-    longitude = 2.3387;
+    provider = "geoclue2";
+    # provider = "manual";
+    # latitude = 32.794044;
+    # longitude = 34.989571;
   };
 
   nix = {
@@ -152,11 +153,11 @@ in
     extraOptions = "experimental-features = nix-command flakes";
     binaryCaches = [ "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" "http://cache.nixos.org" ];
     binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 10d";
-    };
+    # gc = {
+    #   automatic = true;
+    #   dates = "daily";
+    #   options = "--delete-older-than 10d";
+    # };
     trustedUsers = [ "root" "tchekda" ];
   };
 
@@ -173,7 +174,12 @@ in
     firewall = {
       enable = true;
       allowPing = true;
-      allowedUDPPorts = [ 51820 ];
+      allowedTCPPorts = [
+        57621 # Spotify
+      ];
+      allowedUDPPorts = [
+        57621 # Spotify
+      ];
       checkReversePath = false; # https://nixos.wiki/wiki/WireGuard#Setting_up_WireGuard_with_NetworkManager
     };
 
@@ -234,7 +240,10 @@ in
 
     fwupd.enable = true;
 
-    geoclue2.enable = false;
+    geoclue2 = {
+      enable = true;
+      # geoProviderUrl = "https://location.services.mozilla.com/v1/geolocate?key=16674381-f021-49de-8622-3021c5942aff";
+    };
 
     gnome = {
       at-spi2-core.enable = true;
@@ -293,6 +302,7 @@ in
       enable = true;
       drivers = [ pkgs.cnijfilter2 pkgs.gutenprint pkgs.hplipWithPlugin ];
     };
+
     redshift.enable = true;
 
     thinkfan = {
@@ -302,7 +312,7 @@ in
         query = "/proc/acpi/ibm/thermal";
         indices = [ 0 ];
       }];
-      levels = [ [ "level auto" 0 32767 ] ];
+      # levels = [ [ "level auto" 0 32767 ] ];
     };
 
     tlp = {
@@ -389,6 +399,8 @@ in
       cups-browsed.wantedBy = lib.mkForce [ ];
       NetworkManager-wait-online.enable = false;
     };
+
+    user.services.geoclue-agent.wantedBy = [ "network.target" ];
   };
 
   time = {

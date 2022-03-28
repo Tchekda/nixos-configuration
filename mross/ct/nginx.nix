@@ -68,7 +68,7 @@ in
       "dn42.tchekda.fr" = proxy "http://192.168.1.101";
       "files.tchekda.fr" = appFolder "/var/www/files.tchekda.fr/";
       "lg42.tchekda.fr" = proxy "http://192.168.1.101:5000";
-      # "lg42.tchekda.fr" = proxy "http://127.0.0.1:5000";
+      # "lg42.tchekda.fr" = proxy "http://127.0.0.1:5050";
       "pac.tchekda.fr" = folderWith "/var/www/pac.tchekda.fr/" ''
         auth_basic "Security";
         auth_basic_user_file /var/www/pac.tchekda.fr/.htpasswd;
@@ -142,6 +142,7 @@ in
         onlySSL = true;
         locations."/" = {
           proxyPass = "https://192.168.1.200";
+          proxyWebsockets = true;
           extraConfig = ''client_max_body_size 100M;'';
         };
       };
