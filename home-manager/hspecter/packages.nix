@@ -6,7 +6,6 @@ let
           memory_limit = 1G'';
     extensions = { enabled, all }: enabled ++ [ all.xdebug ];
   };
-  m68k = pkgs.qt5.callPackage ./m68k.nix { };
   redli = pkgs.callPackage ./redli.nix { };
   unstable = import ../../unstable.nix { config.allowUnfree = true; };
 
@@ -14,11 +13,12 @@ in
 {
   home.packages = with pkgs; [
     # Dev
-    openfortivpn
     python39Packages.autopep8
+    python39Packages.virtualenv
+    php80Packages.composer
+    openfortivpn
     remmina
     customPHP8
-    php80Packages.composer
     nodejs-16_x
     yarn
     docker-compose
@@ -37,10 +37,8 @@ in
     gnumake
     gcc
     gdb
-    m68k
     # Applications
     teams
-    molotov
     kvirc
     zoom-us
     slack
@@ -48,6 +46,7 @@ in
     evince
     filezilla
     unstable.nixopsUnstable
+    simplescreenrecorder
     termius
     transmission-gtk
     # Virtualisation

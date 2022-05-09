@@ -8,6 +8,7 @@ in
     feh
     unstable.flameshot
     libnotify
+    hicolor-icon-theme
     # Utils
     alacritty
     gparted
@@ -39,7 +40,7 @@ in
     signal-desktop
     spotify
     xournal
-    firefox-devedition-bin
+    unstable.firefox-devedition-bin
     vlc
   ];
 }

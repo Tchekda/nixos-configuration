@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 let
-  unstable = import ../unstable.nix { config.allowUnfree = true; };
   init-shell-command = pkgs.callPackage ./init-shell-command.nix { };
   my_lnav = if pkgs.system == "x86_64-linux" then [ pkgs.lnav ] else [ ];
 in
 {
   imports = [
+    ./fish.nix
     ./git.nix
   ];
 
@@ -25,8 +25,6 @@ in
       forwardAgent = true;
       serverAliveInterval = 60;
     };
-
-    fish = import ./fish.nix { inherit pkgs; };
 
     direnv = {
       enable = true;

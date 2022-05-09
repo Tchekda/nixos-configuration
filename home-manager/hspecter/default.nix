@@ -3,7 +3,7 @@ let
   unstable = import ../../unstable.nix { config.allowUnfree = true; };
   screenlocker = builtins.fetchurl {
     url = https://wallpapercave.com/wp/wp2732698.jpg;
-    # sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
+    sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
   };
 in
 {
@@ -15,14 +15,19 @@ in
     ./ssh.nix
     ../alacritty.nix
     ./autorandr.nix
+    ../i3.nix
+    ./polybar.nix
+    ../dunst.nix
   ];
 
-  home.sessionPath = [
-    "/home/tchekda/.yarn/bin"
-  ];
-
-
-  xsession.windowManager.i3 = import ../i3.nix { inherit pkgs lib; };
+  home = {
+    sessionPath = [
+      "/home/tchekda/.yarn/bin"
+    ];
+    sessionVariables = {
+      HTTPSTAT_SAVE_BODY = "false";
+    };
+  };
 
   programs = {
 
@@ -53,10 +58,6 @@ in
   };
 
   services = {
-
-    polybar = import ./polybar.nix { inherit pkgs; };
-
-    dunst = import ../dunst.nix { inherit pkgs unstable; };
 
     caffeine.enable = true;
 
