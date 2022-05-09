@@ -1,1 +1,1 @@
-import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/2f1e03cb2b4ce0d8823199f260e619bf4d19a6b5")
+import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/tarball/6cdced0eb35300d9a6f58e53a904c5b558e87375")

@@ -395,9 +395,11 @@ in
     sleep.extraConfig = "HibernateDelaySec=30m";
 
     services = {
-      wg-quick-wg0.wantedBy = lib.mkForce [ ];
+      # Disable autostarts
       cups-browsed.wantedBy = lib.mkForce [ ];
+      mysql.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
       NetworkManager-wait-online.enable = false;
+      wg-quick-wg0.wantedBy = lib.mkForce [ ];
     };
 
     user.services.geoclue-agent.wantedBy = [ "network.target" ];

@@ -8,6 +8,7 @@
       ./nginx.nix
       <home-manager/nixos>
       ./containers.nix
+      ./fider/fider.nix
     ];
 
   boot = {

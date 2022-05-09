@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 {
-  systemd.services.init-docker-network = {
+  systemd.services.init-flaresolverr-docker-network = {
     description = "Create the network bridge.";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
