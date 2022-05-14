@@ -43,6 +43,7 @@ in
       proxy = {
         enable = true;
         allowedIPs = [ "172.20.4.97" "172.20.4.98" "fd54:fe4b:9ed1:1::1" "fd54:fe4b:9ed1:2::1" ];
+        birdSocket = "/var/run/bird/bird.ctl";
       };
       frontend = {
         enable = true;

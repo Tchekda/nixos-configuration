@@ -43,7 +43,6 @@ in
     zoom-us
     slack
     element-desktop
-    evince
     filezilla
     unstable.nixopsUnstable
     simplescreenrecorder

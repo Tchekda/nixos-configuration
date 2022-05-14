@@ -1,6 +1,6 @@
 {
   imports = [
-    # ./wireguard.nix
+    ./wireguard.nix
     ./bird2.nix
     ./bind.nix
     ./gre.nix

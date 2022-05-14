@@ -4,7 +4,7 @@
   imports =
     [
       ../tchekda_user.nix
-      <home-manager/nixos>
+      <home-manager-master/nixos>
       ./containers.nix
       ./nginx.nix
       ./dn42
@@ -18,10 +18,7 @@
         enable = true;
         version = 4;
       };
-      grub = {
-        enable = false;
-      };
-      generic-extlinux-compatible.enable = true;
+      grub.enable = false;
     };
     tmpOnTmpfs = true;
     initrd.availableKernelModules = [ "usbhid" "usb_storage" "xhci_pci" ];
@@ -81,13 +78,15 @@
     htop
     libraspberrypi
     nano
-    tcpdump
+    # tcpdump
     wget
   ];
 
   virtualisation.docker = {
     enable = true;
+    # defaultNetwork.dnsname.enable = true;
     extraOptions = "--ipv6 --fixed-cidr-v6 2a01:0e0a:02b1:f401:1::/80";
+    # dockerCompat = true;
   };
 
   services = {

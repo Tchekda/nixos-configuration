@@ -63,7 +63,7 @@ in
     hicolor-icon-theme
     nano
     wget
-    wireguard
+    wireguard-tools
   ];
 
   # fileSystems."/mnt/fbx" = {

@@ -12,6 +12,7 @@ in
     # Utils
     alacritty
     gparted
+    evince
     networkmanagerapplet
     iwgtk
     brightnessctl
@@ -25,7 +26,7 @@ in
     gsettings_desktop_schemas
     ddcui
     lxappearance
-    adapta-gtk-theme
+    # adapta-gtk-theme
     gnome3.adwaita-icon-theme
     pcmanfm
     gnome3.gnome-calculator
@@ -43,4 +44,15 @@ in
     unstable.firefox-devedition-bin
     vlc
   ];
+  xdg.mimeApps = {
+    enable = true;
+    associations.added = {
+      "inode/directory" = [ "pcmanfm.desktop" ];
+      "application/pdf" = [ "org.gnome.Evince.desktop" ];
+    };
+    defaultApplications = {
+      "inode/directory" = [ "pcmanfm.desktop" ];
+      "application/pdf" = [ "org.gnome.Evince.desktop" ];
+    };
+  };
 }

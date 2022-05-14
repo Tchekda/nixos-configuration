@@ -4,7 +4,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      <home-manager/nixos>
+      <home-manager-master/nixos>
       ../../tchekda_user.nix
       ./nginx.nix
       ./seedbox.nix

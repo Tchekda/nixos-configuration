@@ -4,7 +4,7 @@
   imports =
     [
       <nixpkgs/nixos/modules/virtualisation/lxc-container.nix>
-      <home-manager/nixos>
+      <home-manager-master/nixos>
       ../../tchekda_user.nix
       (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
       ./nginx.nix
@@ -38,9 +38,7 @@
   networking = {
     hostName = "nixos";
 
-    firewall = {
-      allowedTCPPorts = [ 22 80 443 ];
-    };
+    firewall.enable = false;
     useDHCP = false;
     usePredictableInterfaceNames = false;
     interfaces.eth0 = {

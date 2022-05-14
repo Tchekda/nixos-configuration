@@ -10,7 +10,7 @@
   vm = {
     deployment = {
       targetEnv = "none";
-      targetHost = "2001:bc8:2e2a:201::1";
+      targetHost = "163.172.50.165";
       targetPort = 22201;
     };
     environment.etc = {
@@ -42,7 +42,7 @@
   ct = {
     deployment = {
       targetEnv = "none";
-      targetHost = "2001:bc8:2e2a:102::1";
+      targetHost = "163.172.50.165";
       targetPort = 22102;
     };
     environment.etc = {
