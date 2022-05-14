@@ -20,6 +20,7 @@
         fi
       '';
   };
+  virtualisation.oci-containers.backend = "docker";
   virtualisation.oci-containers.containers = {
     "pi.hole" = {
       image = "pihole/pihole:latest";
@@ -28,6 +29,7 @@
         "/var/lib/dnsmasq.d:/etc/dnsmasq.d/"
       ];
       ports = [
+        # "0.0.0.0:53:53"
         "53:53/tcp"
         "53:53/udp"
         "127.0.0.1:3080:80"
@@ -44,7 +46,7 @@
         "--hostname=pi.hole"
         "--network=local_net"
       ];
-      workdir = "/var/lib/pihole/";
+      # workdir = "/var/lib/pihole/";
     };
 
 

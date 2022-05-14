@@ -14,6 +14,14 @@
       targetHost = "lgp";
     };
 
+    environment.etc = {
+      ufl-htpasswd = {
+        text = builtins.readFile ./ufl.htpasswd;
+        user = "nginx";
+        group = "nginx";
+      };
+    };
+
     imports = [ ./configuration.nix ];
   };
 }
