@@ -1,14 +1,6 @@
 { pkgs, unstable, config, ... }:
 let
-  customPHP8 = pkgs.php80.buildEnv {
-    extraConfig =
-      ''date.timezone = Europe/Paris
-          memory_limit = 1G'';
-    extensions = { enabled, all }: enabled ++ [ all.xdebug ];
-  };
-  redli = pkgs.callPackage ./redli.nix { };
-  unstable = import ../../unstable.nix { config.allowUnfree = true; };
-
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in
 {
   home.packages = with pkgs; [
@@ -18,7 +10,6 @@ in
     php80Packages.composer
     openfortivpn
     remmina
-    customPHP8
     nodejs-16_x
     yarn
     docker-compose
@@ -29,7 +20,7 @@ in
     httpstat
     dbeaver
     mongodb-compass
-    redli
+    unstable.redli # Thanks to me :)
     # mono
     unstable.jetbrains.jdk
     jetbrains.phpstorm

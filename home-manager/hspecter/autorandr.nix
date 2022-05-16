@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  unstable = import ../../unstable.nix { config.allowUnfree = true; };
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in
 {
   nixpkgs.overlays = [

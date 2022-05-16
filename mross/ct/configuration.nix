@@ -36,7 +36,7 @@
 
 
   networking = {
-    hostName = "nixos";
+    hostName = "mross-ct";
 
     firewall.enable = false;
     useDHCP = false;
