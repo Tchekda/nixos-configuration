@@ -1,8 +1,17 @@
 { config, pkgs, ... }:
 let
-  unstable = import ../unstable.nix { config.allowUnfree = true; };
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  customPHP8 = pkgs.php80.buildEnv {
+    extraConfig =
+      ''date.timezone = Europe/Paris
+          memory_limit = 1G'';
+    extensions = { enabled, all }: enabled ++ [ all.xdebug ];
+  };
 in
 {
+
+  environment.systemPackages = [ customPHP8 ];
+
   networking.extraHosts = ''
     ::1 avenir.local
     127.0.0.1 dev.ivao.aero
@@ -65,12 +74,7 @@ in
     };
 
     phpfpm = {
-      phpPackage = pkgs.php80.buildEnv {
-        extraConfig =
-          ''date.timezone = Europe/Paris
-          memory_limit = 1G'';
-        extensions = { enabled, all }: enabled ++ [ all.xdebug ];
-      };
+      phpPackage = customPHP8;
       pools.www = {
         user = config.services.nginx.group;
         settings = {

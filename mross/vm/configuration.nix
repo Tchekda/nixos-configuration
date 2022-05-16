@@ -45,7 +45,7 @@
   };
 
   networking = {
-    hostName = "media";
+    hostName = "mross-vm";
 
     firewall = {
       allowedTCPPorts = [ 22 80 443 ];

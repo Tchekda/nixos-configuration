@@ -40,12 +40,12 @@ in
     };
 
     fider = {
-      image = "getfider/fider:stable";
+      image = "getfider/fider:main";
       ports = [
         "127.0.0.1:8002:3000"
       ];
       environment = {
-        HOST_DOMAIN = "feedback.tchekda.fr";
+        BASE_URL = "https://feedback.tchekda.fr";
         DATABASE_URL = "postgres://fider:${secrets.DB_PASS}@postgres:5432/fider?sslmode=disable";
         JWT_SECRET = secrets.JWT_SECRET;
         EMAIL_NOREPLY = "feedback@tchekda.fr";

@@ -4,7 +4,7 @@ let
     url = https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg;
     sha256 = "0pl43lrzfxdfgaa9plhlzv8z7ramkrdzmsvdmg03vr9klzqgpx0z";
   };
-  unstable = import ../unstable.nix { config.allowUnfree = true; };
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in
 {
   xsession.windowManager.i3 = {
