@@ -22,7 +22,11 @@ in
       efi.canTouchEfiVariables = true;
     };
 
-    extraModulePackages = with config.boot.kernelPackages; [ acpi_call rtw89 ddcci-driver ];
+    extraModulePackages = with config.boot.kernelPackages; [
+      acpi_call
+      # rtw89
+      ddcci-driver
+    ];
 
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
@@ -99,7 +103,10 @@ in
     enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
     enableRedistributableFirmware = true;
 
-    firmware = with pkgs; [ sof-firmware rtw89-firmware ];
+    firmware = with pkgs; [
+      sof-firmware
+      # rtw89-firmware
+    ];
 
     i2c.enable = true;
 
@@ -175,7 +182,7 @@ in
       enable = true;
       allowPing = true;
       allowedTCPPorts = [
-        57621 # Spotify
+        57622 # Spotify
       ];
       allowedUDPPorts = [
         57621 # Spotify
@@ -259,6 +266,8 @@ in
         HandleSuspendKey=ignore
       '';
     };
+
+    onedrive.enable = true;
 
     openssh.enable = true;
 

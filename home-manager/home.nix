@@ -50,7 +50,6 @@ in
       "/home/tchekda/.local/bin"
     ];
     packages = with pkgs; [
-      nixpkgs-fmt
       neofetch
       dnsutils
       whois

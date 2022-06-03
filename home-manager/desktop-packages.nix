@@ -6,7 +6,6 @@ in
   home.packages = with pkgs; [
     # Dependencies
     feh
-    unstable.flameshot
     libnotify
     hicolor-icon-theme
     # Utils
@@ -35,24 +34,45 @@ in
     hunspell
     hunspellDicts.en-us-large
     hunspellDicts.fr-moderne
-    unstable.discord
+    discord
     thunderbird
     tdesktop
     signal-desktop
     spotify
     xournal
-    unstable.firefox-devedition-bin
+    firefox-devedition-bin
     vlc
   ];
+  services.flameshot = {
+    enable = true;
+#    package = unstable.flameshot;
+  };
+  systemd.user.targets.tray = {
+    Unit = {
+      Description = "Home Manager System Tray";
+      Requires = [ "graphical-session-pre.target" ];
+    };
+  };
   xdg.mimeApps = {
     enable = true;
     associations.added = {
       "inode/directory" = [ "pcmanfm.desktop" ];
       "application/pdf" = [ "org.gnome.Evince.desktop" ];
+      "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
     };
     defaultApplications = {
       "inode/directory" = [ "pcmanfm.desktop" ];
       "application/pdf" = [ "org.gnome.Evince.desktop" ];
+      "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
+      "message/rfc822" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
+      "text/calendar" = [ "thunderbird.desktop" ];
+      "application/x-extension-ics" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
     };
   };
 }

@@ -46,17 +46,9 @@ in
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
+    recommendedTlsSettings = true;
 
     commonHttpConfig = ''
-      ssl_session_timeout 1d;
-      ssl_session_cache shared:MozSSL:10m;
-      ssl_session_tickets off;
-      ssl_prefer_server_ciphers off;
-
-      # Disabled because CF Origin CA 
-      # ssl_stapling on;
-      # ssl_stapling_verify on;
-
       ssl_ecdh_curve secp384r1;
 
       add_header Expect-CT "max-age=0";
@@ -65,6 +57,8 @@ in
     '';
 
     virtualHosts = {
+      "autoconfig.tchekda.fr" = proxy "http://192.168.1.200";
+      "autodiscover.tchekda.fr" = proxy "http://192.168.1.200";
       "dn42.tchekda.fr" = proxy "http://192.168.1.101";
       "files.tchekda.fr" = appFolder "/var/www/files.tchekda.fr/";
       "lg42.tchekda.fr" = proxy "http://192.168.1.101:5000";
@@ -134,23 +128,20 @@ in
       smtp_web_ui = {
         http2 = true;
         serverName = "smtp.tchekda.fr";
-        serverAliases = [
-          "autoconfig.tchekda.fr"
-          "autodiscover.tchekda.fr"
-        ];
+        forceSSL = true;
         enableACME = true;
-        onlySSL = true;
         locations."/" = {
           proxyPass = "https://192.168.1.200";
           proxyWebsockets = true;
-          extraConfig = ''client_max_body_size 100M;'';
+          extraConfig = ''
+            proxy_ssl_server_name on;
+            client_max_body_size 100M;
+          '';
         };
       };
-      smtp_cert = {
-        http2 = true;
-        serverName = "smtp.tchekda.fr";
-        locations."/" = { proxyPass = "http://192.168.1.200"; };
-      };
+      "tchekda.fr" = vhostWith { addSSL = true; default = true; forceSSL = false; } ''
+        return 301 https://www.tchekda.fr$request_uri;
+      '';
       "znc.tchekda.fr" = {
         http2 = true;
         enableACME = true;

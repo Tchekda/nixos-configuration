@@ -58,7 +58,7 @@
           ssl_verify_client on;
         '';
         locations."/" = {
-          proxyPass = "http://127.0.0.1:3001";
+          proxyPass = "http://127.0.0.1:8001";
           extraConfig = ''
             auth_basic "Security";
             auth_basic_user_file /etc/ufl-htpasswd; 
