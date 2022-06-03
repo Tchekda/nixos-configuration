@@ -14,13 +14,10 @@
   documentation.enable = false;
 
   environment.systemPackages = with pkgs; [
-    git
     htop
-    lnav
     nano
     neofetch
     speedtest-cli
-    wget
   ];
 
 
@@ -61,6 +58,9 @@
   services = {
     openssh.enable = true;
     qemuGuest.enable = true;
+    journald.extraConfig = ''
+      SystemMaxUse=10M
+    '';
   };
 
   system.stateVersion = "21.11"; # Did you read the comment?

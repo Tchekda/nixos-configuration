@@ -10,6 +10,11 @@
 
   networking = {
     firewall.allowedUDPPorts = [ 51822 ];
+    nat = {
+      enable = true;
+      externalInterface = "eth0";
+      internalInterfaces = [ "vpn" ];
+    };
     wireguard = {
       enable = true;
       interfaces.vpn = {

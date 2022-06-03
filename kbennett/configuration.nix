@@ -44,11 +44,14 @@
 
 
   networking = {
-    defaultGateway = { address = "10.0.10.1"; interface = "ens18"; };
-
-    dhcpcd.extraConfig = ''
-      noipv6
-    '';
+    dhcpcd = {
+      extraConfig = ''
+        interface ens18
+        static ip6_address=2a01:cb05:8fdb:2555:e490:e2ff:fe7b:497e/64
+      '';
+      persistent = true;
+    };
+    enableIPv6 = true;
 
     firewall = {
       allowedTCPPorts = [ 22 443 ];
@@ -56,14 +59,9 @@
 
     hostName = "kbennett";
 
-    interfaces.ens18 = {
-      ipv6 = {
-        addresses = [{ address = "2a01:cb05:8fdb:2555:e490:e2ff:fe7b:497e"; prefixLength = 64; }];
-      };
-      tempAddress = "disabled";
-    };
-
     nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+
+    useDHCP = true;
   };
 
   documentation.enable = false;
@@ -88,5 +86,7 @@
     };
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+  };
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
@@ -32,6 +32,15 @@
     ];
   };
 
+  # Generate an immutable /etc/resolv.conf from the nameserver settings
+  # above (otherwise DHCP overwrites it):
+  environment.etc."resolv.conf" = with lib; with pkgs; {
+    source = writeText "resolv.conf" ''
+      ${concatStringsSep "\n" (map (ns: "nameserver ${ns}") config.networking.nameservers)}
+      options edns0
+    '';
+  };
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
@@ -41,21 +50,31 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  time.timeZone = "Europe/Paris";
-
   networking = {
-    hostName = "llitt";
+    defaultGateway6 = { address = "fe80::8e97:eaff:fe33:30b6"; interface = "eth0"; };
+
+    dhcpcd.extraConfig = ''
+      interface eth0
+      static domain_name_servers=
+      nohook resolv.conf
+    '';
+
+    enableIPv6 = true;
 
     firewall.enable = false;
 
-    nameservers = [ "127.0.0.1" "1.1.1.1" "2606:4700:4700::1111" ];
-
-    defaultGateway6 = { address = "fe80::8e97:eaff:fe33:30b6"; interface = "eth0"; };
+    hostName = "llitt";
 
     interfaces.eth0 = {
       ipv6.addresses = [{ address = "2a01:e0a:2b1:f401::1"; prefixLength = 64; }];
     };
+
+    nameservers = [ "127.0.0.1" "1.1.1.1" "2606:4700:4700::1111" ];
+
+    resolvconf.enable = false;
   };
+
+  time.timeZone = "Europe/Paris";
 
   documentation.enable = false;
 
@@ -81,14 +100,6 @@
     # tcpdump
     wget
   ];
-
-  virtualisation.docker = {
-    enable = true;
-    # defaultNetwork.dnsname.enable = true;
-    extraOptions = "--ipv6 --fixed-cidr-v6 2a01:0e0a:02b1:f401:1::/80";
-    # dockerCompat = true;
-  };
-
   services = {
     openssh.enable = true;
     mosquitto = {

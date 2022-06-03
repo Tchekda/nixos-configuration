@@ -1,6 +1,6 @@
 { ... }:
 
 {
-  imports = [ ../home.nix ];
+  imports = [ ../home.nix ../server.nix ];
 
 }

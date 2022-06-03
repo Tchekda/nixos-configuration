@@ -39,10 +39,10 @@
       address = "192.168.0.254";
       interface = "eth0";
     };
-    defaultGateway6 = {
-      address = "fe80::de00:b0ff:fe3a:249e";
-      interface = "eth0";
-    };
+    # defaultGateway6 = {
+    #   address = "fe80::de00:b0ff:fe3a:249e";
+    #   interface = "eth0";
+    # };
 
     firewall = {
       allowedTCPPorts = [ 53 2217 ];

@@ -2,7 +2,7 @@
 let
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
   screenlocker = builtins.fetchurl {
-    url = https://wallpapercave.com/wp/wp2732698.jpg;
+    url = https://files.tchekda.fr/suits-wallpaper.jpg;
     sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
   };
 in
@@ -35,11 +35,7 @@ in
 
     vscode = {
       enable = true;
-      # package = unstable.vscode;
-      extensions = with pkgs.vscode-extensions; [
-        ms-vscode.cpptools
-        ms-vscode-remote.remote-ssh
-      ];
+      package = pkgs.vscode;
     };
 
 
@@ -49,7 +45,7 @@ in
           deletec = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/deletec-vpn";
           ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
           nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
-          hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/hspecter/default.nix switch";
+          hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/hspecter/default.nix switch -b backup";
         };
 
     };
