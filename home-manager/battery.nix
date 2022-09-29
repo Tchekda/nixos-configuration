@@ -5,7 +5,7 @@ let
       ${pkgs.libnotify}/bin/notify-send \
         --urgency=$1 \
         --hint=int:transient:1 \
-        --icon=battery_empty \
+        --icon=computer \
         "$2" "$3"
     }
 
@@ -23,7 +23,7 @@ let
         if [[ $battery_capacity -le 5 ]]; then
           notify "critical" "Battery Critically Low" "Computer will hibernate in 60 seconds."
 
-          sleep 60
+          ${pkgs.busybox}/bin/sleep 60
 
           battery_status=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/BAT0/status)
 
@@ -43,11 +43,11 @@ in
   systemd.user.timers."lowbatt" = {
     Unit = {
       Description = "check battery level";
+      Requires = "lowbatt.service";
     };
 
     Timer = {
-      OnBootSec = "1m";
-      OnUnitInactiveSec = "3m";
+      OnCalendar = "*-*-* *:*:00";
       Unit = "lowbatt.service";
     };
 

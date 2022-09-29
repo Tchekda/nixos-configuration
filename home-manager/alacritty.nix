@@ -10,6 +10,7 @@
           x = 6;
           y = 6;
         };
+        opacity = 0.90;
       };
 
       font = {
@@ -20,7 +21,6 @@
         size = 8.5;
       };
 
-      background_opacity = 0.90;
 
       shell = {
         program = "${pkgs.fish}/bin/fish";

@@ -8,8 +8,12 @@ let
     ${pkgs.bird2}/bin/birdc reload in all
   '';
   bgp = import peers/bgp.nix { };
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; system = "aarch64-linux"; };
 in
 {
+
+  imports = [ /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/services/networking/bird-lg.nix ];
+
   systemd.timers.dn42-roa = {
     description = "Trigger a ROA table update";
 
@@ -27,10 +31,8 @@ in
     dn42-roa = {
       after = [ "network.target" ];
       description = "DN42 ROA Updated";
-      unitConfig = {
-        Type = "one-shot";
-      };
       serviceConfig = {
+        # Type = "one-shot";
         ExecStart = "${script}/bin/update-roa";
       };
     };
@@ -40,15 +42,18 @@ in
 
   services = {
     bird-lg = {
+      package = unstable.bird-lg;
       proxy = {
         enable = true;
+        listenAddress = "0.0.0.0:8000";
         allowedIPs = [ "172.20.4.97" "172.20.4.98" ];
+        birdSocket = "/var/run/bird/bird.ctl";
       };
-      frontend = {
-        enable = false;
-        servers = [ "fr-par" "fr-lyn" ];
-        domain = "node.tchekda.dn42";
-      };
+      # frontend = {
+      #   enable = false;
+      #   servers = [ "fr-par" "fr-lyn" ];
+      #   domain = "node.tchekda.dn42";
+      # };
     };
 
     bird2 = {

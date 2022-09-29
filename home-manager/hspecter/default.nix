@@ -57,7 +57,16 @@ in
 
     caffeine.enable = true;
 
+
     dropbox.enable = true;
+
+    gnome-keyring.enable = true;
+
+    gpg-agent = {
+      enable = true;
+      enableExtraSocket = true;
+      pinentryFlavor = "tty";
+    };
 
     picom = {
       enable = true;

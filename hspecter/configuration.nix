@@ -1,19 +1,21 @@
 { config, pkgs, lib, ... }:
 let
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  oldstable = import <nixos-21.11> { };
 in
 {
   imports =
     [
       ./hardware-configuration.nix
       <home-manager/nixos>
+      <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2>
       ../tchekda_user.nix
       ./dev.nix
       ./sane-extra-config.nix
     ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest; # Defined in NixOS-Hardware
     loader = {
       systemd-boot = {
         enable = true;
@@ -24,7 +26,6 @@ in
 
     extraModulePackages = with config.boot.kernelPackages; [
       acpi_call
-      # rtw89
       ddcci-driver
     ];
 
@@ -34,17 +35,19 @@ in
       "vm.swappiness" = 1;
     };
 
-    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" "hid_logitech_hidpp" "i2c-dev" ];
+    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" "hid_logitech_hidpp" "i2c-dev" "psmouse" ];
 
     extraModprobeConfig = ''
       options snd_acp3x_rn dmic_acpi_check=1
       options iwlwifi 11n_disable=8 power_save=1 uapsd_disable=1
+      options thinkpad_acpi fan_control=1
+      options snd_hda_intel power_save=0
     '';
 
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
     # https://github.com/pop-os/pop/issues/782#issuecomment-571700843
-    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" "thinkpad_acpi.fan_control=1" "amdgpu.noretry=0" ];
+    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" "thinkpad_acpi.fan_control=1" "amdgpu.noretry=0" "psmouse.synaptics_intertouch=0" ];
 
     initrd = {
       enable = true;
@@ -60,15 +63,32 @@ in
     keyMap = "us";
   };
 
-  environment.systemPackages = with pkgs; [
-    acpi
-    git
-    gnupg
-    hicolor-icon-theme
-    nano
-    wget
-    wireguard-tools
-  ];
+  environment = {
+
+    # etc = {
+    #   "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
+    #     bluez_monitor.properties = {
+    #         ["bluez5.enable-sbc-xq"] = true,
+    #         ["bluez5.enable-msbc"] = true,
+    #         ["bluez5.enable-hw-volume"] = true,
+    #         ["bluez5.codecs"] = "[ sbc sbc_xq aac ldac aptx aptx_hd aptx_ll aptx_ll_duplex faststream faststream_duplex ]",
+    #         ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]",
+    #         ["with-logind"] = true,
+    #     }
+    #   '';
+    # };
+
+    systemPackages = with pkgs; [
+      acpi
+      git
+      gnome.seahorse
+      gnupg
+      hicolor-icon-theme
+      nano
+      wget
+      wireguard-tools
+    ];
+  };
 
   # fileSystems."/mnt/fbx" = {
   #   device = "//192.168.2.254/Freebox";
@@ -87,7 +107,7 @@ in
     bluetooth = {
       enable = true;
       # hsphfpd.enable = true;
-      package = pkgs.bluezFull;
+      package = oldstable.bluezFull; # https://github.com/NixOS/nixpkgs/issues/177311#issuecomment-1154236306
       # powerOnBoot = false;
       settings = {
         # A2DP https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
@@ -105,7 +125,7 @@ in
 
     firmware = with pkgs; [
       sof-firmware
-      # rtw89-firmware
+      rtw89-firmware
     ];
 
     i2c.enable = true;
@@ -120,7 +140,7 @@ in
       driSupport32Bit = true;
       setLdLibraryPath = true;
       extraPackages = with pkgs; [
-        unstable.amdvlk
+        amdvlk
         mesa.drivers
         rocm-opencl-icd
         rocm-opencl-runtime
@@ -156,15 +176,15 @@ in
   };
 
   nix = {
-    package = pkgs.nixUnstable;
+    # package = pkgs.nixUnstable;
     extraOptions = "experimental-features = nix-command flakes";
     binaryCaches = [ "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" "http://cache.nixos.org" ];
     binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
-    # gc = {
-    #   automatic = true;
-    #   dates = "daily";
-    #   options = "--delete-older-than 10d";
-    # };
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 10d";
+    };
     trustedUsers = [ "root" "tchekda" ];
   };
 
@@ -182,10 +202,14 @@ in
       enable = true;
       allowPing = true;
       allowedTCPPorts = [
-        57622 # Spotify
+        # Spotify
+        57621
+        57622
       ];
       allowedUDPPorts = [
-        57621 # Spotify
+        # Spotify
+        57621
+        57622
       ];
       checkReversePath = false; # https://nixos.wiki/wiki/WireGuard#Setting_up_WireGuard_with_NetworkManager
     };
@@ -201,14 +225,18 @@ in
   powerManagement.powertop.enable = true;
 
   programs = {
-    gnupg.agent = {
-      enable = true;
-      enableExtraSocket = true;
-    };
+    # gnupg.agent = {
+    #   enable = true;
+    #   enableExtraSocket = true;
+    # };
+    dconf.enable = true;
 
     ssh.startAgent = true;
 
-    dconf.enable = true;
+    wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
   };
 
 
@@ -239,6 +267,9 @@ in
 
     blueman.enable = true;
 
+    dbus.packages = [ pkgs.gcr ];
+
+
     ddccontrol.enable = true;
 
     fprintd.enable = true;
@@ -254,7 +285,6 @@ in
 
     gnome = {
       at-spi2-core.enable = true;
-      gnome-keyring.enable = true;
     };
 
     logind = {
@@ -267,8 +297,6 @@ in
       '';
     };
 
-    onedrive.enable = true;
-
     openssh.enable = true;
 
     pipewire = {
@@ -276,35 +304,40 @@ in
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      media-session.config.bluez-monitor.rules = [
-        # https://gist.github.com/iwantroca/90eb080ea130e232cbe0d48f3595e846
-        {
-          # Matches all cards
-          matches = [{ "device.name" = "~bluez_card.*"; }];
-          actions = {
-            "update-props" = {
-              "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
-              # automatically switch between HSP/HFP and A2DP profiles when an input stream is detected https://wiki.archlinux.org/title/PipeWire
-              "bluez5.autoswitch-profile" = true;
-              # mSBC is not expected to work on all headset + adapter combinations.
-              "bluez5.msbc-support" = true;
-              # SBC-XQ is not expected to work on all headset + adapter combinations.
-              "bluez5.sbc-xq-support" = true;
+      wireplumber.enable = false;
+      media-session = {
+        enable = true;
+        config.bluez-monitor.rules = [
+          # https://gist.github.com/iwantroca/90eb080ea130e232cbe0d48f3595e846
+          {
+            # Matches all cards
+            matches = [{ "device.name" = "~bluez_card.*"; }];
+            actions = {
+              "update-props" = {
+                "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+                "bluez5.auto-connect" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+                # automatically switch between HSP/HFP and A2DP profiles when an input stream is detected https://wiki.archlinux.org/title/PipeWire
+                "bluez5.autoswitch-profile" = false; # Because now internal mic works
+                # mSBC is not expected to work on all headset + adapter combinations.
+                "bluez5.msbc-support" = true;
+                # SBC-XQ is not expected to work on all headset + adapter combinations.
+                "bluez5.sbc-xq-support" = true;
+              };
             };
-          };
-        }
-        {
-          matches = [
-            # Matches all sources
-            { "node.name" = "~bluez_input.*"; }
-            # Matches all outputs
-            { "node.name" = "~bluez_output.*"; }
-          ];
-          actions = {
-            "node.pause-on-idle" = false;
-          };
-        }
-      ];
+          }
+          {
+            matches = [
+              # Matches all sources
+              { "node.name" = "~bluez_input.*"; }
+              # Matches all outputs
+              { "node.name" = "~bluez_outpuft.*"; }
+            ];
+            actions = {
+              "node.pause-on-idle" = true;
+            };
+          }
+        ];
+      };
     };
 
     printing = {
@@ -316,12 +349,23 @@ in
 
     thinkfan = {
       enable = true;
-      sensors = [{
-        type = "tpacpi";
-        query = "/proc/acpi/ibm/thermal";
-        indices = [ 0 ];
-      }];
-      # levels = [ [ "level auto" 0 32767 ] ];
+      sensors = [
+        # {
+        #   type = "chip";
+        #   query = "thinkpad-isa-0000";
+        #   ids = [ "CPU" ];
+        # }
+        {
+          type = "tpacpi";
+          query = "/proc/acpi/ibm/thermal";
+          indices = [ 0 ];
+        }
+      ];
+      levels = [
+        [ "level auto" 0 65 ]
+        [ 7 60 95 ]
+        [ "level disengaged" 90 255 ]
+      ];
     };
 
     tlp = {
@@ -346,11 +390,11 @@ in
       displayManager.sddm.enable = true;
 
       extraConfig = ''
-                Section "OutputClass"
-                 Identifier "AMDgpu"
-                 MatchDriver "amdgpu"
-                 Driver "amdgpu"
-                 Option "TearFree" "true"
+        Section "OutputClass"
+          Identifier "AMDgpu"
+          MatchDriver "amdgpu"
+          Driver "amdgpu"
+          Option "TearFree" "true"
         EndSection
       '';
 
@@ -372,7 +416,6 @@ in
           naturalScrolling = true;
           accelProfile = "flat";
           disableWhileTyping = true;
-          additionalOptions = ''MatchIsTouchpad "on"'';
         };
       };
 
@@ -384,6 +427,10 @@ in
         i3 = {
           enable = true;
           package = pkgs.i3-gaps;
+          extraSessionCommands = ''
+            eval $(${pkgs.gnome3.gnome-keyring}/bin/gnome-keyring-daemon --daemonize)
+            export SSH_AUTH_SOCK
+          '';
         };
       };
 

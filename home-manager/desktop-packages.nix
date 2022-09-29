@@ -22,7 +22,7 @@ in
     iw
     wirelesstools
     # Applications
-    gsettings_desktop_schemas
+    gsettings-desktop-schemas
     ddcui
     lxappearance
     # adapta-gtk-theme
@@ -45,7 +45,7 @@ in
   ];
   services.flameshot = {
     enable = true;
-#    package = unstable.flameshot;
+    package = unstable.flameshot;
   };
   systemd.user.targets.tray = {
     Unit = {
@@ -73,6 +73,7 @@ in
       "text/calendar" = [ "thunderbird.desktop" ];
       "application/x-extension-ics" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/postman" = [ "Postman.desktop" ];
     };
   };
 }

@@ -4,7 +4,6 @@ let
     url = https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg;
     sha256 = "0pl43lrzfxdfgaa9plhlzv8z7ramkrdzmsvdmg03vr9klzqgpx0z";
   };
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in
 {
   xsession.windowManager.i3 = {
@@ -57,11 +56,12 @@ in
         "${modifier}+backslash" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
         "${modifier}+l" = "exec --no-startup-id ${pkgs.xautolock}/bin/xautolock -locknow";
         "${modifier}+Shift+t" = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr --match-edid -c";
+        "${modifier}+Shift+y" = "exec --no-startup-id systemctl --user restart pipewire-media-session.service";
         "XF86Calculator" = "exec --no-startup-id ${pkgs.gnome3.gnome-calculator}/bin/gnome-calculator";
 
-        "${modifier}+Print" = "exec --no-startup-id ${unstable.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
-        "Print" = "exec --no-startup-id ${unstable.flameshot}/bin/flameshot gui";
-        "${modifier}+Shift+s" = "exec --no-startup-id ${unstable.flameshot}/bin/flameshot gui";
+        "${modifier}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
+        "Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
+        "${modifier}+Shift+s" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
       };
 
       startup = [
@@ -71,7 +71,7 @@ in
           notification = false;
         }
         {
-          command = "systemctl --user restart polybar.service";
+          command = "systemctl --user restart polybar.service xautolock.service xss-lock.service";
           always = true;
           notification = false;
         }

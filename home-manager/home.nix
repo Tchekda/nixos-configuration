@@ -39,6 +39,7 @@ in
       enable = true;
       defaultCacheTtl = 7200;
       maxCacheTtl = 7200;
+      # pinentryFlavor = "curses";
     };
   };
 

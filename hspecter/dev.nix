@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
   customPHP8 = pkgs.php80.buildEnv {
     extraConfig =
       ''date.timezone = Europe/Paris
@@ -57,9 +56,9 @@ in
     mysql = {
       enable = true;
       package = pkgs.mariadb;
-      bind = "127.0.0.1";
-      initialDatabases = [{ name = "avenir"; }];
       ensureUsers = [{ name = "root"; }];
+      initialDatabases = [{ name = "avenir"; }];
+      settings.mysqld.bind-address = "127.0.0.1";
     };
 
     postgresql = {
@@ -98,7 +97,5 @@ in
         xdebug.client_port = 9003
       '';
     };
-
-    redis.enable = true;
   };
 }
