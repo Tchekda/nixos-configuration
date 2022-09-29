@@ -6,7 +6,7 @@
       ./hardware-configuration.nix
       ../tchekda_user.nix
       ./nginx.nix
-      <home-manager-master/nixos>
+      <home-manager/nixos>
       ./containers.nix
       ./fider/fider.nix
       ./webhook.nix
@@ -51,7 +51,6 @@
       '';
       persistent = true;
     };
-    enableIPv6 = true;
 
     firewall = {
       allowedTCPPorts = [ 22 443 ];

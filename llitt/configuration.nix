@@ -4,7 +4,7 @@
   imports =
     [
       ../tchekda_user.nix
-      <home-manager-master/nixos>
+      <home-manager/nixos>
       ./containers.nix
       ./nginx.nix
       ./dn42

@@ -1,3 +1,4 @@
+# wg genkey | tee private.key | wg pubkey > public.key
 { config, pkgs, lib, ... }:
 {
   boot.kernel.sysctl = {
@@ -12,7 +13,7 @@
     firewall.allowedUDPPorts = [ 51822 ];
     nat = {
       enable = true;
-      externalInterface = "eth0";
+      externalInterface = "ens3";
       internalInterfaces = [ "vpn" ];
     };
     wireguard = {
@@ -38,14 +39,19 @@
             allowedIPs = [ "192.168.5.4/32" "fd42:42:42::4/128" ];
             persistentKeepalive = 25;
           }
+          {
+            publicKey = "1wcqMx9DzIzMFVBgcZz1Tyvxvzy7TsafCMgKm/nuKjg="; # Nast
+            allowedIPs = [ "192.168.5.5/32" "fd42:42:42::5/128" ];
+            persistentKeepalive = 25;
+          }
         ];
         postSetup = ''
-          ${pkgs.iptables}/bin/iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
-          ${pkgs.iptables}/bin/ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE
+          ${pkgs.iptables}/bin/iptables -t nat -I POSTROUTING -o ens3 -j MASQUERADE
+          ${pkgs.iptables}/bin/ip6tables -t nat -I POSTROUTING -o ens3 -j MASQUERADE
         '';
         postShutdown = ''
-          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-          ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
+          ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
         '';
       };
     };

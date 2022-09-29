@@ -29,8 +29,8 @@
 
 
   networking = {
-    defaultGateway = { address = "195.22.152.1"; interface = "eth0"; };
-    defaultGateway6 = { address = "2a03:5a00:1:4:1000::1"; interface = "eth0"; };
+    defaultGateway = { address = "195.93.173.1"; interface = "ens3"; };
+    defaultGateway6 = { address = "2001:678:cfc::1"; interface = "ens3"; };
 
     firewall = {
       allowedTCPPorts = [ 22 ];
@@ -38,20 +38,20 @@
 
     hostName = "hgunderson";
 
-    interfaces.eth0 = {
+    interfaces.ens3 = {
       ipv4 = {
-        addresses = [{ address = "195.22.152.116"; prefixLength = 24; }];
+        addresses = [{ address = "195.93.173.150"; prefixLength = 24; }];
       };
       ipv6 = {
-        addresses = [{ address = "2a03:5a00:1:4:1000::aad7"; prefixLength = 112; }];
+        addresses = [{ address = "2001:678:cfc:1::79"; prefixLength = 48; }];
       };
-      tempAddress = "disabled";
+      # tempAddress = "disabled";
     };
 
-    nameservers = [ "1.1.1.1" "195.128.120.2" " " "2606:4700:4700::1001" ];
+    nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
 
-    useDHCP = false;
-    usePredictableInterfaceNames = false;
+    useDHCP = true;
+    # usePredictableInterfaceNames = false;
   };
 
 
@@ -63,7 +63,7 @@
     '';
   };
 
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "22.05"; # Did you read the comment?
 
   time.timeZone = "Europe/Moscow";
 

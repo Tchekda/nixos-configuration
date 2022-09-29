@@ -1,23 +1,23 @@
-{ buildGo118Module, fetchFromGitHub, lib, pkgs, makeWrapper, gdk-pixbuf, inkscape, poppler_utils, qpdf }:
+{ buildGo118Module, fetchFromGitHub, lib, pkg-config, makeWrapper, gdk-pixbuf, inkscape, poppler_utils, qpdf, gtk3, glib }:
 
 buildGo118Module rec {
   pname = "pdfrankenstein";
-  version = "0.9";
+  version = "0.9.1";
 
   src = fetchFromGitHub {
     owner = "oxplot";
     repo = pname;
-    rev = "f66bcfb8e0970bea032b5be01f4c591055330d7f";
-    sha256 = "sha256-63GPul+vvdDfO+IJrCUmoNTyJ3sniJgv3Isg2mMBRpE=";
+    rev = "v${version}";
+    sha256 = "sha256-1O9eLnOYyY6GgOU6qmstT7ul+h/uIBvRWlzRX6ev5Cc=";
   };
 
-  vendorSha256 = "sha256-FKB3YiM/zkkW5olfnaCw4AYI7YvcpvLyLSP6xHMd5mY=";
+  vendorSha256 = "sha256-2l22begx1xdCxQLns2jYsDc+F8BrMWIYfFU4Fbp+cO0=";
 
   ldflags = [ "-s" "-w" ];
 
-  buildInputs = with pkgs; [ gtk3 glib ];
+  buildInputs = [ gtk3 glib ];
 
-  nativeBuildInputs = with pkgs; [ pkg-config makeWrapper ];
+  nativeBuildInputs = [ pkg-config makeWrapper ];
 
   postInstall = ''
     install -Dm644 LICENSE "$out/share/licenses/${pname}/LICENSE"

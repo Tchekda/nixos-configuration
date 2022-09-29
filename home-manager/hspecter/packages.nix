@@ -1,10 +1,14 @@
 { pkgs, unstable, config, ... }:
 let
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-  pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { buildGo118Module = unstable.buildGo118Module; pkgs = unstable; };
+  pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { };
+  aurora = pkgs.callPackage ./aurora.nix { };
+  myRedli = pkgs.callPackage ./redli.nix { };
 in
 {
   home.packages = with pkgs; [
+    aurora
+    myRedli
     # Dev
     awscli2
     python39Packages.autopep8
@@ -16,16 +20,25 @@ in
     nodejs-16_x
     yarn
     docker-compose
+    kubectl
+    lens
+    teleport
     postman
     openssl
     wkhtmltopdf
     mailcatcher
     httpstat
     dbeaver
-    unstable.redli # Thanks to me :)
+    teleport
+    # redli # Thanks to me :)
+    nethogs
+    radeontop
+    arandr
+    ventoy-bin
     # mono
-    unstable.jetbrains.jdk
+    jetbrains.jdk
     jetbrains.phpstorm
+    jetbrains.webstorm
     # EPITA
     gnumake
     gcc
@@ -37,10 +50,12 @@ in
     slack
     element-desktop
     filezilla
-    unstable.nixopsUnstable
+    nixopsUnstable
     simplescreenrecorder
     termius
     transmission-gtk
+    gimp
+    pdfrankenstein
     # Virtualisation
     virt-manager
     win-virtio

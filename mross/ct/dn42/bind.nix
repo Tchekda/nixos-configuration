@@ -25,6 +25,9 @@
     };
     extraOptions = ''
       empty-zones-enable no;
+      recursion yes;
+      dnssec-validation auto;
+      auth-nxdomain no;    # conform to RFC1035
     '';
     extraConfig = ''
       zone "dn42" {

@@ -45,6 +45,7 @@
     { multi = true; name = "nicholascw_1288"; neigh = "fe80::1288%nicho_1288_fra"; as = "4242421288"; link = "3"; }
     { multi = false; v4 = true; v6 = false; name = "niyawe_1312_v4"; neigh = "172.23.234.32"; as = "4242421312"; link = "3"; }
     { multi = true; name = "niyawe_1312_v6"; neigh = "fe80::ccfb:fe0d:18%niyaw_1312_fsn"; as = "4242421312"; link = "3"; }
+    { multi = true; name = "nullplance_0591"; neigh = "fe80::591%nullp_0591_us"; as = "4242420591"; link = "5"; }
     { multi = true; name = "nurex_3240"; neigh = "fe80::3240:2%nurex_3240_nrb"; as = "4242423240"; link = "4"; }
     { multi = false; v4 = true; v6 = false; name = "owenresearch_1099_v4"; neigh = "172.21.99.137"; as = "4242421099"; link = "4"; }
     { multi = false; v4 = false; v6 = true; name = "owenresearch_1099_v6"; neigh = "fd42:4242:1099:179::137"; as = "4242421099"; link = "4"; }

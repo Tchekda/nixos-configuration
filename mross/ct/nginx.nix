@@ -128,7 +128,7 @@ in
       smtp_web_ui = {
         http2 = true;
         serverName = "smtp.tchekda.fr";
-        forceSSL = true;
+        onlySSL = true;
         enableACME = true;
         locations."/" = {
           proxyPass = "https://192.168.1.200";
@@ -137,6 +137,20 @@ in
             proxy_ssl_server_name on;
             client_max_body_size 100M;
           '';
+        };
+      };
+      smtp_cert = {
+        http2 = true;
+        serverName = "smtp.tchekda.fr";
+        locations = {
+          "/.well-known/acme-challenge" = {
+            root = "/var/lib/acme/acme-challenge";
+            tryFiles = "$uri @fallback";
+            extraConfig = "auth_basic off;";
+          };
+          "@fallback" = {
+            proxyPass = "http://192.168.1.200";
+          };
         };
       };
       "tchekda.fr" = vhostWith { addSSL = true; default = true; forceSSL = false; } ''

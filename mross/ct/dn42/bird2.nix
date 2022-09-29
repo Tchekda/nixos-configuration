@@ -8,8 +8,12 @@ let
     ${pkgs.bird2}/bin/birdc reload in all
   '';
   bgp = import peers/bgp.nix { };
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in
 {
+
+  imports = [ <nixos-unstable/nixos/modules/services/networking/bird-lg.nix> ];
+
   systemd.timers.dn42-roa = {
     description = "Trigger a ROA table update";
 
@@ -27,10 +31,8 @@ in
     dn42-roa = {
       after = [ "network.target" ];
       description = "DN42 ROA Updated";
-      unitConfig = {
-        Type = "one-shot";
-      };
       serviceConfig = {
+        Type = "oneshot";
         ExecStart = "${script}/bin/update-roa";
       };
     };
@@ -40,6 +42,7 @@ in
 
   services = {
     bird-lg = {
+      package = unstable.bird-lg;
       proxy = {
         enable = true;
         allowedIPs = [ "172.20.4.97" "172.20.4.98" "fd54:fe4b:9ed1:1::1" "fd54:fe4b:9ed1:2::1" ];

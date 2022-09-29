@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 let
   script = pkgs.writeShellScriptBin "redeploy" ''
-    ${pkgs.docker}/bin/docker pull ghcr.io/tchekda/upforlove:latest && \
-    ${pkgs.docker}/bin/docker stop upforlove || \ 
-    ${pkgs.docker}/bin/docker rm -f upforlove || \ 
-    ${pkgs.docker}/bin/docker run -d -p 127.0.0.1:8001:80 --name upforlove ghcr.io/tchekda/upforlove:latest
+    ${pkgs.docker}/bin/docker pull IMAGE && \
+    ${pkgs.docker}/bin/docker stop NAME || \ 
+    ${pkgs.docker}/bin/docker rm -f NAME || \ 
+    ${pkgs.docker}/bin/docker run -d -p 127.0.0.1:8001:80 --name NAME IMAGE
   '';
 in
 {
@@ -15,7 +15,7 @@ in
           "id": "redeploy",
           "execute-command": "${script}/bin/redeploy",
           "command-working-directory": "/home/webhook",
-          "response-message": "Redeploying UFL server."
+          "response-message": "Redeploying Container."
         }
       ]
     '';
@@ -25,7 +25,7 @@ in
 
   systemd.services = {
     webhook-runner = {
-      enable = true;
+      enable = false;
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       restartTriggers = [ config.environment.etc.webhook-config.source ];
