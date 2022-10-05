@@ -36,7 +36,7 @@ in
         fixed-center = true;
 
         width = "100%";
-        height = 36;
+        height = 25;
 
         offset-x = "0%";
         offset-y = "0%";
@@ -47,8 +47,8 @@ in
         radius-top = "0.0";
         radius-bottom = "0.0";
 
-        overline-size = 6;
-        underline-size = 6;
+        overline-size = 3;
+        underline-size = 3;
         overline-color = bg;
         underline-color = bg;
 
@@ -60,7 +60,7 @@ in
         module-margin-left = 1;
         module-margin-right = 0;
 
-        font-0 = "Termsyn:size=12;2";
+        font-0 = "Termsyn:size=11;2";
 
         modules-left = "i3";
         modules-center = "";
@@ -73,7 +73,7 @@ in
 
         tray-position = "right";
         tray-background = bg;
-        tray-padding = 5;
+        tray-padding = 3;
 
         enable-ipc = true;
       };
@@ -102,23 +102,23 @@ in
         format = "<label-state> <label-mode>";
 
         label-mode = "%mode%";
-        label-mode-padding = 2;
+        label-mode-padding = 1;
         label-mode-background = "#e60053";
 
-        label-unfocused-padding = 2;
+        label-unfocused-padding = 1;
         label-focused = "%index%";
         label-focused-foreground = "#ffffff";
         label-focused-background = "#3f3f3f";
         label-focused-underline = ac;
-        label-focused-padding = 2;
+        label-focused-padding = 1;
         label-visible = "%index%";
         label-visible-underline = "#555555";
-        label-visible-padding = 2;
+        label-visible-padding = 1;
 
         label-urgent = "%index%";
         label-urgent-foreground = "#000000";
         label-urgent-background = bg;
-        label-urgent-padding = 2;
+        label-urgent-padding = 1;
       };
 
       "module/cpu" = {
@@ -130,7 +130,7 @@ in
         format-background = mf;
         format-underline = bg;
         format-overline = bg;
-        format-padding = 2;
+        format-padding = 1;
 
         label = "CPU %percentage%%";
       };
@@ -144,7 +144,7 @@ in
         format-background = mf;
         format-underline = bg;
         format-overline = bg;
-        format-padding = 2;
+        format-padding = 1;
 
         label = "RAM %percentage_used%%";
       };
@@ -155,7 +155,7 @@ in
         interval = "0.5";
 
         thermal-zone = 0;
-        warn-temperature = 70;
+        warn-temperature = 85;
         units = true;
 
         hwmon-path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon2/temp1_input";
@@ -164,13 +164,13 @@ in
         format-background = mf;
         format-underline = bg;
         format-overline = bg;
-        format-padding = 2;
+        format-padding = 1;
 
         format-warn = "<label-warn>";
         format-warn-background = mf;
         format-warn-underline = bg;
         format-warn-overline = bg;
-        format-warn-padding = 2;
+        format-warn-padding = 1;
 
         label = "TEMP %temperature-c%";
         label-warn = "TEMP %temperature-c%";
@@ -184,14 +184,14 @@ in
         format-volume-background = mf;
         format-volume-underline = bg;
         format-volume-overline = bg;
-        format-volume-padding = 2;
+        format-volume-padding = 1;
 
         label-volume = "%percentage%%";
 
         format-muted-background = mf;
         format-muted-underline = bg;
         format-muted-overline = bg;
-        format-muted-padding = 2;
+        format-muted-padding = 1;
 
         label-muted = "VOL MUTED";
         label-muted-foreground = ac;
@@ -225,7 +225,7 @@ in
           format-background = mf;
           format-underline = bg;
           format-overline = bg;
-          format-padding = 2;
+          format-padding = 1;
         }
 
       );
@@ -234,6 +234,7 @@ in
         type = "internal/battery";
 
         full-at = 89;
+        low-at = 15;
 
         battery = "BAT0"; # TODO: Better way to fill this
         adapter = "ADP1";
@@ -246,20 +247,28 @@ in
         format-charging-background = mf;
         format-charging-underline = bg;
         format-charging-overline = bg;
-        format-charging-padding = 2;
+        format-charging-padding = 1;
         format-discharging = "BAT <label-discharging>";
         format-discharging-background = mf;
         format-discharging-underline = bg;
         format-discharging-overline = bg;
-        format-discharging-padding = 2;
+        format-discharging-padding = 1;
 
         label-charging = "%percentage%% (%time%)";
         label-discharging = "%percentage%% (%time%)";
         label-full = "FULL CHR";
+        label-full-foreground = "#0f0";
         label-full-background = mf;
         label-full-underline = bg;
         label-full-overline = bg;
-        label-full-padding = 2;
+        label-full-padding = 1;
+        format-low = "<label-low>";
+        label-low = "CRIT %percentage%% (%time%)";
+        label-low-foreground = "#f00";
+        label-low-background = mf;
+        label-low-underline = bg;
+        label-low-overline = bg;
+        label-low-padding = 1;
       };
 
       "module/backlight" = {
@@ -270,7 +279,7 @@ in
         format-background = mf;
         format-underline = bg;
         format-overline = bg;
-        format-padding = 2;
+        format-padding = 1;
 
         label = "%percentage%%";
       };
@@ -288,7 +297,7 @@ in
         format-connected-background = mf;
         format-connected-underline = bg;
         format-connected-overline = bg;
-        format-connected-padding = 2;
+        format-connected-padding = 1;
         label-connected = "LAN : D %downspeed:2% | U %upspeed:2%";
       };
 
@@ -305,7 +314,7 @@ in
         format-connected-background = mf;
         format-connected-underline = bg;
         format-connected-overline = bg;
-        format-connected-padding = 2;
+        format-connected-padding = 1;
         label-connected = "Dock : D %downspeed:2% | U %upspeed:2%";
       };
 
@@ -319,7 +328,7 @@ in
         format-connected-background = mf;
         format-connected-underline = bg;
         format-connected-overline = bg;
-        format-connected-padding = 2;
+        format-connected-padding = 1;
         label-connected = "%essid% : D %downspeed:2% | U %upspeed:2%";
       };
 
@@ -335,7 +344,7 @@ in
         time-alt = "%H:%M:%S";
 
         format = "<label>";
-        format-padding = 2;
+        format-padding = 1;
         format-foreground = fg;
 
         label = "%date% %time%";

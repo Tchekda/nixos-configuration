@@ -42,6 +42,7 @@ in
     xournal
     firefox-devedition-bin
     vlc
+    simplescreenrecorder
   ];
   services.flameshot = {
     enable = true;
