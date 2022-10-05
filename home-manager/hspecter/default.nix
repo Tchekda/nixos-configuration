@@ -33,12 +33,6 @@ in
 
     home-manager.enable = true;
 
-    vscode = {
-      enable = true;
-      package = pkgs.vscode;
-    };
-
-
     fish = {
       shellAbbrs =
         {
@@ -47,10 +41,16 @@ in
           nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
           hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/hspecter/default.nix switch -b backup";
         };
-
     };
 
+    ssh.extraOptionOverrides = {
+      "IdentityFile" = "~/.ssh/id_ecdsa_sk";
+    };
 
+    vscode = {
+      enable = true;
+      package = pkgs.vscode;
+    };
   };
 
   services = {
@@ -68,6 +68,8 @@ in
       pinentryFlavor = "tty";
     };
 
+    mpris-proxy.enable = true;
+
     picom = {
       enable = true;
       vSync = true;
@@ -77,8 +79,6 @@ in
       fade = true;
       fadeDelta = 5;
     };
-
-
   };
 
   systemd.user.services = {

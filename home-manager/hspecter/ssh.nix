@@ -6,12 +6,12 @@
       user = "david";
     };
     vm = {
-      hostname = "pve.tchekda.fr";
+      hostname = "proxmox.tchekda.fr";
       user = "root";
       port = 22101;
     };
     pve = {
-      hostname = "pve.tchekda.fr";
+      hostname = "proxmox.tchekda.fr";
       user = "tchekda";
       port = 9137;
     };

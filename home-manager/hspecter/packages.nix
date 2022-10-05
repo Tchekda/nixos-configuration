@@ -37,7 +37,6 @@ in
     ventoy-bin
     # mono
     jetbrains.jdk
-    jetbrains.phpstorm
     jetbrains.webstorm
     # EPITA
     gnumake
@@ -51,7 +50,6 @@ in
     element-desktop
     filezilla
     nixopsUnstable
-    simplescreenrecorder
     termius
     transmission-gtk
     gimp

@@ -107,12 +107,14 @@ in
     bluetooth = {
       enable = true;
       # hsphfpd.enable = true;
-      package = oldstable.bluezFull; # https://github.com/NixOS/nixpkgs/issues/177311#issuecomment-1154236306
+      # package = oldstable.bluezFull; # https://github.com/NixOS/nixpkgs/issues/177311#issuecomment-1154236306
+      package = unstable.bluez5-experimental;
       # powerOnBoot = false;
       settings = {
         # A2DP https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
         General = {
           Enable = "Source,Sink,Media,Socket";
+          Experimental = true;
         };
       };
     };
@@ -268,7 +270,6 @@ in
     blueman.enable = true;
 
     dbus.packages = [ pkgs.gcr ];
-
 
     ddccontrol.enable = true;
 
