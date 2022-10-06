@@ -64,7 +64,7 @@ in
     mpris-proxy.enable = true;
 
     picom = {
-      enable = true;
+      enable = false;
       vSync = true;
       shadow = true;
       shadowExclude = [ "window_type *= 'normal' && ! name ~= ''" ];
