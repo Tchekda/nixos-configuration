@@ -30,17 +30,38 @@ in
     keyMap = "us";
   };
 
-  environment.systemPackages = with pkgs; [
-    acpi
-    git
-    gnome.seahorse
-    gnupg
-    hicolor-icon-theme
-    nano
-    ntfs3g
-    wget
-    wireguard-tools
-  ];
+  environment = {
+    gnome.excludePackages = (with pkgs; [
+      gnome-photos
+      gnome-tour
+    ]) ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      gnome-terminal
+      gedit # text editor
+      epiphany # web browser
+      geary # email reader
+      evince # document viewer
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
+
+    systemPackages = with pkgs; [
+      acpi
+      git
+      gnome.seahorse
+      gnupg
+      hicolor-icon-theme
+      nano
+      ntfs3g
+      wget
+      wireguard-tools
+    ];
+  };
 
   hardware = {
 
@@ -59,8 +80,6 @@ in
       };
     };
 
-    cpu.amd.updateMicrocode = true;
-
     enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
     enableRedistributableFirmware = true;
 
@@ -73,7 +92,10 @@ in
       enableGraphical = true;
     };
 
+    nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+
     opengl = {
+      enable = true;
       driSupport = true;
       driSupport32Bit = true;
       setLdLibraryPath = true;
@@ -144,10 +166,6 @@ in
 
   security = {
     polkit.enable = true;
-    pam.services = {
-      login.fprintAuth = true;
-      xscreensaver.fprintAuth = true;
-    };
     rtkit.enable = true;
   };
 
@@ -264,17 +282,8 @@ in
         Option "TearFree" "true"
       '';
 
-      displayManager.gdm.enable = true;
+      displayManager.sddm.enable = true;
       desktopManager.gnome.enable = true;
-
-      extraConfig = ''
-        Section "OutputClass"
-          Identifier "AMDgpu"
-          MatchDriver "amdgpu"
-          Driver "amdgpu"
-          Option "TearFree" "true"
-        EndSection
-      '';
 
       inputClassSections = [
         ''
@@ -299,7 +308,7 @@ in
 
       useGlamor = true;
 
-      videoDrivers = [ "amdgpu" ];
+      videoDrivers = [ "nvidia" ];
 
       windowManager = {
         i3 = {
