@@ -5,6 +5,7 @@ let
     url = https://files.tchekda.fr/suits-wallpaper.jpg;
     sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
   };
+  aurora = pkgs.callPackage ../aurora.nix { };
 in
 {
   imports = [
@@ -14,9 +15,13 @@ in
     ../alacritty.nix
     ../i3.nix
     ../dunst.nix
+    ../wayland.nix
   ];
 
   home = {
+
+    packages = [aurora];
+
     sessionPath = [
       "/home/tchekda/.yarn/bin"
     ];

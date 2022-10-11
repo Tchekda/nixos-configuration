@@ -51,6 +51,7 @@ in
     wayland
     glib # gsettings
   ];
+  environment.variables.QT_QPA_PLATFORMTHEME = lib.mkForce "qt5ct";
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
@@ -65,7 +66,7 @@ in
     # gtk portal needed to make gtk apps happy
     extraPortals = with pkgs; [
       xdg-desktop-portal-wlr
-      xdg-desktop-portal-gtk
+      # xdg-desktop-portal-gtk
     ];
     gtkUsePortal = true;
   };
@@ -87,4 +88,6 @@ in
     '';
   };
   programs.qt5ct.enable = true;
+
+#  services.xserver.videoDrivers = [ "nouveau" ];
 }

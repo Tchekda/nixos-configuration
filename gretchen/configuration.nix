@@ -12,6 +12,7 @@ in
       ./hardware-configuration.nix
       <home-manager/nixos>
       ../tchekda_user.nix
+      ../wayland.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -308,7 +309,7 @@ in
 
       useGlamor = true;
 
-      videoDrivers = [ "nvidia" ];
+#       videoDrivers = [ "nvidia" ];
 
       windowManager = {
         i3 = {
