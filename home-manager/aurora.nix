@@ -1,13 +1,14 @@
 { pkgs ? import <nixpkgs> { } }:
 let
   pname = "aurora-electron";
-  version = "0.1.26a";
+  version = "0.1.28";
   name = "Aurora.Alpha-${version}";
 
   src = pkgs.fetchurl {
-    # url = "https://api.ivao.aero/v2/softwares/aurora/90/files/latest/download";
-    url = "https://api.ivao.aero/v2/softwares/aurora/70/files/latest/download";
-    sha256 = "sha256-cUiYHfml0u5bu42wEKvjXtuh3+GkQ3EEWM7RE5RpIkM=";
+    # url = "https://api.ivao.aero/v2/softwares/aurora/90/files/latest/download"; # Beta
+    url = "https://download.ivao.aero/v2/softwares/aurora/98/files/latest/download"; # Public
+    sha256 = "sha256-sIzbnOt3mnn3sxCK/E1Lv4ovmsNmbieZN9yd/pqPk/Y=";
+    # url = "https://api.ivao.aero/v2/softwares/aurora/70/files/latest/download";
   };
 
   appimageContents = pkgs.appimageTools.extract { inherit name src; };
