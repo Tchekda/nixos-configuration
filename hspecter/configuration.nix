@@ -85,6 +85,7 @@ in
       gnupg
       hicolor-icon-theme
       nano
+      ntfs3g
       wget
       wireguard-tools
     ];
@@ -363,8 +364,8 @@ in
         }
       ];
       levels = [
-        [ "level auto" 0 65 ]
-        [ 7 60 95 ]
+        [ "level auto" 0 45 ]
+        [ 7 40 95 ]
         [ "level disengaged" 90 255 ]
       ];
     };

@@ -2,7 +2,7 @@
 let
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
   pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { };
-  aurora = pkgs.callPackage ./aurora.nix { };
+  aurora = pkgs.callPackage ../aurora.nix { };
   myRedli = pkgs.callPackage ./redli.nix { };
 in
 {

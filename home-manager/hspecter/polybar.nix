@@ -257,7 +257,7 @@ in
         label-charging = "%percentage%% (%time%)";
         label-discharging = "%percentage%% (%time%)";
         label-full = "FULL CHR";
-        label-full-foreground = "#0f0";
+        # label-full-foreground = "#0f0";
         label-full-background = mf;
         label-full-underline = bg;
         label-full-overline = bg;
