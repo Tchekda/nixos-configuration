@@ -62,7 +62,7 @@ in
     };
 
     postgresql = {
-      enable = true;
+      enable = false;
       package = pkgs.postgresql_14;
       ensureUsers = [{
         name = "tchekda";

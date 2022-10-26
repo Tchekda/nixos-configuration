@@ -2,12 +2,14 @@
 let
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
   pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { };
-  aurora = pkgs.callPackage ../aurora.nix { };
   myRedli = pkgs.callPackage ./redli.nix { };
+  aurora = pkgs.callPackage ../aurora.nix { };
 in
 {
   home.packages = with pkgs; [
-    aurora
+    aurora.public
+    aurora.beta
+    aurora.alpha
     myRedli
     # Dev
     awscli2
@@ -53,13 +55,13 @@ in
     termius
     transmission-gtk
     gimp
-    pdfrankenstein
+    # pdfrankenstein
     # Virtualisation
-    virt-manager
-    win-virtio
-    virt-viewer
-    libguestfs-with-appliance
-    usbutils
+    # virt-manager
+    # win-virtio
+    # virt-viewer
+    # libguestfs-with-appliance
+    # usbutils
     # Scanner
     xsane
   ];
