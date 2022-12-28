@@ -151,6 +151,7 @@ in
       extraPackages32 = [
         pkgs.driversi686Linux.amdvlk
       ];
+
     };
 
     sane = {
@@ -386,7 +387,7 @@ in
 
       deviceSection = ''
         Option "DRI" "3"
-        Option "TearFree" "true"
+        Option "TearFree" "false"
       '';
 
       displayManager.sddm.enable = true;
@@ -396,7 +397,7 @@ in
           Identifier "AMDgpu"
           MatchDriver "amdgpu"
           Driver "amdgpu"
-          Option "TearFree" "true"
+          Option "TearFree" "false"
         EndSection
       '';
 

@@ -15,7 +15,7 @@ in
     awscli2
     python39Packages.autopep8
     python39Packages.virtualenv
-    php80Packages.composer
+    php81Packages.composer
     openfortivpn
     remmina
     nixpkgs-fmt
@@ -24,14 +24,13 @@ in
     docker-compose
     kubectl
     lens
-    teleport
+    unstable.teleport
     postman
     openssl
     wkhtmltopdf
     mailcatcher
     httpstat
     dbeaver
-    teleport
     # redli # Thanks to me :)
     nethogs
     radeontop
@@ -40,6 +39,7 @@ in
     # mono
     jetbrains.jdk
     jetbrains.webstorm
+    jetbrains.phpstorm
     # EPITA
     gnumake
     gcc

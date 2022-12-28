@@ -2,6 +2,13 @@
 {
   programs.git = {
     enable = true;
+    aliases = {
+      co = "checkout";
+      ci = "commit";
+      cp = "cherry-pick";
+      st = "status";
+      sw = "switch";
+    };
     userName = "David Tchekachev";
     userEmail = "contact" + "@" + "tchekda.fr";
     signing = {
@@ -21,6 +28,8 @@
       ".vscode"
       "shell.nix"
       ".envrc"
+      ".yalc/"
+      "yalc*"
     ];
   };
 }
