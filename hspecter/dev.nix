@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  customPHP8 = pkgs.php80.buildEnv {
+  customPHP8 = pkgs.php81.buildEnv {
     extraConfig =
       ''date.timezone = Europe/Paris
           memory_limit = 1G'';

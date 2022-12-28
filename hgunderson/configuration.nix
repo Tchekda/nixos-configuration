@@ -40,10 +40,10 @@
 
     interfaces.ens3 = {
       ipv4 = {
-        addresses = [{ address = "195.93.173.150"; prefixLength = 24; }];
+        addresses = [{ address = "46.173.218.118"; prefixLength = 24; }];
       };
       ipv6 = {
-        addresses = [{ address = "2001:678:cfc:1::79"; prefixLength = 48; }];
+        addresses = [{ address = "2a03:5a00:1:4:3::200a"; prefixLength = 96; }];
       };
       # tempAddress = "disabled";
     };
@@ -63,7 +63,7 @@
     '';
   };
 
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Did you read the comment?
 
   time.timeZone = "Europe/Moscow";
 
