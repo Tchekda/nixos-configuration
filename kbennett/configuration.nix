@@ -9,7 +9,7 @@
       <home-manager/nixos>
       ./containers.nix
       ./fider/fider.nix
-      ./webhook.nix
+      # ./webhook.nix
     ];
 
   boot = {
@@ -47,7 +47,7 @@
     dhcpcd = {
       extraConfig = ''
         interface ens18
-        static ip6_address=2a01:cb05:8fdb:2555:e490:e2ff:fe7b:497e/64
+        # static ip6_address=2a01:cb05:944a:b8ff:effc:f889:be33:dba3/64
       '';
       persistent = true;
     };
@@ -59,6 +59,8 @@
     hostName = "kbennett";
 
     nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+
+    tempAddresses = "disabled";
 
     useDHCP = true;
   };
@@ -85,9 +87,5 @@
         "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBLM62vg0tFzObsAm+dojYFqX2yOizoprSIhoMNLJe37QV8XI8BexoYr6W3FgPEtiI5U5U1nCFtt9Pyzmjwcole0AAAAEc3NoOg== contact@tchekda.fr"
       ];
     };
-  };
-
-  virtualisation.docker = {
-    enable = true;
   };
 }

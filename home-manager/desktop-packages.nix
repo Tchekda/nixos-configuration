@@ -75,6 +75,7 @@ in
       "application/x-extension-ics" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
       "x-scheme-handler/postman" = [ "Postman.desktop" ];
+      "x-scheme-handler/msteams" = [ "teams.desktop" ];
     };
   };
 }

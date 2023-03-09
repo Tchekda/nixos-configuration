@@ -40,6 +40,7 @@ in
       defaultCacheTtl = 7200;
       maxCacheTtl = 7200;
       # pinentryFlavor = "curses";
+      enableSshSupport = true;
     };
   };
 
@@ -63,7 +64,7 @@ in
       python39
       python39Packages.pip
       file
-      busybox
+      # busybox
       init-shell-command
     ] ++ my_lnav;
     stateVersion = "21.05";

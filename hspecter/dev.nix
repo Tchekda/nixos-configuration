@@ -22,9 +22,12 @@ in
     nginx = {
       enable = true;
 
-      virtualHosts = let vhost = config: ({
-        http2 = true;
-      } // config); in
+      virtualHosts =
+        let
+          vhost = config: ({
+            http2 = true;
+          } // config);
+        in
         {
           "avenir.local" = vhost {
             root = "/var/www/Avenir/backend/public";
@@ -58,7 +61,7 @@ in
       package = pkgs.mariadb;
       ensureUsers = [{ name = "root"; }];
       initialDatabases = [{ name = "avenir"; }];
-      settings.mysqld.bind-address = "127.0.0.1";
+      settings.mysqld.bind-address = "localhost";
     };
 
     postgresql = {
@@ -96,6 +99,13 @@ in
         memory_limit = 1G
         xdebug.client_port = 9003
       '';
+    };
+
+    redis = {
+      servers."" = {
+        enable = true;
+        save = [ ];
+      };
     };
   };
 }

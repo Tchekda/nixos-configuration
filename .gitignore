@@ -9,3 +9,4 @@ ssl/*pem
 **/**.key
 hgunderson/qrcode.config
 kbennett/fider/secrets.nix
+kbennett/cf-apikey

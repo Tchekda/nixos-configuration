@@ -14,8 +14,6 @@
         allowDiscards = true;
       };
     };
-    kernelModules = [ "kvm-amd" ];
-    extraModulePackages = [ ];
   };
 
   fileSystems."/" =

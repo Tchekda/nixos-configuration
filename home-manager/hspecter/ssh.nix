@@ -42,19 +42,11 @@
       user = "atr";
     };
     lgp = {
-      hostname = "2a01:cb05:8fdb:2555:e490:e2ff:fe7b:497e";
+      hostname = "lgp.tchekda.fr";
       user = "tchekda";
     };
     russia = {
       hostname = "hgunderson.tchekda.fr";
-      user = "root";
-    };
-    lsh-rnch = {
-      hostname = "157.245.140.155";
-      user = "root";
-    };
-    lsh-elk = {
-      hostname = "161.35.123.39";
       user = "root";
     };
   };
