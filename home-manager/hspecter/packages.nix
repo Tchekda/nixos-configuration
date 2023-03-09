@@ -4,6 +4,8 @@ let
   pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { };
   myRedli = pkgs.callPackage ./redli.nix { };
   aurora = pkgs.callPackage ../aurora.nix { };
+  myLens = pkgs.callPackage ./lens.nix { };
+  m68k = pkgs.qt5.callPackage ./m68k.nix { };
 in
 {
   home.packages = with pkgs; [
@@ -23,11 +25,11 @@ in
     yarn
     docker-compose
     kubectl
-    lens
+    myLens
     unstable.teleport
     postman
     openssl
-    wkhtmltopdf
+    # wkhtmltopdf
     mailcatcher
     httpstat
     dbeaver
@@ -36,6 +38,7 @@ in
     radeontop
     arandr
     ventoy-bin
+    yubioath-desktop
     # mono
     jetbrains.jdk
     jetbrains.webstorm
@@ -43,7 +46,14 @@ in
     # EPITA
     gnumake
     gcc
+    man-pages
     gdb
+    tree
+    pkg-config
+    bear
+    clang-tools
+    m68k
+    # clang
     # Applications
     teams
     kvirc
@@ -51,7 +61,7 @@ in
     slack
     element-desktop
     filezilla
-    nixopsUnstable
+    unstable.nixops_unstable
     termius
     transmission-gtk
     gimp

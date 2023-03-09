@@ -1,33 +1,34 @@
 { config, pkgs, lib, ... }:
 let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-  oldstable = import <nixos-21.11> { };
+  # unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  # oldstable = import <nixos-21.11> { };
 in
 {
   imports =
     [
       ./hardware-configuration.nix
       <home-manager/nixos>
-      <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2>
+      # <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2> # Conflict with AMDGPU-Pro
       ../tchekda_user.nix
       ./dev.nix
       ./sane-extra-config.nix
     ];
 
   boot = {
-    # kernelPackages = pkgs.linuxPackages_latest; # Defined in NixOS-Hardware
-    loader = {
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 3;
-      };
-      efi.canTouchEfiVariables = true;
-    };
+    # kernelPackages = pkgs.linuxPackages_latest; # Defined in AMDGPU-Pro
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     extraModulePackages = with config.boot.kernelPackages; [
       acpi_call
       ddcci-driver
     ];
+
+    extraModprobeConfig = ''
+      options snd_acp3x_rn dmic_acpi_check=1
+      options iwlwifi 11n_disable=8 power_save=1 uapsd_disable=1
+      options thinkpad_acpi fan_control=1
+      options snd_hda_intel power_save=0
+    '';
 
     kernel.sysctl = {
       "net.ipv4.ip_forward" = true;
@@ -37,17 +38,18 @@ in
 
     kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" "hid_logitech_hidpp" "i2c-dev" "psmouse" ];
 
-    extraModprobeConfig = ''
-      options snd_acp3x_rn dmic_acpi_check=1
-      options iwlwifi 11n_disable=8 power_save=1 uapsd_disable=1
-      options thinkpad_acpi fan_control=1
-      options snd_hda_intel power_save=0
-    '';
-
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
     # https://github.com/pop-os/pop/issues/782#issuecomment-571700843
     kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" "thinkpad_acpi.fan_control=1" "amdgpu.noretry=0" "psmouse.synaptics_intertouch=0" ];
+
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 3;
+      };
+      efi.canTouchEfiVariables = true;
+    };
 
     initrd = {
       enable = true;
@@ -55,7 +57,6 @@ in
       availableKernelModules = [ "thinkpad_acpi" ];
     };
 
-    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   console = {
@@ -63,8 +64,11 @@ in
     keyMap = "us";
   };
 
-  environment = {
+  # documentation.man.generateCaches = true;
 
+  environment = {
+    pathsToLink = [ "/include" "/lib" ];
+    extraOutputsToInstall = [ "out" "lib" "bin" "dev" ];
     # etc = {
     #   "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
     #     bluez_monitor.properties = {
@@ -109,7 +113,8 @@ in
       enable = true;
       # hsphfpd.enable = true;
       # package = oldstable.bluezFull; # https://github.com/NixOS/nixpkgs/issues/177311#issuecomment-1154236306
-      package = unstable.bluez5-experimental;
+      # package = unstable.bluez5-experimental;
+      package = pkgs.bluez5-experimental;
       # powerOnBoot = false;
       settings = {
         # A2DP https://nixos.wiki/wiki/Bluetooth#Enabling_A2DP_Sink
@@ -182,19 +187,25 @@ in
   nix = {
     # package = pkgs.nixUnstable;
     extraOptions = "experimental-features = nix-command flakes";
-    binaryCaches = [ "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" "http://cache.nixos.org" ];
-    binaryCachePublicKeys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
     gc = {
       automatic = true;
       dates = "daily";
       options = "--delete-older-than 10d";
     };
-    trustedUsers = [ "root" "tchekda" ];
+    settings = {
+      trusted-users = [ "root" "tchekda" ];
+      substituters = [ "http://cache.nixos.org" "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
+    };
   };
 
   nixpkgs.config = {
-    pulseaudio = true;
     allowUnfree = true;
+    permittedInsecurePackages = [
+      "qtwebkit-5.212.0-alpha4"
+      "python3.9-poetry-1.1.14"
+    ];
+    pulseaudio = true;
   };
 
   networking = {
@@ -247,8 +258,30 @@ in
   security = {
     polkit.enable = true;
     pam.services = {
-      login.fprintAuth = true;
-      xscreensaver.fprintAuth = true;
+      i3lock-color = {
+        fprintAuth = true;
+        u2fAuth = true;
+      };
+      i3lock = {
+        fprintAuth = true;
+        u2fAuth = true;
+      };
+      login = {
+        fprintAuth = true;
+        u2fAuth = true;
+      };
+      sddm = {
+        fprintAuth = true;
+        u2fAuth = true;
+      };
+      sudo = {
+        fprintAuth = true;
+        u2fAuth = true;
+      };
+      xscreensaver = {
+        fprintAuth = true;
+        u2fAuth = true;
+      };
     };
     rtkit.enable = true;
   };
@@ -348,6 +381,8 @@ in
       drivers = [ pkgs.cnijfilter2 pkgs.gutenprint pkgs.hplipWithPlugin ];
     };
 
+    pcscd.enable = true;
+
     redshift.enable = true;
 
     thinkfan = {
@@ -381,6 +416,8 @@ in
     };
 
     tzupdate.enable = true;
+
+    udev.packages = [ pkgs.yubikey-personalization ];
 
     xserver = {
       enable = true;
@@ -422,7 +459,7 @@ in
         };
       };
 
-      useGlamor = true;
+      # useGlamor = true;
 
       videoDrivers = [ "amdgpu" ];
 
@@ -457,6 +494,7 @@ in
       # Disable autostarts
       cups-browsed.wantedBy = lib.mkForce [ ];
       mysql.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
+      redis.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
       NetworkManager-wait-online.enable = false;
       wg-quick-wg0.wantedBy = lib.mkForce [ ];
     };

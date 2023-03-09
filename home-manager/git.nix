@@ -30,6 +30,7 @@
       ".envrc"
       ".yalc/"
       "yalc*"
+      "*.swp"
     ];
   };
 }

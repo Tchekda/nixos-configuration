@@ -15,5 +15,13 @@
     };
 
     imports = [ ./configuration.nix ];
+
+    environment.etc = {
+      cf-apikey = {
+        text = builtins.readFile ./cf-apikey;
+        user = "cfdyndns";
+        group = "cfdyndns";
+      };
+    };
   };
 }

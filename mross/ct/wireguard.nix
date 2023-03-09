@@ -28,7 +28,7 @@ in
             persistentKeepalive = 25;
           }
           {
-            publicKey = "imVT+ozk92fTMfETryzJG7kwLc58BAseKxWAeGtRNw0="; # OnePlus
+            publicKey = "RXypglXW8TOJXxjMxhJ8UAqFzwkXFwkwiQ4v5AYHcUg="; # Samsung
             allowedIPs = [ "192.168.1.152/32" "2001:bc8:2e2a:102:2::1/80" ];
             persistentKeepalive = 25;
           }

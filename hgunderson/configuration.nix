@@ -29,8 +29,8 @@
 
 
   networking = {
-    defaultGateway = { address = "195.93.173.1"; interface = "ens3"; };
-    defaultGateway6 = { address = "2001:678:cfc::1"; interface = "ens3"; };
+    defaultGateway = { address = "46.173.218.1"; interface = "ens3"; };
+    defaultGateway6 = { address = "2a03:5a00:1:4:3::1"; interface = "ens3"; };
 
     firewall = {
       allowedTCPPorts = [ 22 ];
@@ -43,7 +43,7 @@
         addresses = [{ address = "46.173.218.118"; prefixLength = 24; }];
       };
       ipv6 = {
-        addresses = [{ address = "2a03:5a00:1:4:3::200a"; prefixLength = 96; }];
+        addresses = [{ address = "2a03:5a00:1:4:3::200a"; prefixLength = 128; }];
       };
       # tempAddress = "disabled";
     };
