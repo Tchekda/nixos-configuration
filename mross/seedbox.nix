@@ -3,9 +3,10 @@
   users.groups.media.members = [ "plex" "radarr" "sonarr" "deluge" "tchekda" "nginx" ];
 
   networking.firewall = {
-    # Deluge incoming
+    # rTorrent incoming
     allowedTCPPortRanges = [{ from = 40000; to = 59000; }];
     allowedUDPPortRanges = [{ from = 40000; to = 59000; }];
+    # DHT
     allowedUDPPorts = [ 6881 ];
   };
 
@@ -14,26 +15,6 @@
     plex = {
       enable = true;
       openFirewall = true;
-    };
-
-    deluge = {
-      enable = false;
-      declarative = true;
-      openFirewall = true;
-      # dataDir = "/srv/library";
-      authFile = "/etc/deluge-auth";
-      package = pkgs.deluge;
-      config = {
-        download_location = "/srv/downloads/";
-        daemon_port = 58846;
-        # listen_ports = [ 40000 59000 ];
-        listen_ports = [ 42173 42173 ];
-        listen_interface = "enp0s20f0";
-        random_port = false;
-        listen_random_port = 42173;
-        max_connections_global = 1000;
-      };
-      web.enable = true;
     };
 
     sonarr.enable = true;

@@ -45,6 +45,10 @@ in
     firewall = {
       allowedTCPPorts = [ 443 ];
     };
+    hosts = {
+      "::1" = [ "seedbox.tchekda.local" ];
+      "127.0.0.1" = [ "seedbox.tchekda.local" ];
+    };
     interfaces.lo = {
       ipv6 = {
         addresses = [
@@ -107,6 +111,8 @@ in
       '';
       "radarr.tchekda.fr" = proxy "http://127.0.0.1:7878";
       "seedbox.tchekda.fr" = vhost {
+        forceSSL = false;
+        addSSL = true;
         locations = {
           "/".proxyPass = "http://127.0.0.1:3000";
           "/RPC2".extraConfig = ''
@@ -117,6 +123,7 @@ in
             scgi_pass unix:/run/rtorrent/rpc.sock;
           '';
         };
+        serverAliases = [ "seedbox.tchekda.local" ];
       };
       "sonarr.tchekda.fr" = proxy "http://127.0.0.1:8989";
       "tchekda.fr" = vhostWith { default = true; } ''
