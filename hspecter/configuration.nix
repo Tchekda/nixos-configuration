@@ -41,7 +41,14 @@ in
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
     # https://github.com/pop-os/pop/issues/782#issuecomment-571700843
-    kernelParams = [ "amdgpu.backlight=0" "acpi_backlight=none" "thinkpad_acpi.fan_control=1" "amdgpu.noretry=0" "psmouse.synaptics_intertouch=0" ];
+    kernelParams = [
+      "acpi_backlight=none"
+      "amdgpu.backlight=0"
+      "amdgpu.noretry=0"
+      "mem_sleep_default=deep"
+      "psmouse.synaptics_intertouch=0"
+      "thinkpad_acpi.fan_control=1"
+    ];
 
     loader = {
       systemd-boot = {
@@ -189,7 +196,7 @@ in
     extraOptions = "experimental-features = nix-command flakes";
     gc = {
       automatic = true;
-      dates = "daily";
+      dates = "weekly";
       options = "--delete-older-than 10d";
     };
     settings = {
@@ -237,7 +244,11 @@ in
     };
   };
 
-  powerManagement.powertop.enable = true;
+  powerManagement = {
+    enable = true;
+    cpuFreqGovernor = "powersave";
+    powertop.enable = true;
+  };
 
   programs = {
     # gnupg.agent = {

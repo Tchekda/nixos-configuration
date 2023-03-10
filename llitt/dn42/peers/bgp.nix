@@ -8,10 +8,11 @@
     { multi = false; v4 = false; v6 = true; name = "hackfront_1472_v6"; neigh = "fe80::1472%hackf_1472_it"; as = "4242421472"; link = "4"; }
     { multi = true; name = "jlu5_1080"; neigh = "fe80::116%jlu5_1080_lon"; as = "4242421080"; link = "3"; }
     { multi = true; name = "kioubit_3914"; neigh = "fe80::ade0%kioubit_3914_uk"; as = "4242423914"; link = "3"; }
+    { multi = false; v4 = false; v6 = true; name = "munsternet_2237"; neigh = "fe80::42:2237%munst_2237_lon"; as = "4242422237"; link = "3"; }
     { multi = true; name = "n0emis_0197"; neigh = "fe80::42:42:1%n0emi_0197_gtg"; as = "4242420197"; link = "4"; }
     { multi = true; name = "napsterbater_1050"; neigh = "fe80::1:1050%napst_1050_fra"; as = "4242421050"; link = "2"; }
     { multi = true; name = "niantic_1331"; neigh = "fe80::1331%niant_1331_ams"; as = "4242421331"; link = "3"; }
-    { multi = true; name = "yuetau_0925"; neigh = "fe80::925%yuetau_0925_nue"; as = "4242420925"; link = "3"; }
+    #     { multi = true; name = "yuetau_0925"; neigh = "fe80::925%yuetau_0925_nue"; as = "4242420925"; link = "3"; }
   ];
   extraConfig = ''
       protocol bgp iBGP_par_v4 from dnpeers {
