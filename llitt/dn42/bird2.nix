@@ -12,8 +12,6 @@ let
 in
 {
 
-  imports = [ /home/tchekda/Prog/NixOS/nixpkgs/nixos/modules/services/networking/bird-lg.nix ];
-
   systemd.timers.dn42-roa = {
     description = "Trigger a ROA table update";
 
@@ -46,7 +44,7 @@ in
       proxy = {
         enable = true;
         listenAddress = "0.0.0.0:8000";
-        allowedIPs = [ "172.20.4.97" "172.20.4.98" ];
+        allowedIPs = [ "172.20.4.97" "172.20.4.98" "fd54:fe4b:9ed1:1::1" "fd54:fe4b:9ed1:2::1" ];
         birdSocket = "/var/run/bird/bird.ctl";
       };
       # frontend = {

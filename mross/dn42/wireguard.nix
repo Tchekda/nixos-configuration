@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 let
-  defaultLocalIPv4 = "172.20.4.98/32";
-  defaultLocalIPv6 = "fe80::1722:98/64";
+  defaultLocalIPv4 = "172.20.4.97/32";
+  defaultLocalIPv6 = "fe80::1722:97/64";
 in
 {
   environment.systemPackages = [ pkgs.wireguard-tools ];
