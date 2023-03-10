@@ -12,8 +12,6 @@ let
 in
 {
 
-  imports = [ <nixos-unstable/nixos/modules/services/networking/bird-lg.nix> ];
-
   systemd.timers.dn42-roa = {
     description = "Trigger a ROA table update";
 
@@ -42,11 +40,12 @@ in
 
   services = {
     bird-lg = {
-      package = unstable.bird-lg;
+      package = pkgs.bird-lg;
       proxy = {
-        enable = true;
         allowedIPs = [ "172.20.4.97" "172.20.4.98" "fd54:fe4b:9ed1:1::1" "fd54:fe4b:9ed1:2::1" ];
         birdSocket = "/var/run/bird/bird.ctl";
+        enable = true;
+        listenAddress = "[fd54:fe4b:9ed1:1::1]:8000";
       };
       frontend = {
         enable = true;

@@ -28,7 +28,7 @@
         daemon_port = 58846;
         # listen_ports = [ 40000 59000 ];
         listen_ports = [ 42173 42173 ];
-        listen_interface = "eth0";
+        listen_interface = "enp0s20f0";
         random_port = false;
         listen_random_port = 42173;
         max_connections_global = 1000;

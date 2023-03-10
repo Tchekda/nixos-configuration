@@ -10,9 +10,9 @@
       user = "root";
       port = 22101;
     };
-    pve = {
-      hostname = "proxmox.tchekda.fr";
-      user = "tchekda";
+    mross = {
+      hostname = "mross.tchekda.fr";
+      user = "root";
       port = 9137;
     };
     llitt = {

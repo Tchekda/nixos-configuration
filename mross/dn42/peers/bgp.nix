@@ -4,8 +4,8 @@
     { multi = true; name = "Oxcb_2203"; neigh = "fe80::100%Oxcb_2203_fra"; as = "4242422203"; link = "3"; }
     { multi = true; name = "huJK_2717"; neigh = "fe80::104:50:2030:c%HuJK_2717_nl"; as = "4242422717"; link = "3"; }
     { multi = true; name = "androw_2575"; neigh = "fe80::2575:5%andro_2575_par"; as = "4242422575"; link = "1"; }
-    { multi = false; v4 = true; v6 = false; name = "ashaw_3151_v4"; neigh = "100.64.100.10"; as = "4242423151"; link = "3"; }
-    { multi = false; v4 = false; v6 = true; name = "ashaw_3151_v6"; neigh = "fdc4:b438:8c09:ffff::12"; as = "4242423151"; link = "3"; }
+    #     { multi = false; v4 = true; v6 = false; name = "ashaw_3151_v4"; neigh = "100.64.100.10"; as = "4242423151"; link = "3"; }
+    #     { multi = false; v4 = false; v6 = true; name = "ashaw_3151_v6"; neigh = "fdc4:b438:8c09:ffff::12"; as = "4242423151"; link = "3"; }
     { multi = true; name = "ashaw_3151_backup"; neigh = "fdc4:b438:8c09:ffff::29"; as = "4242423151"; link = "3"; }
     { multi = true; name = "burble_2601"; neigh = "fe80::42:2601:36:1%burble_2601_rbx"; as = "4242422601"; link = "2"; }
     { multi = true; name = "camelusferus_1592"; neigh = "fe80::1592%camel_1592_ams"; as = "4242421592"; link = "3"; }
@@ -18,7 +18,7 @@
     { multi = true; name = "diypiandco_1908"; neigh = "172.23.182.1"; as = "4242421908"; link = "1"; }
     { multi = true; name = "eastbound_2633"; neigh = "fe80::2633%eastb_2633_au"; as = "4242422633"; link = "4"; }
     { multi = true; name = "fixmix_1876"; neigh = "fe80::1876%fixmi_1876_nbg"; as = "4242421876"; link = "3"; }
-    { multi = true; name = "gat_0180"; neigh = "fd42:470:f0ef:304::1"; as = "4242420180"; link = "4"; }
+    #     { multi = true; name = "gat_0180"; neigh = "fd42:470:f0ef:304::1"; as = "4242420180"; link = "4"; }
     { multi = true; name = "jerry_3618"; neigh = "fe80::3618%jerry_3618_nl"; as = "4242423618"; link = "3"; }
     { multi = true; name = "jlu5_1080"; neigh = "fe80::1080:36%jlu5_1080_par"; as = "4242421080"; link = "1"; }
     { multi = true; name = "jrb0001_0119"; neigh = "fe80::119%jrb0001_0119_fr"; as = "4242420119"; link = "1"; }
@@ -33,8 +33,8 @@
     { multi = false; v4 = true; v6 = false; name = "maraun_2225_v4"; neigh = "172.20.12.194"; as = "4242422225"; link = "4"; }
     { multi = true; name = "maraun_2225_v6"; neigh = "fe80::2225%marau_2225_de"; as = "4242422225"; link = "4"; }
     { multi = true; name = "mattprod_0651"; neigh = "fe80::651:1%mattp_0651_cra"; as = "4242420651"; link = "3"; }
-    { multi = false; v4 = true; v6 = false; name = "mc36_1955_v4"; neigh = "172.23.215.165"; as = "4242421955"; link = "4"; }
-    { multi = false; v4 = false; v6 = true; name = "mc36_1955_v6"; neigh = "fd40:cc1e:c0de::111"; as = "4242421955"; link = "4"; }
+    #     { multi = false; v4 = true; v6 = false; name = "mc36_1955_v4"; neigh = "172.23.215.165"; as = "4242421955"; link = "4"; }
+    #     { multi = false; v4 = false; v6 = true; name = "mc36_1955_v6"; neigh = "fd40:cc1e:c0de::111"; as = "4242421955"; link = "4"; }
     { multi = true; name = "moecast_0604"; neigh = "fe80::604:3%moeca_0604_de"; as = "4242420604"; link = "3"; }
     { multi = false; v4 = false; v6 = true; name = "munsternet_2237"; neigh = "fe80::42:1722:1%munst_2237_par"; as = "4242422237"; link = "1"; }
     { multi = true; name = "n0emis_0197"; neigh = "fe80::42:42:1%n0emi_0197_rhm"; as = "4242420197"; link = "3"; }
