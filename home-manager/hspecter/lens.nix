@@ -2,13 +2,13 @@
 
 let
   pname = "lens";
-  version = "6.3.1";
-  build = "2023.1.110749-latest";
+  version = "6.3.0";
+  build = "2023.5.120950-latest";
   name = "${pname}-${version}";
 
   src = fetchurl {
-    url = "https://api.k8slens.dev/binaries/Lens-${build}.x86_64.AppImage";
-    sha256 = "sha256-wRi9Hz3o7Fvi4vEhLNdzcaYUeDUUKwpH3rdPkZW9TbY=";
+    url = "https://api.k8slens.dev/binaries/latest.x86_64.AppImage";
+    sha256 = "sha256-u4T0vgVx8DqqCkCd4Fk0fJw1dpnd2adUwotrHl9NRxA=";
     name = "${pname}.AppImage";
   };
 
@@ -26,11 +26,11 @@ appimageTools.wrapType2 {
       source "${makeWrapper}/nix-support/setup-hook"
       wrapProgram $out/bin/${pname} \
         --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}"
-      install -m 444 -D ${appimageContents}/lens.desktop $out/share/applications/${pname}.desktop
-      install -m 444 -D ${appimageContents}/usr/share/icons/hicolor/512x512/apps/lens.png \
+      install -m 444 -D ${appimageContents}/lens-desktop.desktop $out/share/applications/${pname}.desktop
+      install -m 444 -D ${appimageContents}/usr/share/icons/hicolor/512x512/apps/lens-desktop.png \
          $out/share/icons/hicolor/512x512/apps/${pname}.png
       substituteInPlace $out/share/applications/${pname}.desktop \
-        --replace 'Icon=lens' 'Icon=${pname}' \
+        --replace 'Icon=lens-desktop' 'Icon=${pname}' \
         --replace 'Exec=AppRun' 'Exec=${pname}'
     '';
 

@@ -3,7 +3,7 @@ home-manager/hspecter/result
 home-manager/swheeler/appart.secrets.nix
 hspecter/wg*
 hspecter/smb-secrets
-result
+result*
 **/dn42/peers/tunnels.nix
 ssl/*pem
 **/**.key

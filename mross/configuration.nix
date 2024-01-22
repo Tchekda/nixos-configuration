@@ -14,15 +14,14 @@ in {
   ];
 
   boot = {
-    cleanTmpDir = true;
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       grub = {
         enable = true;
         splashImage = null;
-        version = 2;
       };
     };
+    tmp.cleanOnBoot = true;
   };
 
   documentation.enable = false;
@@ -82,6 +81,8 @@ in {
 
     useDHCP = true;
   };
+
+  programs.fish.enable = true;
 
   services = {
     endlessh-go = {

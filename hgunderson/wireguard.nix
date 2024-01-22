@@ -25,7 +25,7 @@
         allowedIPsAsRoutes = false;
         peers = [
           {
-            publicKey = "OpbpDL+E4VOgzGTXga8F3h2aNqlVX6ZKowsWWa83rDA="; # Tablet
+            publicKey = "OpbpDL+E4VOgzGTXga8F3h2aNqlVX6ZKowsWWa83rDA="; # Tablet Dad
             allowedIPs = [ "192.168.5.2/32" "fd42:42:42::2/128" ];
             persistentKeepalive = 25;
           }
@@ -42,6 +42,11 @@
           {
             publicKey = "1wcqMx9DzIzMFVBgcZz1Tyvxvzy7TsafCMgKm/nuKjg="; # Nast
             allowedIPs = [ "192.168.5.5/32" "fd42:42:42::5/128" ];
+            persistentKeepalive = 25;
+          }
+          {
+            publicKey = "9zK1uREqqU9lFQQSgLpkj0GxDqU6Q4AzfvMXLDbtABU="; # Tablet Mom
+            allowedIPs = [ "192.168.5.6/32" "fd42:42:42::6/128" ];
             persistentKeepalive = 25;
           }
         ];

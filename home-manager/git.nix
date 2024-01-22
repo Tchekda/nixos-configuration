@@ -31,6 +31,24 @@
       ".yalc/"
       "yalc*"
       "*.swp"
+      "compile_commands.json"
+      ".cache/"
+      ".clang_format"
+    ];
+    extraConfig.push.autoSetupRemote = true;
+    includes = [
+      {
+        path = "~/Prog/IVAO/.gitconfig";
+        condition = "gitdir:~/Prog/IVAO/";
+      }
+      {
+        path = "~/Prog/Deloitte/.gitconfig";
+        condition = "gitdir:~/Prog/Deloitte/";
+      }
+      {
+        path = "~/Prog/EPITA/.gitconfig";
+        condition = "gitdir:~/Prog/EPITA/";
+      }
     ];
   };
 }

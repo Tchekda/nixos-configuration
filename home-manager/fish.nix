@@ -15,7 +15,7 @@
       ia = "ip a";
       s = "sudo";
       ls = "ls -lsah";
-      gs = "git status";
+      gs = "git status -u";
       ga = "git add .";
       gc = "git commit -a -m \"\"";
       gp = "git push";

@@ -7,7 +7,6 @@ in
     # Dependencies
     feh
     libnotify
-    hicolor-icon-theme
     # Utils
     alacritty
     gparted
@@ -46,7 +45,7 @@ in
   ];
   services.flameshot = {
     enable = true;
-    package = unstable.flameshot;
+    # package = flameshot;
   };
   systemd.user.targets.tray = {
     Unit = {

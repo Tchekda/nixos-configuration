@@ -71,6 +71,10 @@ in
     recommendedTlsSettings = true;
     virtualHosts = {
       "lg42.tchekda.fr" = proxy "http://127.0.0.1:5050";
+      "pac.tchekda.fr" = folderWith "/var/www/pac.tchekda.fr/" ''
+        auth_basic "Security";
+        auth_basic_user_file /var/www/pac.tchekda.fr/.htpasswd;
+      '';
       "plex.tchekda.fr" = proxyWith "http://localhost:32400/" ''
         #Some players don't reopen a socket and playback stops totally instead of resuming after an extended pause
         send_timeout 100m;

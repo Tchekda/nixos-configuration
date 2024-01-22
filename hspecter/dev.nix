@@ -3,7 +3,9 @@ let
   customPHP8 = pkgs.php81.buildEnv {
     extraConfig =
       ''date.timezone = Europe/Paris
-          memory_limit = 1G'';
+        memory_limit = 1G
+        max_input_vars = 10000
+      '';
     extensions = { enabled, all }: enabled ++ [ all.xdebug ];
   };
 in
@@ -13,6 +15,7 @@ in
 
   networking.extraHosts = ''
     ::1 avenir.local
+    ::1 moodle.local
     127.0.0.1 dev.ivao.aero
   '';
 
@@ -44,8 +47,8 @@ in
               };
             };
           };
-          "phpinfo.local" = vhost {
-            root = "/var/www/phpinfo";
+          "moodle.local" = vhost {
+            root = "/var/www/moodle";
             locations."/" = {
               index = "index.php";
               extraConfig = ''
@@ -88,6 +91,8 @@ in
           "pm.max_spare_servers" = 3;
           "pm.max_requests" = 500;
           "security.limit_extensions" = "";
+          "php_admin_value[error_log]" = "stderr";
+          "php_admin_flag[log_errors]" = true;
         };
       };
       phpOptions = ''
@@ -98,6 +103,7 @@ in
         upload_max_filesize = 500M
         memory_limit = 1G
         xdebug.client_port = 9003
+        max_input_vars = 10000
       '';
     };
 
