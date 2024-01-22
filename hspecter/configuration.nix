@@ -7,7 +7,7 @@ in
   imports =
     [
       ./hardware-configuration.nix
-      <home-manager/nixos>
+      # <home-manager/nixos> # Config split between system and user
       # <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2> # Conflict with AMDGPU-Pro
       ../tchekda_user.nix
       ./dev.nix
@@ -36,13 +36,13 @@ in
       "vm.swappiness" = 1;
     };
 
-    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" "hid_logitech_hidpp" "i2c-dev" "psmouse" ];
+    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" "hid_logitech_hidpp" "i2c-dev" "psmouse" "amdgpu" ];
 
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
     # https://github.com/pop-os/pop/issues/782#issuecomment-571700843
     kernelParams = [
-      "acpi_backlight=none"
+      "acpi_backlight=native"
       "amdgpu.backlight=0"
       "amdgpu.noretry=0"
       "mem_sleep_default=deep"
@@ -71,11 +71,15 @@ in
     keyMap = "us";
   };
 
-  # documentation.man.generateCaches = true;
+  documentation.man.generateCaches = false;
 
   environment = {
-    pathsToLink = [ "/include" "/lib" ];
     extraOutputsToInstall = [ "out" "lib" "bin" "dev" ];
+    pathsToLink = [ "/include" "/lib" ];
+    etc."chromium/policies/recommended/spnego.json".text = builtins.toJSON {
+      AuthServerWhitelist = "cri.epita.fr";
+    };
+
     # etc = {
     #   "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
     #     bluez_monitor.properties = {
@@ -89,17 +93,45 @@ in
     #   '';
     # };
 
+    gnome.excludePackages = (with pkgs; [
+      gnome-photos
+      gnome-tour
+    ]) ++ (with pkgs.gnome; [
+      cheese # webcam tool
+      gnome-music
+      gnome-terminal
+      gedit # text editor
+      epiphany # web browser
+      geary # email reader
+      evince # document viewer
+      gnome-characters
+      totem # video player
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]);
+
     systemPackages = with pkgs; [
       acpi
       git
       gnome.seahorse
+      gnome3.adwaita-icon-theme
+      gnome3.gnome-tweaks
+      gnomeExtensions.appindicator
       gnupg
-      hicolor-icon-theme
+      home-manager
       nano
       ntfs3g
       wget
       wireguard-tools
     ];
+
+    variables = {
+      # MUTTER_DEBUG = "kms";
+      # MUTTER_DEBUG_DISABLE_TRIPLE_BUFFERING = "1";
+      # MUTTER_DEBUG_ENABLE_ATOMIC_KMS = "0";
+    };
   };
 
   # fileSystems."/mnt/fbx" = {
@@ -139,8 +171,8 @@ in
     enableRedistributableFirmware = true;
 
     firmware = with pkgs; [
+      linux-firmware
       sof-firmware
-      rtw89-firmware
     ];
 
     i2c.enable = true;
@@ -166,21 +198,23 @@ in
 
     };
 
+    pulseaudio.enable = false;
+
     sane = {
       enable = true;
       extraBackends = [ pkgs.sane-airscan ];
     };
   };
 
-  home-manager.users.tchekda = {
-    programs.home-manager.enable = true;
-    home = {
-      username = "tchekda";
-      homeDirectory = "/home/tchekda";
-      packages = [ pkgs.home-manager ];
-    };
-    imports = [ ../home-manager/hspecter/default.nix ];
-  };
+  # home-manager.users.tchekda = {
+  #   programs.home-manager.enable = true;
+  #   home = {
+  #     username = "tchekda";
+  #     homeDirectory = "/home/tchekda";
+  #     packages = [ pkgs.home-manager ];
+  #   };
+  #   imports = [ ../home-manager/hspecter/default.nix ];
+  # };
 
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -201,17 +235,13 @@ in
     };
     settings = {
       trusted-users = [ "root" "tchekda" ];
-      substituters = [ "http://cache.nixos.org" "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
+      # substituters = [ "http://cache.nixos.org" "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" ];
+      # trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
     };
   };
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [
-      "qtwebkit-5.212.0-alpha4"
-      "python3.9-poetry-1.1.14"
-    ];
     pulseaudio = true;
   };
 
@@ -221,7 +251,7 @@ in
     enableIPv6 = true;
 
     firewall = {
-      enable = true;
+      enable = false;
       allowPing = true;
       allowedTCPPorts = [
         # Spotify
@@ -251,11 +281,15 @@ in
   };
 
   programs = {
+    adb.enable = true;
+
     # gnupg.agent = {
     #   enable = true;
     #   enableExtraSocket = true;
     # };
     dconf.enable = true;
+
+    fish.enable = true;
 
     ssh.startAgent = true;
 
@@ -315,7 +349,7 @@ in
 
     blueman.enable = true;
 
-    dbus.packages = [ pkgs.gcr ];
+    dbus.packages = with pkgs; [ gcr gnome2.GConf ];
 
     ddccontrol.enable = true;
 
@@ -351,50 +385,51 @@ in
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      wireplumber.enable = false;
-      media-session = {
-        enable = true;
-        config.bluez-monitor.rules = [
-          # https://gist.github.com/iwantroca/90eb080ea130e232cbe0d48f3595e846
-          {
-            # Matches all cards
-            matches = [{ "device.name" = "~bluez_card.*"; }];
-            actions = {
-              "update-props" = {
-                "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
-                "bluez5.auto-connect" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
-                # automatically switch between HSP/HFP and A2DP profiles when an input stream is detected https://wiki.archlinux.org/title/PipeWire
-                "bluez5.autoswitch-profile" = false; # Because now internal mic works
-                # mSBC is not expected to work on all headset + adapter combinations.
-                "bluez5.msbc-support" = true;
-                # SBC-XQ is not expected to work on all headset + adapter combinations.
-                "bluez5.sbc-xq-support" = true;
-              };
-            };
-          }
-          {
-            matches = [
-              # Matches all sources
-              { "node.name" = "~bluez_input.*"; }
-              # Matches all outputs
-              { "node.name" = "~bluez_outpuft.*"; }
-            ];
-            actions = {
-              "node.pause-on-idle" = true;
-            };
-          }
-        ];
-      };
+      wireplumber.enable = true;
+      # media-session = {
+      #   enable = false;
+      #   config.bluez-monitor.rules = [
+      #     # https://gist.github.com/iwantroca/90eb080ea130e232cbe0d48f3595e846
+      #     {
+      #       # Matches all cards
+      #       matches = [{ "device.name" = "~bluez_card.*"; }];
+      #       actions = {
+      #         "update-props" = {
+      #           "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+      #           "bluez5.auto-connect" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+      #           # automatically switch between HSP/HFP and A2DP profiles when an input stream is detected https://wiki.archlinux.org/title/PipeWire
+      #           "bluez5.autoswitch-profile" = false; # Because now internal mic works
+      #           # mSBC is not expected to work on all headset + adapter combinations.
+      #           "bluez5.msbc-support" = true;
+      #           # SBC-XQ is not expected to work on all headset + adapter combinations.
+      #           "bluez5.sbc-xq-support" = true;
+      #         };
+      #       };
+      #     }
+      #     {
+      #       matches = [
+      #         # Matches all sources
+      #         { "node.name" = "~bluez_input.*"; }
+      #         # Matches all outputs
+      #         { "node.name" = "~bluez_outpuft.*"; }
+      #       ];
+      #       actions = {
+      #         "node.pause-on-idle" = true;
+      #       };
+      #     }
+      #   ];
+      # };
     };
 
     printing = {
-      enable = true;
       drivers = [ pkgs.cnijfilter2 pkgs.gutenprint pkgs.hplipWithPlugin ];
+      enable = true;
+      logLevel = "error";
     };
 
     pcscd.enable = true;
 
-    redshift.enable = true;
+    redshift.enable = false;
 
     thinkfan = {
       enable = true;
@@ -418,6 +453,7 @@ in
     };
 
     tlp = {
+      # Incompatible with Gnome
       enable = false; # Linux Advanced Power Management : Kills some usb controllers, will need to figure out a solution
       settings = {
         RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
@@ -428,7 +464,7 @@ in
 
     tzupdate.enable = true;
 
-    udev.packages = [ pkgs.yubikey-personalization ];
+    udev.packages = with pkgs; [ yubikey-personalization gnome.gnome-settings-daemon ];
 
     xserver = {
       enable = true;
@@ -438,7 +474,13 @@ in
         Option "TearFree" "false"
       '';
 
-      displayManager.sddm.enable = true;
+      desktopManager.gnome.enable = true;
+
+      # displayManager.sddm.enable = true;
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
+      };
 
       extraConfig = ''
         Section "OutputClass"
@@ -504,6 +546,7 @@ in
     services = {
       # Disable autostarts
       cups-browsed.wantedBy = lib.mkForce [ ];
+      nginx.wantedBy = lib.mkForce [ ];
       mysql.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
       redis.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
       NetworkManager-wait-online.enable = false;
@@ -519,7 +562,7 @@ in
   };
 
   users.users = {
-    tchekda.extraGroups = [ "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" "i2c" ];
+    tchekda.extraGroups = [ "adbusers" "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" "i2c" ];
     root.shell = pkgs.fish;
   };
 
@@ -536,7 +579,7 @@ in
     libvirtd = {
       enable = false;
       onBoot = "ignore";
-      qemu.package = pkgs.qemu_kvm.override { smbdSupport = true; };
+      # qemu.package = pkgs.qemu_kvm.override { smbdSupport = true; };
     };
   };
 }

@@ -9,18 +9,19 @@ in
 {
   imports = [
     ../home.nix
-    ../battery.nix
+    # ../battery.nix
     ./packages.nix
     ../desktop-packages.nix
     ./ssh.nix
     ../alacritty.nix
     ./autorandr.nix
     ../i3.nix
-    ./polybar.nix
+    # ./polybar.nix
     ../dunst.nix
     ./vim.nix
-    ./neovim.nix
+    ../neovim/default.nix
     ./helix.nix
+    # ./android.nix
   ];
 
   home = {
@@ -33,8 +34,8 @@ in
       HTTPSTAT_SAVE_BODY = "false";
       NIXPKGS_ALLOW_UNFREE = "1";
 
-      NIX_CFLAGS_COMPILE_x86_64_unknown_linux_gnu = "-I/run/current-system/sw/include";
-      NIX_CFLAGS_LINK_x86_64_unknown_linux_gnu = "-L/run/current-system/sw/lib:/home/tchekda/.nix-profile/lib";
+      NIX_CFLAGS_COMPILE_x86_64_unknown_linux_gnu = "-I/run/current-system/sw/include -I/home/tchekda/.nix-profile/include";
+      NIX_CFLAGS_LINK_x86_64_unknown_linux_gnu = "-L/run/current-system/sw/lib -L/home/tchekda/.nix-profile/lib";
 
       IDEA_JDK = "/run/current-system/sw/lib/openjdk/";
       PKG_CONFIG_PATH = "/run/current-system/sw/lib/pkgconfig:/home/tchekda/.nix-profile/lib/pkgconfig";
@@ -54,24 +55,22 @@ in
 
     home-manager.enable = true;
 
-    # man.generateCaches = true;
-
-    ssh.extraOptionOverrides = {
-      "IdentityFile" = "~/.ssh/id_ecdsa_sk";
-    };
+    man.generateCaches = true;
 
     vscode = {
       enable = true;
-      package = pkgs.vscode;
+      package = unstable.vscode;
+      extensions = with pkgs.vscode-extensions; [
+        llvm-vs-code-extensions.vscode-clangd
+      ];
     };
   };
 
   services = {
 
-    caffeine.enable = true;
+    caffeine.enable = false;
 
-
-    dropbox.enable = true;
+    # dropbox.enable = true;
 
     gnome-keyring.enable = true;
 
@@ -84,7 +83,7 @@ in
     mpris-proxy.enable = true;
 
     picom = {
-      enable = true;
+      enable = false;
       vSync = true;
       shadow = true;
       shadowExclude = [ "window_type *= 'normal' && ! name ~= ''" ];
@@ -96,43 +95,43 @@ in
 
   systemd.user.services = {
 
-    dropbox.Install.WantedBy = lib.mkForce [ ];
+    # dropbox.Install.WantedBy = lib.mkForce [ ];
 
-    xautolock = {
-      Unit = {
-        Description = "xautolock, session locker service";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
+    # xautolock = {
+    #   Unit = {
+    #     Description = "xautolock, session locker service";
+    #     After = [ "graphical-session-pre.target" ];
+    #     PartOf = [ "graphical-session.target" ];
+    #   };
 
-      Install = { WantedBy = [ "graphical-session.target" ]; };
+    #   Install = { WantedBy = [ "graphical-session.target" ]; };
 
-      Service = {
-        ExecStart = ''
-          ${pkgs.xautolock}/bin/xautolock -noclose -detectsleep -time 60 \
-           -locker "${pkgs.i3lock-color}/bin/i3lock-color -ti ${screenlocker} \
-           --clock --pass-media-keys --pass-screen-keys --pass-power-keys --pass-volume-keys" \
-           -notifier "${pkgs.libnotify}/bin/notify-send 'Locking in 30 seconds'" -notify 30 \
-        '';
-        # -killer "/run/current-system/systemd/bin/systemctl hibernate" -killtime 15
-        Restart = "on-failure";
-      };
-    };
+    #   Service = {
+    #     ExecStart = ''
+    #       ${pkgs.xautolock}/bin/xautolock -noclose -detectsleep -time 60 \
+    #        -locker "${pkgs.i3lock-color}/bin/i3lock-color -ti ${screenlocker} \
+    #        --clock --pass-media-keys --pass-screen-keys --pass-power-keys --pass-volume-keys" \
+    #        -notifier "${pkgs.libnotify}/bin/notify-send 'Locking in 30 seconds'" -notify 30 \
+    #     '';
+    #     # -killer "/run/current-system/systemd/bin/systemctl hibernate" -killtime 15
+    #     Restart = "on-failure";
+    #   };
+    # };
 
-    xss-lock = {
-      Unit = {
-        Description = "xss-lock, session locker service";
-        After = [ "graphical-session-pre.target" ];
-        PartOf = [ "graphical-session.target" ];
-      };
+    # xss-lock = {
+    #   Unit = {
+    #     Description = "xss-lock, session locker service";
+    #     After = [ "graphical-session-pre.target" ];
+    #     PartOf = [ "graphical-session.target" ];
+    #   };
 
-      Install = { WantedBy = [ "graphical-session.target" ]; };
+    #   Install = { WantedBy = [ "graphical-session.target" ]; };
 
-      Service = {
-        Environment = "XDG_SESSION_TYPE=x11";
-        ExecStart = "${pkgs.xss-lock}/bin/xss-lock -l -s \${XDG_SESSION_ID} -- ${pkgs.xautolock}/bin/xautolock -locknow";
-      };
-    };
+    #   Service = {
+    #     Environment = "XDG_SESSION_TYPE=x11";
+    #     ExecStart = "${pkgs.xss-lock}/bin/xss-lock -l -s \${XDG_SESSION_ID} -- ${pkgs.xautolock}/bin/xautolock -locknow";
+    #   };
+    # };
 
     yubikey-touch-detector = {
       Unit = {

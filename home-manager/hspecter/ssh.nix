@@ -5,11 +5,6 @@
       hostname = "192.168.230.10";
       user = "david";
     };
-    vm = {
-      hostname = "proxmox.tchekda.fr";
-      user = "root";
-      port = 22101;
-    };
     mross = {
       hostname = "mross.tchekda.fr";
       user = "root";
@@ -33,14 +28,6 @@
       port = 2217;
       user = "tchekda";
     };
-    atr-prod = {
-      hostname = "192.168.30.175";
-      user = "atr";
-    };
-    atr-dev = {
-      hostname = "192.168.30.174";
-      user = "atr";
-    };
     lgp = {
       hostname = "lgp.tchekda.fr";
       user = "tchekda";
@@ -48,6 +35,10 @@
     russia = {
       hostname = "hgunderson.tchekda.fr";
       user = "root";
+    };
+    "ssh.cri.epita.fr".extraOptions = {
+      GSSAPIAuthentication = "yes";
+      GSSAPIDelegateCredentials = "yes";
     };
   };
 }

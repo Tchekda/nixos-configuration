@@ -48,8 +48,8 @@
     { multi = true; name = "niyawe_1312_v6"; neigh = "fe80::ccfb:fe0d:18%niyaw_1312_fsn"; as = "4242421312"; link = "3"; }
     #     { multi = true; name = "nullplance_0591"; neigh = "fe80::591%nullp_0591_us"; as = "4242420591"; link = "5"; }
     #     { multi = true; name = "nurex_3240"; neigh = "fe80::3240:2%nurex_3240_nrb"; as = "4242423240"; link = "4"; }
-    { multi = false; v4 = true; v6 = false; name = "owenresearch_1099_v4"; neigh = "172.21.99.137"; as = "4242421099"; link = "4"; }
-    { multi = false; v4 = false; v6 = true; name = "owenresearch_1099_v6"; neigh = "fd42:4242:1099:179::137"; as = "4242421099"; link = "4"; }
+    #     { multi = false; v4 = true; v6 = false; name = "owenresearch_1099_v4"; neigh = "172.21.99.137"; as = "4242421099"; link = "4"; }
+    #     { multi = false; v4 = false; v6 = true; name = "owenresearch_1099_v6"; neigh = "fd42:4242:1099:179::137"; as = "4242421099"; link = "4"; }
     { multi = true; name = "p3bk4c_2092"; neigh = "fe80::42:1722:1%p3bk4_2092_fr0"; as = "4242422092"; link = "1"; }
     { multi = false; v4 = false; v6 = true; name = "pelethiec_1541_v6"; neigh = "fe80::1541:2%pelet_1541_par"; as = "4242421541"; link = "1"; }
     { multi = true; name = "pelethiec_1541"; neigh = "fdf6:8994:e4d9:cafe::2"; as = "4242421541"; link = "2"; }
