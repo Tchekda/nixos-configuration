@@ -27,7 +27,7 @@
     };
     oci-containers.containers = {
       jackett = {
-        image = "ghcr.io/linuxserver/jackett";
+        image = "lscr.io/linuxserver/jackett:latest";
         ports = [
           "127.0.0.1:9117:9117"
         ];
@@ -46,7 +46,7 @@
       };
 
       flaresolverr = {
-        image = "ghcr.io/flaresolverr/flaresolverr:latest";
+        image = "flaresolverr/flaresolverr:latest";
         ports = [
           "127.0.0.1:8191:8191"
         ];

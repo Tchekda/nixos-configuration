@@ -62,6 +62,7 @@ in
       "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
     };
     defaultApplications = {
       "inode/directory" = [ "pcmanfm.desktop" ];
@@ -75,6 +76,7 @@ in
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
       "x-scheme-handler/postman" = [ "Postman.desktop" ];
       "x-scheme-handler/msteams" = [ "teams.desktop" ];
+      "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
     };
   };
 }

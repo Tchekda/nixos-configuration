@@ -15,6 +15,7 @@ in
     ./ssh.nix
     ../alacritty.nix
     ./autorandr.nix
+    ./git.nix
     ../i3.nix
     # ./polybar.nix
     ../dunst.nix
@@ -55,7 +56,7 @@ in
 
     home-manager.enable = true;
 
-    man.generateCaches = true;
+    man.generateCaches = false;
 
     vscode = {
       enable = true;

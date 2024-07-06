@@ -4,16 +4,15 @@
     enable = true;
 
     shellAliases = {
-      ls = "ls --color=auto";
       ".." = "cd ..";
       cl = "clear";
       grep = "grep --color=auto";
+      ls = "ls --color=auto";
       mkdir = "mkdir -pv";
     };
 
     shellAbbrs = {
       ia = "ip a";
-      s = "sudo";
       ls = "ls -lsah";
       gs = "git status -u";
       ga = "git add .";
@@ -21,6 +20,7 @@
       gp = "git push";
       gco = "git checkout";
       gl = "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+      s = "sudo";
       speedtest = "iperf3 -t 0 -c bouygues.testdebit.info -p 9201";
     };
 

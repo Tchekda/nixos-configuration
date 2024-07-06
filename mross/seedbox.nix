@@ -34,6 +34,7 @@
         log.add_output = "debug", "log"
         system.umask.set = 000
         schedule2 = scgi_permission,0,0,"execute.nothrow=chmod,777,/run/rtorrent/rpc.sock"
+        # network.http.proxy_address.set = socks5h://45.67.230.130:30289
       '';
     };
   };

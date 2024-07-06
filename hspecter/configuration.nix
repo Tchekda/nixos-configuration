@@ -36,7 +36,17 @@ in
       "vm.swappiness" = 1;
     };
 
-    kernelModules = [ "kvm-amd" "vfio-pci" "acpi_call" "thinkpad_acpi" "hid_logitech_hidpp" "i2c-dev" "psmouse" "amdgpu" ];
+    kernelModules = [
+      "acpi_call"
+      "amdgpu"
+      "ddcci_backlight"
+      "hid_logitech_hidpp"
+      "i2c-dev"
+      "kvm-amd"
+      "psmouse"
+      "thinkpad_acpi"
+      "vfio-pci"
+    ];
 
     # Force use of the thinkpad_acpi driver for backlight control.
     # This allows the backlight save/load systemd service to work.
@@ -291,6 +301,15 @@ in
 
     fish.enable = true;
 
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        stdenv.cc.cc # commonly needed
+        zlib # commonly needed
+        openssl # commonly needed
+      ];
+    };
+
     ssh.startAgent = true;
 
     wireshark = {
@@ -329,6 +348,13 @@ in
       };
     };
     rtkit.enable = true;
+    wrappers.ubridge = {
+      source = "${pkgs.ubridge}/bin/ubridge";
+      capabilities = "cap_net_admin,cap_net_raw=ep";
+      owner = "root";
+      group = "root";
+      permissions = "u+rx,g+x,o+x";
+    };
   };
 
   services = {
@@ -350,8 +376,6 @@ in
     blueman.enable = true;
 
     dbus.packages = with pkgs; [ gcr gnome2.GConf ];
-
-    ddccontrol.enable = true;
 
     fprintd.enable = true;
 
@@ -430,6 +454,8 @@ in
     pcscd.enable = true;
 
     redshift.enable = false;
+
+    teamviewer.enable = true;
 
     thinkfan = {
       enable = true;
@@ -548,6 +574,7 @@ in
       cups-browsed.wantedBy = lib.mkForce [ ];
       nginx.wantedBy = lib.mkForce [ ];
       mysql.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
+      postgresql.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
       redis.wantedBy = lib.mkForce [ ]; # prevent corruptions happening on hard shutdown
       NetworkManager-wait-online.enable = false;
       wg-quick-wg0.wantedBy = lib.mkForce [ ];
@@ -561,9 +588,11 @@ in
     hardwareClockInLocalTime = true;
   };
 
-  users.users = {
-    tchekda.extraGroups = [ "adbusers" "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" "i2c" ];
-    root.shell = pkgs.fish;
+  users = {
+    users = {
+      tchekda.extraGroups = [ "adbusers" "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" "i2c" ];
+      root.shell = pkgs.fish;
+    };
   };
 
   virtualisation = {

@@ -19,10 +19,11 @@
         enable = true;
         device = "/dev/sda";
         splashImage = null;
-        version = 2;
       };
     };
   };
+
+  documentation.enable = false;
 
   environment.systemPackages = with pkgs; [
     git
@@ -30,6 +31,7 @@
     lnav
     nano
     wget
+    pkgs.php81
   ];
 
   home-manager.users.tchekda = {
@@ -65,7 +67,8 @@
     useDHCP = true;
   };
 
-  documentation.enable = false;
+  programs.fish.enable = true;
+
 
   services = {
     openssh.enable = true;
@@ -73,6 +76,30 @@
   };
 
   system.stateVersion = "21.05"; # Did you read the comment?
+
+  systemd = {
+    # timers."moodle-cron" = {
+    #   wantedBy = [ "timers.target" ];
+    #   timerConfig = {
+    #     OnBootSec = "3m";
+    #     OnUnitActiveSec = "3m";
+    #     Unit = "moodle-cron.service";
+    #   };
+    # };
+
+    services."moodle-cron" = {
+      wantedBy = [ "multi-user.target" ];
+      script = ''
+        ${pkgs.php81}/bin/php /var/www/moodle/admin/cli/cron.php >/dev/null
+      '';
+      serviceConfig = {
+        Type = "forking";
+        User = "nginx";
+        Restart = "always";
+      };
+    };
+  };
+
 
   time.timeZone = "Europe/Paris";
 
