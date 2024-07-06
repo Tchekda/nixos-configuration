@@ -10,7 +10,7 @@ let
   };
   pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { };
   aurora = pkgs.callPackage ../aurora.nix { };
-  # myLens = pkgs.callPackage ./lens.nix { };
+  myLens = pkgs.callPackage ./lens.nix { };
   # m68k = pkgs.qt5.callPackage ./m68k.nix { };
   simtoolkitpro = pkgs.qt5.callPackage ./simtoolkitpro.nix { };
 in
@@ -38,11 +38,12 @@ in
     remmina
     nixpkgs-fmt
     nodejs-18_x
-    yarn
+    corepack
     cargo
     docker-compose
     kubectl
-    unstable.lens
+    myLens
+    # unstable.lens
     unstable.teleport
     nixos-23_05.postman
     openssl
@@ -56,30 +57,32 @@ in
     arandr
     ventoy-bin
     yubioath-flutter
+    teamviewer
     # mono
     jetbrains.jdk
-    jetbrains.webstorm
     jetbrains.phpstorm
     # EPITA
     gnumake
     gcc
     krb5
     sshfs
-    criterion.dev
-    criterion
-    gcovr
-    man-pages
-    gdb
+    # criterion.dev
+    # criterion
+    # gcovr
+    # man-pages
+    # gdb
     tree
+    ripgrep
     pkg-config
-    bear
-    clang-tools
-    patchelf
+    # bear
+    # clang-tools
+    # patchelf
     stdenv.cc
     # m68k
     # clang
     # Applications
     nixos-23_05.teams
+    google-chrome
     # kvirc
     zoom-us
     slack
@@ -96,7 +99,9 @@ in
     # virt-viewer
     # libguestfs-with-appliance
     # usbutils
+    amdgpu_top
     # Scanner
     xsane
+    gscan2pdf
   ];
 }

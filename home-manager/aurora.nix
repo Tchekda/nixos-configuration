@@ -43,19 +43,19 @@ in
   alpha = generic {
     channel = "alpha";
     downloadId = "70";
-    sha256 = "sha256-jGya2EN7s7l53UVsyWo4UA+OQwWlBamKgw/pltl+Ldk=";
-    version = "1.0.27a";
+    sha256 = "sha256-4IW/wFhq8gPmLA/x5nbVlTgfcdkBB6ChWQEAusebBUE=";
+    version = "1.0.30a";
   };
   beta = generic {
     channel = "beta";
     downloadId = "90";
-    sha256 = "sha256-3fceUjX3Y7//GIcgEynnPufOEadh7K07IMUEUe5tVag=";
-    version = "1.0.28b";
+    sha256 = "sha256-4bV+UWYCGmkTM7ePC/T4y1BiNm84n0LRL7/EfNgWHAc=";
+    version = "1.0.30b";
   };
   public = generic {
     channel = "public";
     downloadId = "98";
-    sha256 = "sha256-sIzbnOt3mnn3sxCK/E1Lv4ovmsNmbieZN9yd/pqPk/Y=";
-    version = "1.0.28b";
+    sha256 = "sha256-1WOVehe8b8mSaDWpmcGyohxD+UQt/8D1Q0++13MvS7k=";
+    version = "1.0.30b";
   };
 }

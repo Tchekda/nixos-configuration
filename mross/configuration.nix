@@ -50,6 +50,11 @@ in {
   };
 
   networking = {
+
+    # extraHosts = ''
+    #   185.117.154.164 bt.t-ru.org
+    # '';
+
     dhcpcd = {
       extraConfig = ''
         allowinterfaces enp0s20f*
@@ -66,11 +71,17 @@ in {
         ia_pd 1/48 enp0s20f0
         static ip6_address=2001:bc8:2e2a::1/48
       '';
+
       persistent = true;
     };
 
     firewall = {
+      allowedTCPPorts = [ 1337 1664 ];
       logRefusedConnections = false;
+      # extraCommands = ''
+      #   iptables -t nat -A OUTPUT -d 188.114.97.2/32 -p tcp -m tcp --dport 80 -j DNAT --to-destination 185.117.154.164:80
+      #   iptables -t nat -A OUTPUT -d 188.114.96.2/32 -p tcp -m tcp --dport 80 -j DNAT --to-destination 185.117.154.164:80
+      # '';
     };
 
     hostName = "mross";

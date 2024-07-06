@@ -28,6 +28,7 @@ in
 
     direnv = {
       enable = true;
+      nix-direnv.enable = true;
     };
 
   };
@@ -52,20 +53,20 @@ in
       "/home/tchekda/.local/bin"
     ];
     packages = with pkgs; [
-      neofetch
+      bat
       dnsutils
-      whois
-      zip
-      unzip
-      jq
-      unrar
+      file
+      init-shell-command
+      inetutils
       iperf3
+      jq
       mtr
+      neofetch
       python39
       python39Packages.pip
-      file
-      # busybox
-      init-shell-command
+      unrar
+      unzip
+      zip
     ] ++ my_lnav;
     stateVersion = "21.05";
   };

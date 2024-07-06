@@ -6,4 +6,5 @@
     ../server.nix
   ];
 
+  programs.git.extraConfig.safe.directory = "*";
 }

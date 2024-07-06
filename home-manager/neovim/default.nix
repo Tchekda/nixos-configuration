@@ -12,31 +12,34 @@ in
         clang
         ripgrep
         tree-sitter
+        xclip # x11
+        wl-clipboard # wayland
       ];
     plugins = with pkgs.vimPlugins; [
-      # packer-nvim
-      vim-nix
-      luasnip
-      aurora
-      cmp-nvim-lsp
-      lspsaga-nvim
-      mason-nvim
-      mason-lspconfig-nvim
-      nvim-cmp
-      nvim-colorizer-lua
-      nvim-compe
-      nvim-lspconfig
-      nixos-23_05.vimPlugins.nvim-treesitter.withAllGrammars
-      nvim-web-devicons
-      onedark-nvim
+      packer-nvim
+      vim-fugitive
       plenary-nvim
       telescope-nvim
-      todo-comments-nvim
-      toggleterm-nvim
-      vim-eunuch
-      vim-fugitive
-      vim-hybrid-material
+      nixos-23_05.vimPlugins.nvim-treesitter.withAllGrammars
+      nvim-colorizer-lua
+      nvim-web-devicons
+      nvim-lspconfig
+      cmp-nvim-lsp
+      mason-nvim
+      mason-lspconfig-nvim
+      nvim-compe
+      nvim-cmp
+      luasnip
       vim-snippets
+      lspsaga-nvim
+      onedark-nvim
+      aurora
+      toggleterm-nvim
+      todo-comments-nvim
+      vim-eunuch
+
+      vim-nix
+      vim-hybrid-material
     ];
     viAlias = true;
     vimAlias = true;

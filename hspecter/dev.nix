@@ -1,17 +1,7 @@
-{ config, pkgs, ... }:
-let
-  customPHP8 = pkgs.php81.buildEnv {
-    extraConfig =
-      ''date.timezone = Europe/Paris
-        memory_limit = 1G
-        max_input_vars = 10000
-      '';
-    extensions = { enabled, all }: enabled ++ [ all.xdebug ];
-  };
-in
+{ config, lib, pkgs, ... }:
 {
 
-  environment.systemPackages = [ customPHP8 ];
+  environment.systemPackages = [ pkgs.php81 ];
 
   networking.extraHosts = ''
     ::1 avenir.local
@@ -20,6 +10,7 @@ in
   '';
 
   users.users.tchekda.extraGroups = [ "www-data" ];
+
 
   services = {
     nginx = {
@@ -51,9 +42,16 @@ in
             root = "/var/www/moodle";
             locations."/" = {
               index = "index.php";
+              tryFiles = "$uri $uri/ =404";
+            };
+            locations."~ [^/]\.php(/|$)" = {
               extraConfig = ''
-                fastcgi_pass  unix:${config.services.phpfpm.pools.www.socket};
                 fastcgi_index index.php;
+                fastcgi_pass  unix:${config.services.phpfpm.pools.www.socket};
+                fastcgi_split_path_info  ^(.+\.php)(/.+)$;
+                include ${pkgs.nginx}/conf/fastcgi.conf;
+                fastcgi_param   PATH_INFO       $fastcgi_path_info;
+                fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
               '';
             };
           };
@@ -68,18 +66,20 @@ in
     };
 
     postgresql = {
-      enable = false;
-      package = pkgs.postgresql_14;
+      enable = true;
+      package = pkgs.postgresql;
       ensureUsers = [{
         name = "tchekda";
-        ensurePermissions = {
-          "ALL TABLES IN SCHEMA public" = "ALL PRIVILEGES";
-        };
       }];
+      authentication = pkgs.lib.mkOverride 10 ''
+        #type database  DBuser  auth-method
+        local all       all     trust
+        host  all      all     127.0.0.1/32   trust
+      '';
     };
 
     phpfpm = {
-      phpPackage = customPHP8;
+      phpPackage = pkgs.php81;
       pools.www = {
         user = config.services.nginx.group;
         settings = {
@@ -90,19 +90,19 @@ in
           "pm.min_spare_servers" = 1;
           "pm.max_spare_servers" = 3;
           "pm.max_requests" = 500;
-          "security.limit_extensions" = "";
+          "security.limit_extensions" = ".php";
           "php_admin_value[error_log]" = "stderr";
           "php_admin_flag[log_errors]" = true;
         };
+        phpEnv."PATH" = lib.makeBinPath [ pkgs.php81 ];
       };
       phpOptions = ''
-        opcache.enable=0
+        opcache.enable=1
         date.timezone = Europe/Paris
         max_execution_time = 120
         post_max_size = 500M
         upload_max_filesize = 500M
         memory_limit = 1G
-        xdebug.client_port = 9003
         max_input_vars = 10000
       '';
     };

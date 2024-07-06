@@ -25,7 +25,7 @@
     { multi = true; name = "jrb0001_0119"; neigh = "fe80::119%jrb0001_0119_fr"; as = "4242420119"; link = "1"; }
     #     { multi = false; v4 = true; v6 = false; name = "kioubit_3914_v4"; neigh = "172.20.53.102"; as = "4242423914"; link = "2"; }
     { multi = true; name = "kioubit_3914"; neigh = "fe80::ade0%kioub_3914_fr"; as = "4242423914"; link = "2"; }
-    { multi = false; v4 = false; v6 = true; name = "koala_1488"; neigh = "fe80::3621%koala_1488_fr"; as = "4242421488"; link = "3"; }
+    #     { multi = false; v4 = false; v6 = true; name = "koala_1488"; neigh = "fe80::3621%koala_1488_fr"; as = "4242421488"; link = "3"; }
     { multi = true; name = "kskb_1817"; neigh = "fe80::42:1817:a%kskb_1817_de"; as = "4242421817"; link = "3"; }
     { multi = true; name = "lantian_2547_v6"; neigh = "fe80::2547%lanti_2547_fra"; as = "4242422547"; link = "4"; }
     { multi = true; name = "lapis_2032"; neigh = "fe80::2032%lapis_2032_lux"; as = "4242422032"; link = "3"; }
