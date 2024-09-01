@@ -27,14 +27,21 @@
       configText = ''
         dht.mode.set = auto
         dht.port.set = 6881
-        protocol.pex.set = 1
-        trackers.use_udp.set = 1
-        network.port_range.set = 40000-59000
-        # network.port_random.set = no
+        
         log.add_output = "debug", "log"
-        system.umask.set = 000
-        schedule2 = scgi_permission,0,0,"execute.nothrow=chmod,777,/run/rtorrent/rpc.sock"
+        
         # network.http.proxy_address.set = socks5h://45.67.230.130:30289
+        # network.port_random.set = no
+        network.port_range.set = 40000-59000
+        
+        protocol.encryption.set = allow_incoming,try_outgoing,enable_retry
+        protocol.pex.set = 1
+
+        schedule2 = scgi_permission,0,0,"execute.nothrow=chmod,777,/run/rtorrent/rpc.sock"
+        
+        system.umask.set = 000
+        
+        trackers.use_udp.set = 1
       '';
     };
   };

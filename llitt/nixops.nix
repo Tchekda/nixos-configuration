@@ -8,8 +8,8 @@
   llitt = {
     deployment = {
       targetEnv = "none";
-      targetHost = "rllitt";
-      targetPort = 2217;
+      targetHost = "llitt";
+      # targetPort = 2217;
     };
 
     nixpkgs = {

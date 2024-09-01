@@ -58,11 +58,13 @@ in
     associations.added = {
       "inode/directory" = [ "pcmanfm.desktop" ];
       "application/pdf" = [ "org.gnome.Evince.desktop" ];
+      "image/jpeg" = [ "org.gnome.Loupe.desktop" ];
       "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
       "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
       "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
+      "x-scheme-handler/postman" = [ "postman.desktop" ];
     };
     defaultApplications = {
       "inode/directory" = [ "pcmanfm.desktop" ];

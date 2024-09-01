@@ -9,13 +9,49 @@ in
     ./git.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
+
+
+  home = {
+    username = "tchekda";
+    homeDirectory = "/home/tchekda";
+    sessionPath = [
+      "/home/tchekda/.local/bin"
+    ];
+    packages = with pkgs; [
+      bat
+      dnsutils
+      file
+      init-shell-command
+      inetutils
+      iperf3
+      jq
+      mtr
+      neofetch
+      python311
+      python311Packages.pip
+      unrar
+      unzip
+      zip
+    ] ++ my_lnav;
+    stateVersion = "21.05";
+  };
+
+  nixpkgs = {
+    config.allowUnfree = true;
+    # overlays = [
+    #   (self: super: {
+    #     sphinx = drv: drv.overridePythonAttrs (old: { doCheck = false; });
+    #   })
+    # ];
+  };
 
   news.display = "silent";
 
   programs = {
     home-manager.enable = true;
     command-not-found.enable = true;
+
+    man.generateCaches = false;
 
     htop.enable = true;
 
@@ -45,29 +81,4 @@ in
     };
   };
 
-
-  home = {
-    username = "tchekda";
-    homeDirectory = "/home/tchekda";
-    sessionPath = [
-      "/home/tchekda/.local/bin"
-    ];
-    packages = with pkgs; [
-      bat
-      dnsutils
-      file
-      init-shell-command
-      inetutils
-      iperf3
-      jq
-      mtr
-      neofetch
-      python39
-      python39Packages.pip
-      unrar
-      unzip
-      zip
-    ] ++ my_lnav;
-    stateVersion = "21.05";
-  };
 }

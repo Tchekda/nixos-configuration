@@ -2,6 +2,7 @@
 let
   # unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
   # oldstable = import <nixos-21.11> { };
+  dcpj515wDriver = pkgs.callPackage ./dcpj515w.nix { };
 in
 {
   imports =
@@ -446,7 +447,13 @@ in
     };
 
     printing = {
-      drivers = [ pkgs.cnijfilter2 pkgs.gutenprint pkgs.hplipWithPlugin ];
+      drivers = [
+        pkgs.cnijfilter2
+        pkgs.gutenprint
+        pkgs.hplipWithPlugin
+        dcpj515wDriver.driver
+        dcpj515wDriver.cupswrapper
+      ];
       enable = true;
       logLevel = "error";
     };
@@ -455,7 +462,7 @@ in
 
     redshift.enable = false;
 
-    teamviewer.enable = true;
+    # teamviewer.enable = true;
 
     thinkfan = {
       enable = true;
