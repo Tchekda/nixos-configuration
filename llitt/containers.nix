@@ -60,6 +60,7 @@
         home-assistant = {
           #   image = "homeassistant/raspberrypi4-homeassistant:stable";
           image = "ghcr.io/home-assistant/home-assistant:stable";
+          hostname = "home-assistant";
           ports = [
             "8123:8123"
           ];

@@ -54,10 +54,6 @@ in
         };
     };
 
-    home-manager.enable = true;
-
-    man.generateCaches = false;
-
     vscode = {
       enable = true;
       package = unstable.vscode;

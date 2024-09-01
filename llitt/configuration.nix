@@ -5,32 +5,14 @@
     [
       ../tchekda_user.nix
       <home-manager/nixos>
+      <nixos-hardware/raspberry-pi/4>
       ./containers.nix
       ./nginx.nix
       ./dn42
       (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ];
 
-  boot = {
-    # kernelPackages = pkgs.linuxPackages_rpi4;
-    loader = {
-      raspberryPi = {
-        enable = true;
-        version = 4;
-      };
-      grub.enable = false;
-    };
-    tmpOnTmpfs = true;
-    initrd.availableKernelModules = [ "usbhid" "usb_storage" "xhci_pci" ];
-    # ttyAMA0 is the serial console broken out to the GPIO
-    kernelParams = [
-      "8250.nr_uarts=1"
-      "console=ttyAMA0,115200"
-      "console=tty1"
-      # Some gui programs need this
-      "cma=128M"
-    ];
-  };
+  console.enable = true;
 
   documentation.enable = false;
 
@@ -47,6 +29,7 @@
       git
       htop
       libraspberrypi
+      raspberrypi-eeprom
       nano
       # tcpdump
       wget
@@ -60,14 +43,22 @@
     };
   };
 
-  hardware.enableRedistributableFirmware = true;
+
+  hardware = {
+    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+    deviceTree = {
+      enable = true;
+      filter = "*rpi-4-*.dtb";
+    };
+  };
+
 
   home-manager.users.tchekda = {
     imports = [ ../home-manager/llitt/default.nix ];
   };
 
   networking = {
-    defaultGateway6 = { address = "fe80::8e97:eaff:fe33:30b6"; interface = "eth0"; };
+    defaultGateway6 = { address = "fe80::de00:b0ff:fe3a:249e"; interface = "eth0"; };
 
     dhcpcd.extraConfig = ''
       interface eth0
@@ -82,7 +73,7 @@
     hostName = "llitt";
 
     interfaces.eth0 = {
-      ipv6.addresses = [{ address = "2a01:e0a:2b1:f401::1"; prefixLength = 64; }];
+      ipv6.addresses = [{ address = "2a01:e0a:7a:641::1"; prefixLength = 64; }];
     };
 
     nameservers = [ "127.0.0.1" "1.1.1.1" "2606:4700:4700::1111" ];

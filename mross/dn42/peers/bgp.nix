@@ -21,7 +21,7 @@
     #     { multi = true; name = "gat_0180"; neigh = "fd42:470:f0ef:304::1"; as = "4242420180"; link = "4"; }
     { multi = true; name = "iedon_2189"; neigh = "fe80::2189:e9%iedon_2189_fra"; as = "4242422189"; link = "3"; }
     { multi = true; name = "jerry_3618"; neigh = "fe80::3618%jerry_3618_nl"; as = "4242423618"; link = "3"; }
-    { multi = true; name = "jlu5_1080"; neigh = "fe80::1080:36%jlu5_1080_par"; as = "4242421080"; link = "1"; }
+    #     { multi = true; name = "jlu5_1080"; neigh = "fe80::1080:36%jlu5_1080_par"; as = "4242421080"; link = "1"; }
     { multi = true; name = "jrb0001_0119"; neigh = "fe80::119%jrb0001_0119_fr"; as = "4242420119"; link = "1"; }
     #     { multi = false; v4 = true; v6 = false; name = "kioubit_3914_v4"; neigh = "172.20.53.102"; as = "4242423914"; link = "2"; }
     { multi = true; name = "kioubit_3914"; neigh = "fe80::ade0%kioub_3914_fr"; as = "4242423914"; link = "2"; }

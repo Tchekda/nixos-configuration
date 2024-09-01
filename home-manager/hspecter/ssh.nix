@@ -13,13 +13,13 @@
         port = 9137;
       };
       llitt = {
-        hostname = "192.168.2.253";
+        hostname = "192.168.0.144";
         user = "tchekda";
       };
       rllitt = {
         hostname = "appart.tchekda.fr";
         user = "tchekda";
-        port = 2217;
+        port = 2218;
       };
       "git.cri.epita.fr" = {
         hostname = "git.cri.epita.fr";
@@ -33,10 +33,6 @@
       lgp = {
         hostname = "lgp.tchekda.fr";
         user = "tchekda";
-      };
-      russia = {
-        hostname = "hgunderson.tchekda.fr";
-        user = "root";
       };
       "ssh.cri.epita.fr".extraOptions = {
         GSSAPIAuthentication = "yes";
