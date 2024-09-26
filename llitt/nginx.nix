@@ -39,6 +39,14 @@
           '';
         };
       };
+      "solver.tchekda.fr" = {
+        default = false;
+        http2 = true;
+        enableSSL = false;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8191";
+        };
+      };
     };
   };
   security.acme = {

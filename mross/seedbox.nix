@@ -22,6 +22,7 @@
 
     rtorrent = {
       enable = true;
+      dataPermissions = "0777";
       downloadDir = "/srv/downloads";
       group = "media";
       configText = ''

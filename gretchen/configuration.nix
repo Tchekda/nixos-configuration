@@ -8,7 +8,8 @@ let
 in
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
       ../tchekda_user.nix
@@ -35,11 +36,11 @@ in
     gnome.excludePackages = (with pkgs; [
       gnome-photos
       gnome-tour
+      gedit # text editor
     ]) ++ (with pkgs.gnome; [
       cheese # webcam tool
       gnome-music
       gnome-terminal
-      gedit # text editor
       epiphany # web browser
       geary # email reader
       evince # document viewer
@@ -84,7 +85,7 @@ in
     enableAllFirmware = true; # For wifi : https://github.com/NixOS/nixos-hardware/issues/8
     enableRedistributableFirmware = true;
 
-    firmware = with pkgs; [];
+    firmware = with pkgs; [ ];
 
     i2c.enable = true;
 
@@ -129,7 +130,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   location.provider = "geoclue2";
-  
+
   nix = {
     extraOptions = "experimental-features = nix-command flakes";
     gc = {
@@ -309,7 +310,7 @@ in
 
       useGlamor = true;
 
-#       videoDrivers = [ "nvidia" ];
+      #       videoDrivers = [ "nvidia" ];
 
       windowManager = {
         i3 = {

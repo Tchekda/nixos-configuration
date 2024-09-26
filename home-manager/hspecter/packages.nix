@@ -110,7 +110,7 @@ in
     # wkhtmltopdf
     # mailcatcher
     httpstat
-    dbeaver
+    dbeaver-bin
     # redli # Thanks to me :)
     arandr
     ventoy-bin
@@ -145,7 +145,7 @@ in
     zoom-us
     slack
     filezilla
-    nixopsUnstable
+    nixops_unstable_minimal
     termius
     transmission-gtk
     gimp
