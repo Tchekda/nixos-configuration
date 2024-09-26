@@ -30,6 +30,9 @@ in
       "/home/tchekda/.yarn/bin"
     ];
     sessionVariables = {
+      # https://github.com/ionic-team/vscode-ionic/issues/151#issuecomment-2129296199
+      COREPACK_ENABLE_AUTO_PIN = "0";
+
       EDITOR = "vim";
 
       HTTPSTAT_SAVE_BODY = "false";
@@ -70,12 +73,6 @@ in
     # dropbox.enable = true;
 
     gnome-keyring.enable = true;
-
-    gpg-agent = {
-      enable = true;
-      enableExtraSocket = true;
-      pinentryFlavor = "tty";
-    };
 
     mpris-proxy.enable = true;
 

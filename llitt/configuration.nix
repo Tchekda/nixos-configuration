@@ -76,7 +76,7 @@
       ipv6.addresses = [{ address = "2a01:e0a:7a:641::1"; prefixLength = 64; }];
     };
 
-    nameservers = [ "127.0.0.1" "1.1.1.1" "2606:4700:4700::1111" ];
+    nameservers = [ "1.1.1.1" "2606:4700:4700::1111" ];
 
     resolvconf.enable = false;
   };

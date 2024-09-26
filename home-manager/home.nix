@@ -51,7 +51,7 @@ in
     home-manager.enable = true;
     command-not-found.enable = true;
 
-    man.generateCaches = false;
+    man.enable = false;
 
     htop.enable = true;
 
@@ -75,9 +75,10 @@ in
     gpg-agent = {
       enable = true;
       defaultCacheTtl = 7200;
-      maxCacheTtl = 7200;
-      # pinentryFlavor = "curses";
       enableSshSupport = true;
+      enableExtraSocket = true;
+      maxCacheTtl = 7200;
+      pinentryPackage = pkgs.pinentry-tty;
     };
   };
 

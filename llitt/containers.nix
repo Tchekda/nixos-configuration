@@ -14,7 +14,7 @@
         # crash the whole service.
         check=$(${dockercli} network ls | grep "local_net" || true)
         if [ -z "$check" ]; then
-          ${dockercli} network create local_net --subnet=2a01:0e0a:02b1:f401:2::/80 --gateway=2a01:e0a:2b1:f401:2::1 --ipv6
+          ${dockercli} network create local_net --subnet=2a01:e0a:7a:641:2::/80 --gateway=2a01:e0a:7a:641:2::1 --ipv6
         else
           echo "local_net already exists in docker"
         fi
@@ -23,7 +23,7 @@
   virtualisation = {
     docker = {
       enable = true;
-      extraOptions = "--ipv6 --fixed-cidr-v6 2a01:0e0a:02b1:f401:1::/80";
+      extraOptions = "--ipv6 --fixed-cidr-v6 2a01:e0a:7a:641:1::/80";
       autoPrune.enable = true;
     };
     oci-containers = {
@@ -36,9 +36,6 @@
             "/var/lib/dnsmasq.d:/etc/dnsmasq.d/"
           ];
           ports = [
-            # "0.0.0.0:53:53"
-            "53:53/tcp"
-            "53:53/udp"
             "127.0.0.1:3080:80"
           ];
           environment = {
@@ -46,7 +43,7 @@
             PIHOLE_DNS_ = "2606:4700:4700::1111;1.1.1.1;1.0.0.1;2606:4700:4700::1001";
             DNSSEC = "true";
             DNS_BOGUS_PRIV = "false";
-            ServerIP = "192.168.2.253";
+            ServerIP = "192.168.0.144";
           };
           extraOptions = [
             "--cap-add=NET_ADMIN"
@@ -55,8 +52,6 @@
           ];
           # workdir = "/var/lib/pihole/";
         };
-
-
         home-assistant = {
           #   image = "homeassistant/raspberrypi4-homeassistant:stable";
           image = "ghcr.io/home-assistant/home-assistant:stable";

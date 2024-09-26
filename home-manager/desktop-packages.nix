@@ -26,8 +26,9 @@ in
     lxappearance
     # adapta-gtk-theme
     gnome3.adwaita-icon-theme
-    pcmanfm
     gnome3.gnome-calculator
+    gnome.gnome-power-manager
+    pcmanfm
     libgnome-keyring
     libreoffice
     hunspell
@@ -43,9 +44,12 @@ in
     vlc
     simplescreenrecorder
   ];
-  services.flameshot = {
-    enable = true;
-    # package = flameshot;
+  services = {
+    flameshot = {
+      enable = true;
+      # package = flameshot;
+    };
+    gpg-agent.pinentryPackage = pkgs.pinentry-gnome3;
   };
   systemd.user.targets.tray = {
     Unit = {

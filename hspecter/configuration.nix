@@ -107,11 +107,11 @@ in
     gnome.excludePackages = (with pkgs; [
       gnome-photos
       gnome-tour
+      gedit # text editor
     ]) ++ (with pkgs.gnome; [
       cheese # webcam tool
       gnome-music
       gnome-terminal
-      gedit # text editor
       epiphany # web browser
       geary # email reader
       evince # document viewer
@@ -159,6 +159,15 @@ in
 
   hardware = {
 
+    amdgpu = {
+      amdvlk = {
+        enable = true;
+        support32Bit.enable = true;
+      };
+      initrd.enable = true;
+      opencl.enable = true;
+    };
+
     bluetooth = {
       enable = true;
       # hsphfpd.enable = true;
@@ -174,7 +183,6 @@ in
         };
       };
     };
-
 
     cpu.amd.updateMicrocode = true;
 
@@ -363,7 +371,8 @@ in
 
     avahi = {
       enable = true;
-      nssmdns = true; # Restart nscd in case stops working again
+      nssmdns4 = true; # Restart nscd in case stops working again
+      nssmdns6 = true; # Restart nscd in case stops working again
       ipv4 = true;
       ipv6 = true;
       publish = {
@@ -393,14 +402,17 @@ in
       at-spi2-core.enable = true;
     };
 
+    libinput = {
+      enable = true;
+      touchpad = {
+        naturalScrolling = true;
+        accelProfile = "flat";
+        disableWhileTyping = true;
+      };
+    };
+
     logind = {
-      lidSwitch = "suspend-then-hibernate";
-      lidSwitchExternalPower = "ignore";
-      lidSwitchDocked = "ignore";
-      extraConfig = ''
-        HandlePowerKey=suspend-then-hibernate
-        HandleSuspendKey=ignore
-      '';
+      lidSwitch = "suspend";
     };
 
     openssh.enable = true;
@@ -451,8 +463,8 @@ in
         pkgs.cnijfilter2
         pkgs.gutenprint
         pkgs.hplipWithPlugin
-        dcpj515wDriver.driver
-        dcpj515wDriver.cupswrapper
+        # dcpj515wDriver.driver
+        # dcpj515wDriver.cupswrapper
       ];
       enable = true;
       logLevel = "error";
@@ -534,17 +546,6 @@ in
         ''
       ];
 
-      layout = "us";
-
-      libinput = {
-        enable = true;
-        touchpad = {
-          naturalScrolling = true;
-          accelProfile = "flat";
-          disableWhileTyping = true;
-        };
-      };
-
       # useGlamor = true;
 
       videoDrivers = [ "amdgpu" ];
@@ -560,7 +561,10 @@ in
         };
       };
 
-      xkbVariant = "altgr-intl";
+      xkb = {
+        layout = "us";
+        variant = "altgr-intl";
+      };
 
 
     };

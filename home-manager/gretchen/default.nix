@@ -20,7 +20,7 @@ in
 
   home = {
 
-    packages = [aurora];
+    packages = [ aurora ];
 
     sessionPath = [
       "/home/tchekda/.yarn/bin"
@@ -59,12 +59,6 @@ in
     # dropbox.enable = true;
 
     gnome-keyring.enable = true;
-
-    gpg-agent = {
-      enable = true;
-      enableExtraSocket = true;
-      pinentryFlavor = "tty";
-    };
 
     mpris-proxy.enable = true;
 
