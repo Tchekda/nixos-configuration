@@ -46,5 +46,24 @@
       '';
     };
   };
+
+  systemd.services = {
+    flood = {
+      after = [ "network.target" ];
+      partOf = [ "rtorrent.service" ];
+      wantedBy = [ "network.target" ];
+      description = "Flood service";
+      serviceConfig = {
+        Environment = "HOME=/etc/flood/config";
+        Type = "simple";
+        User = "rtorrent";
+        Group = "media";
+        KillMode = "process";
+        ExecStart = "${pkgs.flood}/bin/flood --host=\"127.0.0.1\" --baseuri=\"/\" --port=3000 --rtsocket=/run/rtorrent/rpc.sock --allowedpath /srv";
+        Restart = "on-failure";
+        RestartSec = "5";
+      };
+    };
+  };
 }
 
