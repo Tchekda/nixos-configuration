@@ -8,7 +8,6 @@ in {
     (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ./seedbox.nix
     ./nginx.nix
-    ./containers.nix
     ./wireguard.nix
     ./dn42
   ];
@@ -118,7 +117,6 @@ in {
   time.timeZone = "Europe/Paris";
 
   users.users = {
-    tchekda.extraGroups = [ "docker" ];
     root = {
       shell = pkgs.fish;
       openssh.authorizedKeys.keys = [
