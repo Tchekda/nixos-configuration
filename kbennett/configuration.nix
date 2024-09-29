@@ -88,14 +88,17 @@
     # };
 
     services."moodle-cron" = {
+      after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
-      script = ''
-        ${pkgs.php81}/bin/php /var/www/moodle/admin/cli/cron.php >/dev/null
-      '';
       serviceConfig = {
-        Type = "forking";
+        Type = "simple";
         User = "nginx";
         Restart = "always";
+        KillMode = "process";
+        ExecStart = ''
+          ${pkgs.php81}/bin/php /var/www/moodle/admin/cli/cron.php
+        '';
+        StandardOutput = "null";
       };
     };
   };
