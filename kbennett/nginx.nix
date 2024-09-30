@@ -23,19 +23,6 @@
             proxyPass = "http://127.0.0.1:8080";
           };
         };
-        "feedback.tchekda.fr" = {
-          http2 = true;
-          onlySSL = true;
-          sslCertificate = "/var/certs/cf-cert.pem";
-          sslCertificateKey = "/var/certs/cf-key.pem";
-          extraConfig = ''
-            ssl_client_certificate /var/certs/origin-pull-ca.pem;
-            ssl_verify_client on;
-          '';
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:8002";
-          };
-        };
         "jackett.tchekda.fr" = {
           http2 = true;
           onlySSL = true;
@@ -74,7 +61,7 @@
             '';
           };
         };
-        "webhook.tchekda.fr" = {
+        "photo.tchekda.fr" = {
           http2 = true;
           onlySSL = true;
           sslCertificate = "/var/certs/cf-cert.pem";
@@ -82,9 +69,14 @@
           extraConfig = ''
             ssl_client_certificate /var/certs/origin-pull-ca.pem;
             ssl_verify_client on;
+            client_max_body_size 50000M;
+            proxy_read_timeout 600s;
+            proxy_send_timeout 600s;
+            send_timeout       600s;
           '';
           locations."/" = {
-            proxyPass = "http://127.0.0.1:9000";
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:2283";
           };
         };
       };
