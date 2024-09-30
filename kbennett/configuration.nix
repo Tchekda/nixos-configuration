@@ -8,8 +8,7 @@
       ./nginx.nix
       <home-manager/nixos>
       ./containers.nix
-      ./fider/fider.nix
-      # ./webhook.nix
+      ./immich
     ];
 
   boot = {
@@ -28,6 +27,7 @@
   environment.systemPackages = with pkgs; [
     git
     htop
+    iotop
     lnav
     nano
     wget
