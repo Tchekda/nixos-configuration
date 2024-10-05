@@ -43,7 +43,7 @@ in
 {
   networking = {
     firewall = {
-      allowedTCPPorts = [ 443 ];
+      allowedTCPPorts = [ 80 443 ];
     };
     hosts = {
       "::1" = [ "seedbox.tchekda.local" ];
@@ -133,10 +133,31 @@ in
       "tchekda.fr" = vhostWith { default = true; } ''
         return 301 https://www.tchekda.fr$request_uri;
       '';
+      "photo-v4.tchekda.fr" = {
+        http2 = true;
+        http3 = true;
+        enableACME = true;
+        forceSSL = true;
+        extraConfig = ''
+          client_max_body_size 50000M;
+          proxy_read_timeout 600s;
+          proxy_send_timeout 600s;
+          send_timeout       600s;
+        '';
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass = "http://photo.tchekda.fr";
+        };
+      };
     };
+  };
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "contact@tchekda.fr";
   };
   # Temp fix https://github.com/NixOS/nixpkgs/issues/87698#issuecomment-971505170
   systemd.tmpfiles.rules = [
     "Z '/var/cache/nginx' 0750 nginx nginx -"
   ];
 }
+

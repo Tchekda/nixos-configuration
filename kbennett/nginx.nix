@@ -1,9 +1,11 @@
 { config, lib, pkgs, ... }:
 
 {
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
   services = {
     nginx = {
       enable = true;
+      logError = "stderr debug";
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
       recommendedProxySettings = true;
@@ -63,12 +65,26 @@
         };
         "photo.tchekda.fr" = {
           http2 = true;
-          onlySSL = true;
-          sslCertificate = "/var/certs/cf-cert.pem";
-          sslCertificateKey = "/var/certs/cf-key.pem";
+          http3 = true;
+          enableACME = true;
+          forceSSL = true;
           extraConfig = ''
-            ssl_client_certificate /var/certs/origin-pull-ca.pem;
-            ssl_verify_client on;
+            client_body_temp_path /srv/nginx-tmp 1 2;
+            client_max_body_size 50000M;
+            proxy_read_timeout 600s;
+            proxy_send_timeout 600s;
+            send_timeout       600s;
+          '';
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:2283";
+          };
+        };
+        "photo-v4.tchekda.fr" = {
+          http2 = true;
+          http3 = true;
+          extraConfig = ''
+            client_body_temp_path /srv/nginx-tmp 1 2;
             client_max_body_size 50000M;
             proxy_read_timeout 600s;
             proxy_send_timeout 600s;
@@ -117,4 +133,9 @@
       '';
     };
   };
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "contact@tchekda.fr";
+  };
+  systemd.services.nginx.serviceConfig.ReadWritePaths = [ "/srv/nginx-tmp" ];
 }
