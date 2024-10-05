@@ -7,6 +7,7 @@
     ./hardware-configuration.nix
     <home-manager/nixos>
     ../tchekda_user.nix
+    # ./immich-backup.nix
   ];
 
   boot = {
@@ -20,7 +21,10 @@
     };
   };
 
-  documentation.enable = false;
+  documentation = {
+    enable = false;
+    man.enable = false;
+  };
 
   environment.systemPackages = with pkgs; [
     git
@@ -73,6 +77,8 @@
   };
 
   nixpkgs.config.allowUnfree = true;
+
+  programs.fish.enable = true;
 
   services = {
     openssh = {
