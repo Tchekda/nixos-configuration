@@ -69,6 +69,7 @@ in
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
       "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
       "x-scheme-handler/postman" = [ "postman.desktop" ];
+      "image/png" = [ "org.gnome.Loupe.desktop" ];
     };
     defaultApplications = {
       "inode/directory" = [ "pcmanfm.desktop" ];
