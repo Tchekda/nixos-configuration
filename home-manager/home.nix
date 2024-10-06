@@ -78,7 +78,7 @@ in
       enableSshSupport = true;
       enableExtraSocket = true;
       maxCacheTtl = 7200;
-      pinentryPackage = pkgs.pinentry-tty;
+      pinentryPackage = lib.mkDefault pkgs.pinentry-tty;
     };
   };
 
