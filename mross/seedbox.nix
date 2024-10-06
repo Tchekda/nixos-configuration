@@ -1,4 +1,7 @@
 { pkgs, config, lib, ... }:
+let
+  unstable = import <nixos-unstable> { };
+in
 {
   users.groups.media.members = [ "plex" "radarr" "sonarr" "deluge" "tchekda" "nginx" ];
 
@@ -11,7 +14,6 @@
   };
 
   services = {
-
     plex = {
       enable = true;
       openFirewall = true;
@@ -22,6 +24,7 @@
 
     rtorrent = {
       enable = true;
+      package = unstable.rtorrent;
       dataPermissions = "0777";
       downloadDir = "/srv/downloads";
       group = "media";
