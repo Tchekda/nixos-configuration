@@ -70,11 +70,28 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts = {
+      "hockey-pen-stats.tchekda.fr" = folder "/var/www/hockey-pen-stats/";
       "lg42.tchekda.fr" = proxy "http://127.0.0.1:5050";
       "pac.tchekda.fr" = folderWith "/var/www/pac.tchekda.fr/" ''
         auth_basic "Security";
         auth_basic_user_file /var/www/pac.tchekda.fr/.htpasswd;
       '';
+      "photo-v4.tchekda.fr" = {
+        http2 = true;
+        http3 = true;
+        enableACME = true;
+        forceSSL = true;
+        extraConfig = ''
+          client_max_body_size 50000M;
+          proxy_read_timeout 600s;
+          proxy_send_timeout 600s;
+          send_timeout       600s;
+        '';
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass = "http://photo.tchekda.fr";
+        };
+      };
       "plex.tchekda.fr" = proxyWith "http://localhost:32400/" ''
         #Some players don't reopen a socket and playback stops totally instead of resuming after an extended pause
         send_timeout 100m;
@@ -133,22 +150,6 @@ in
       "tchekda.fr" = vhostWith { default = true; } ''
         return 301 https://www.tchekda.fr$request_uri;
       '';
-      "photo-v4.tchekda.fr" = {
-        http2 = true;
-        http3 = true;
-        enableACME = true;
-        forceSSL = true;
-        extraConfig = ''
-          client_max_body_size 50000M;
-          proxy_read_timeout 600s;
-          proxy_send_timeout 600s;
-          send_timeout       600s;
-        '';
-        locations."/" = {
-          proxyWebsockets = true;
-          proxyPass = "http://photo.tchekda.fr";
-        };
-      };
     };
   };
   security.acme = {
