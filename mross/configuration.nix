@@ -10,6 +10,7 @@ in {
     ./nginx.nix
     ./wireguard.nix
     ./dn42
+    ./hockey-pen-stats.nix
   ];
 
   boot = {
