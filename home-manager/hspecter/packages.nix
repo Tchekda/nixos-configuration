@@ -93,10 +93,10 @@ in
     python39Packages.virtualenv
     php81Packages.composer
     unstable.openfortivpn
-    remmina
     nixpkgs-fmt
     nodejs-18_x
-    corepack
+    yarn
+    pnpm
     cargo
     docker-compose
     kubectl
@@ -105,7 +105,6 @@ in
     unstable.teleport
     myPostman
     openssl
-    simtoolkitpro
     # mongodb-compass
     # wkhtmltopdf
     # mailcatcher
