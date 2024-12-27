@@ -25,8 +25,8 @@ in
     ddcui
     lxappearance
     # adapta-gtk-theme
-    gnome3.adwaita-icon-theme
-    gnome3.gnome-calculator
+    gnome.adwaita-icon-theme
+    gnome.gnome-calculator
     gnome.gnome-power-manager
     pcmanfm
     libgnome-keyring
