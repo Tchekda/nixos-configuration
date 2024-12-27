@@ -39,7 +39,7 @@ in
 
     kernelModules = [
       "acpi_call"
-      "amdgpu"
+      # "amdgpu"
       "ddcci_backlight"
       "hid_logitech_hidpp"
       "i2c-dev"
@@ -54,8 +54,8 @@ in
     # https://github.com/pop-os/pop/issues/782#issuecomment-571700843
     kernelParams = [
       "acpi_backlight=native"
-      "amdgpu.backlight=0"
-      "amdgpu.noretry=0"
+      # "amdgpu.backlight=0"
+      # "amdgpu.noretry=0"
       "mem_sleep_default=deep"
       "psmouse.synaptics_intertouch=0"
       "thinkpad_acpi.fan_control=1"
@@ -71,7 +71,7 @@ in
 
     initrd = {
       enable = true;
-      kernelModules = [ "amdgpu" ];
+      # kernelModules = [ "amdgpu" ];
       availableKernelModules = [ "thinkpad_acpi" ];
     };
 
@@ -159,14 +159,14 @@ in
 
   hardware = {
 
-    amdgpu = {
-      amdvlk = {
-        enable = true;
-        support32Bit.enable = true;
-      };
-      initrd.enable = true;
-      opencl.enable = true;
-    };
+    # amdgpu = {
+    #   amdvlk = {
+    #     enable = true;
+    #     support32Bit.enable = true;
+    #   };
+    #   initrd.enable = true;
+    #   opencl.enable = true;
+    # };
 
     bluetooth = {
       enable = true;
@@ -527,14 +527,14 @@ in
         wayland = true;
       };
 
-      extraConfig = ''
-        Section "OutputClass"
-          Identifier "AMDgpu"
-          MatchDriver "amdgpu"
-          Driver "amdgpu"
-          Option "TearFree" "false"
-        EndSection
-      '';
+      # extraConfig = ''
+      #   Section "OutputClass"
+      #     Identifier "AMDgpu"
+      #     MatchDriver "amdgpu"
+      #     Driver "amdgpu"
+      #     Option "TearFree" "false"
+      #   EndSection
+      # '';
 
       inputClassSections = [
         ''
@@ -548,7 +548,7 @@ in
 
       # useGlamor = true;
 
-      videoDrivers = [ "amdgpu" ];
+      videoDrivers = [ "modesetting" ];
 
       windowManager = {
         i3 = {
