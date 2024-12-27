@@ -34,10 +34,6 @@
         hostname = "lgp.tchekda.fr";
         user = "tchekda";
       };
-      "ssh.cri.epita.fr".extraOptions = {
-        GSSAPIAuthentication = "yes";
-        GSSAPIDelegateCredentials = "yes";
-      };
     };
   };
 }
