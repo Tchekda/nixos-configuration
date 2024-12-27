@@ -105,30 +105,29 @@ in
     # };
 
     gnome.excludePackages = (with pkgs; [
+      atomix # puzzle game
+      cheese # webcam tool
+      epiphany # web browser
+      evince # document viewer
+      geary # email reader
+      gnome-characters
+      gnome-music
       gnome-photos
+      gnome-terminal
       gnome-tour
       gedit # text editor
-    ]) ++ (with pkgs.gnome; [
-      cheese # webcam tool
-      gnome-music
-      gnome-terminal
-      epiphany # web browser
-      geary # email reader
-      evince # document viewer
-      gnome-characters
-      totem # video player
-      tali # poker game
-      iagno # go game
       hitori # sudoku game
-      atomix # puzzle game
+      iagno # go game
+      tali # poker game
+      totem # video player
     ]);
 
     systemPackages = with pkgs; [
       acpi
       git
-      gnome.seahorse
-      gnome3.adwaita-icon-theme
-      gnome3.gnome-tweaks
+      seahorse
+      adwaita-icon-theme
+      gnome-tweaks
       gnomeExtensions.appindicator
       gnupg
       home-manager
@@ -201,15 +200,13 @@ in
       enableGraphical = true;
     };
 
-    opengl = {
-      driSupport = true;
-      driSupport32Bit = true;
-      setLdLibraryPath = true;
+    graphics = {
+      enable32Bit = true;
       extraPackages = with pkgs; [
         amdvlk
         mesa.drivers
-        rocm-opencl-icd
-        rocm-opencl-runtime
+        # rocm-opencl-icd
+        # rocm-opencl-runtime
       ];
       extraPackages32 = [
         pkgs.driversi686Linux.amdvlk
@@ -340,7 +337,7 @@ in
         u2fAuth = true;
       };
       login = {
-        fprintAuth = true;
+        fprintAuth = lib.mkForce true;
         u2fAuth = true;
       };
       sddm = {
@@ -509,7 +506,7 @@ in
 
     tzupdate.enable = true;
 
-    udev.packages = with pkgs; [ yubikey-personalization gnome.gnome-settings-daemon ];
+    udev.packages = with pkgs; [ yubikey-personalization gnome-settings-daemon ];
 
     xserver = {
       enable = true;
@@ -555,7 +552,7 @@ in
           enable = true;
           package = pkgs.i3-gaps;
           extraSessionCommands = ''
-            eval $(${pkgs.gnome3.gnome-keyring}/bin/gnome-keyring-daemon --daemonize)
+            eval $(${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --daemonize)
             export SSH_AUTH_SOCK
           '';
         };
@@ -570,8 +567,6 @@ in
     };
 
   };
-
-  sound.enable = true;
 
   system = {
     stateVersion = "21.05";
