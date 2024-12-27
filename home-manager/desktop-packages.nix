@@ -70,6 +70,7 @@ in
       "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
       "x-scheme-handler/postman" = [ "postman.desktop" ];
       "image/png" = [ "org.gnome.Loupe.desktop" ];
+      "application/zip" = [ "org.gnome.Nautilus.desktop" ];
     };
     defaultApplications = {
       "inode/directory" = [ "pcmanfm.desktop" ];
