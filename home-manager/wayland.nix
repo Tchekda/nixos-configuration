@@ -178,7 +178,7 @@ in
           "${mod}+b" = "exec systemctl hibernate";
           "${mod}+Shift+b" = "exec systemctl poweroff";
           "${mod}+Shift+t" = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr --match-edid -c";
-          "XF86Calculator" = "exec --no-startup-id ${pkgs.gnome3.gnome-calculator}/bin/gnome-calculator";
+          "XF86Calculator" = "exec --no-startup-id ${pkgs.gnome-calculator}/bin/gnome-calculator";
 
           "${mod}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
           "Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";

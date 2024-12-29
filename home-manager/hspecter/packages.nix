@@ -89,8 +89,8 @@ in
     # Dev
     awscli2
     redli
-    python39Packages.autopep8
-    python39Packages.virtualenv
+    python311Packages.autopep8
+    python311Packages.virtualenv
     php81Packages.composer
     unstable.openfortivpn
     nixpkgs-fmt
@@ -146,7 +146,7 @@ in
     filezilla
     nixops_unstable_minimal
     termius
-    transmission-gtk
+    transmission_4-gtk
     gimp
     maestral-gui
     # pdfrankenstein
