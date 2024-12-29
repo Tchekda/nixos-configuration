@@ -47,7 +47,7 @@ in
           TZ = "Europe/Paris";
         };
         ports = [
-          "127.0.0.1:2283:3001"
+          "127.0.0.1:2283:2283"
         ];
         dependsOn = [ "immich_redis" "immich_postgres" ];
         extraOptions = [ "--network=immich" ];
@@ -60,7 +60,7 @@ in
         extraOptions = [ "--network=immich" ];
       };
       immich_redis = {
-        image = "docker.io/redis:6.2-alpine@sha256:2d1463258f2764328496376f5d965f20c6a67f66ea2b06dc42af351f75248792";
+        image = "docker.io/redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8";
         extraOptions = [ "--network=immich" ];
       };
       immich_postgres = {
