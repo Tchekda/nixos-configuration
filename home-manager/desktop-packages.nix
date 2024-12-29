@@ -16,7 +16,7 @@ in
     brightnessctl
     pavucontrol
     pulseaudio
-    xarchive
+    file-roller
     pciutils
     iw
     wirelesstools
@@ -25,9 +25,9 @@ in
     ddcui
     lxappearance
     # adapta-gtk-theme
-    gnome.adwaita-icon-theme
-    gnome.gnome-calculator
-    gnome.gnome-power-manager
+    adwaita-icon-theme
+    gnome-calculator
+    gnome-power-manager
     pcmanfm
     libgnome-keyring
     libreoffice
