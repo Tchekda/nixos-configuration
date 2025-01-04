@@ -24,9 +24,9 @@ in
           }
         ];
         postSetup = ''
-          ${lib.optionalString (tunnelIPv4 != null) "${pkgs.iproute}/bin/ip addr add ${localIPv4} peer ${tunnelIPv4} dev ${name}"}
-          ${lib.optionalString (tunnelIPv6 != null) "${pkgs.iproute}/bin/ip -6 addr add ${localIPv6} peer ${tunnelIPv6} dev ${name}"}
-          ${lib.optionalString isOspf "${pkgs.iproute}/bin/ip -6 addr add ${defaultLocalIPv6} dev ${name}"}
+          ${lib.optionalString (tunnelIPv4 != null) "${pkgs.iproute2}/bin/ip addr add ${localIPv4} peer ${tunnelIPv4} dev ${name}"}
+          ${lib.optionalString (tunnelIPv6 != null) "${pkgs.iproute2}/bin/ip -6 addr add ${localIPv6} peer ${tunnelIPv6} dev ${name}"}
+          ${lib.optionalString isOspf "${pkgs.iproute2}/bin/ip -6 addr add ${defaultLocalIPv6} dev ${name}"}
         '';
       };
       tunnel = listenPort: privateKey: publicKey: endpoint: name: tunnelIPv4: tunnelIPv6: customTunnel listenPort privateKey publicKey null endpoint name tunnelIPv4 tunnelIPv6 defaultLocalIPv4 defaultLocalIPv6 false;

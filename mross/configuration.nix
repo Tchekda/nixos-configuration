@@ -27,16 +27,22 @@ in {
   documentation.enable = false;
 
   environment = {
-    etc."dhcpcd.duid".text = client_id;
-    systemPackages = with pkgs; [
-      dig
-      git
-      htop
-      iotop
-      lnav
-      nano
-      wget
-    ];
+    etc."dhcpcd.duid" =
+      {
+        text = client_id;
+        user = "dhcpcd";
+        group = "dhcpcd";
+      };
+    systemPackages = with pkgs;
+      [
+        dig
+        git
+        htop
+        iotop
+        lnav
+        nano
+        wget
+      ];
   };
 
   home-manager.users.tchekda = {
@@ -111,9 +117,10 @@ in {
 
   system.stateVersion = "22.11"; # Did you read the comment?
 
-  systemd.services.dhcpcd.preStart = ''
-    cp ${pkgs.writeText "duid" client_id} /var/db/dhcpcd/duid
-  '';
+  # Fails for some reason
+  # systemd.services.dhcpcd.preStart = ''
+  #   cp ${pkgs.writeText "duid" client_id} /var/db/dhcpcd/duid
+  # '';
 
   time.timeZone = "Europe/Paris";
 
