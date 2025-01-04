@@ -11,3 +11,4 @@ hgunderson/qrcode.config
 kbennett/fider/secrets.nix
 kbennett/cf-apikey
 mross/client_id
+mross/hockey-pen-stats.env
