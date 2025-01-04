@@ -24,5 +24,6 @@
     volumes = [
       "/var/www/hockey-pen-stats/:/app/data"
     ];
+    environmentFiles = [ "/etc/hockey-pen-stats.env" ];
   };
 }

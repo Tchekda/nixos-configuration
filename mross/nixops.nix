@@ -53,6 +53,12 @@
         user = "named";
         group = "named";
       };
+      hockey-pen-stats-env = {
+        text = builtins.readFile ./hockey-pen-stats.env;
+        target = "hockey-pen-stats.env";
+        user = "nginx";
+        group = "nginx";
+      };
     };
 
     imports = [ ./configuration.nix ];
