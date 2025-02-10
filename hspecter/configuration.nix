@@ -1,19 +1,23 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   # unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
   # oldstable = import <nixos-21.11> { };
   dcpj515wDriver = pkgs.callPackage ./dcpj515w.nix { };
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      # <home-manager/nixos> # Config split between system and user
-      # <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2> # Conflict with AMDGPU-Pro
-      ../tchekda_user.nix
-      ./dev.nix
-      ./sane-extra-config.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    # <home-manager/nixos> # Config split between system and user
+    # <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2> # Conflict with AMDGPU-Pro
+    ../tchekda_user.nix
+    ./dev.nix
+    ./sane-extra-config.nix
+  ];
 
   boot = {
     # kernelPackages = pkgs.linuxPackages_latest; # Defined in AMDGPU-Pro
@@ -39,7 +43,7 @@ in
 
     kernelModules = [
       "acpi_call"
-      "amdgpu"
+      # "amdgpu"
       "ddcci_backlight"
       "hid_logitech_hidpp"
       "i2c-dev"
@@ -54,8 +58,8 @@ in
     # https://github.com/pop-os/pop/issues/782#issuecomment-571700843
     kernelParams = [
       "acpi_backlight=native"
-      "amdgpu.backlight=0"
-      "amdgpu.noretry=0"
+      # "amdgpu.backlight=0"
+      # "amdgpu.noretry=0"
       "mem_sleep_default=deep"
       "psmouse.synaptics_intertouch=0"
       "thinkpad_acpi.fan_control=1"
@@ -71,7 +75,7 @@ in
 
     initrd = {
       enable = true;
-      kernelModules = [ "amdgpu" ];
+      # kernelModules = [ "amdgpu" ];
       availableKernelModules = [ "thinkpad_acpi" ];
     };
 
@@ -85,8 +89,16 @@ in
   documentation.man.generateCaches = false;
 
   environment = {
-    extraOutputsToInstall = [ "out" "lib" "bin" "dev" ];
-    pathsToLink = [ "/include" "/lib" ];
+    extraOutputsToInstall = [
+      "out"
+      "lib"
+      "bin"
+      "dev"
+    ];
+    pathsToLink = [
+      "/include"
+      "/lib"
+    ];
     etc."chromium/policies/recommended/spnego.json".text = builtins.toJSON {
       AuthServerWhitelist = "cri.epita.fr";
     };
@@ -104,23 +116,26 @@ in
     #   '';
     # };
 
-    gnome.excludePackages = (with pkgs; [
-      atomix # puzzle game
-      cheese # webcam tool
-      epiphany # web browser
-      evince # document viewer
-      geary # email reader
-      gnome-characters
-      gnome-music
-      gnome-photos
-      gnome-terminal
-      gnome-tour
-      gedit # text editor
-      hitori # sudoku game
-      iagno # go game
-      tali # poker game
-      totem # video player
-    ]);
+    gnome.excludePackages = (
+      with pkgs;
+      [
+        atomix # puzzle game
+        cheese # webcam tool
+        epiphany # web browser
+        evince # document viewer
+        geary # email reader
+        gnome-characters
+        gnome-music
+        gnome-photos
+        gnome-terminal
+        gnome-tour
+        gedit # text editor
+        hitori # sudoku game
+        iagno # go game
+        tali # poker game
+        totem # video player
+      ]
+    );
 
     systemPackages = with pkgs; [
       acpi
@@ -158,14 +173,14 @@ in
 
   hardware = {
 
-    amdgpu = {
-      amdvlk = {
-        enable = true;
-        support32Bit.enable = true;
-      };
-      initrd.enable = true;
-      opencl.enable = true;
-    };
+    # amdgpu = {
+    #   amdvlk = {
+    #     enable = true;
+    #     support32Bit.enable = true;
+    #   };
+    #   initrd.enable = true;
+    #   opencl.enable = true;
+    # };
 
     bluetooth = {
       enable = true;
@@ -203,13 +218,13 @@ in
     graphics = {
       enable32Bit = true;
       extraPackages = with pkgs; [
-        amdvlk
+        # amdvlk
         mesa.drivers
         # rocm-opencl-icd
         # rocm-opencl-runtime
       ];
       extraPackages32 = [
-        pkgs.driversi686Linux.amdvlk
+        # pkgs.driversi686Linux.amdvlk
       ];
 
     };
@@ -250,7 +265,10 @@ in
       options = "--delete-older-than 10d";
     };
     settings = {
-      trusted-users = [ "root" "tchekda" ];
+      trusted-users = [
+        "root"
+        "tchekda"
+      ];
       # substituters = [ "http://cache.nixos.org" "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" ];
       # trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
     };
@@ -319,11 +337,10 @@ in
     ssh.startAgent = true;
 
     wireshark = {
-      enable = true;
+      enable = false;
       package = pkgs.wireshark;
     };
   };
-
 
   security = {
     polkit.enable = true;
@@ -382,7 +399,10 @@ in
 
     blueman.enable = true;
 
-    dbus.packages = with pkgs; [ gcr gnome2.GConf ];
+    dbus.packages = with pkgs; [
+      gcr
+      gnome2.GConf
+    ];
 
     fprintd.enable = true;
 
@@ -488,9 +508,21 @@ in
         }
       ];
       levels = [
-        [ "level auto" 0 45 ]
-        [ 7 40 95 ]
-        [ "level disengaged" 90 255 ]
+        [
+          "level auto"
+          0
+          45
+        ]
+        [
+          7
+          40
+          95
+        ]
+        [
+          "level disengaged"
+          90
+          255
+        ]
       ];
     };
 
@@ -506,7 +538,10 @@ in
 
     tzupdate.enable = true;
 
-    udev.packages = with pkgs; [ yubikey-personalization gnome-settings-daemon ];
+    udev.packages = with pkgs; [
+      yubikey-personalization
+      gnome-settings-daemon
+    ];
 
     xserver = {
       enable = true;
@@ -524,14 +559,14 @@ in
         wayland = true;
       };
 
-      extraConfig = ''
-        Section "OutputClass"
-          Identifier "AMDgpu"
-          MatchDriver "amdgpu"
-          Driver "amdgpu"
-          Option "TearFree" "false"
-        EndSection
-      '';
+      # extraConfig = ''
+      #   Section "OutputClass"
+      #     Identifier "AMDgpu"
+      #     MatchDriver "amdgpu"
+      #     Driver "amdgpu"
+      #     Option "TearFree" "false"
+      #   EndSection
+      # '';
 
       inputClassSections = [
         ''
@@ -545,7 +580,7 @@ in
 
       # useGlamor = true;
 
-      videoDrivers = [ "amdgpu" ];
+      # videoDrivers = [ "amdgpu" ];
 
       windowManager = {
         i3 = {
@@ -563,7 +598,6 @@ in
         variant = "altgr-intl";
       };
 
-
     };
 
   };
@@ -573,7 +607,6 @@ in
   };
 
   systemd = {
-    sleep.extraConfig = "HibernateDelaySec=30m";
 
     services = {
       # Disable autostarts
@@ -596,7 +629,18 @@ in
 
   users = {
     users = {
-      tchekda.extraGroups = [ "adbusers" "docker" "audio" "networkmanager" "libvirtd" "lpadmin" "scanner" "lp" "video" "i2c" ];
+      tchekda.extraGroups = [
+        "adbusers"
+        "docker"
+        "audio"
+        "networkmanager"
+        "libvirtd"
+        "lpadmin"
+        "scanner"
+        "lp"
+        "video"
+        "i2c"
+      ];
       root.shell = pkgs.fish;
     };
   };
