@@ -33,12 +33,26 @@
             allowedIPs = [ "192.168.1.13/32" "2001:bc8:2e2a:3:3::1/80" ];
             persistentKeepalive = 25;
           }
+          {
+            publicKey = "pN5HOzguLrG9YTEEYrI1D3Qm8tcXwn541lNTtahdLik="; # Mami
+            allowedIPs = [ "192.168.1.14/32" "2001:bc8:2e2a:3:4::1/80" ];
+            persistentKeepalive = 25;
+          }
+          {
+            publicKey = "cbmzzMFmkjCMJKtFeozFeKIizaLbt+fe8/Qa7vpjuxc="; # Papi
+            allowedIPs = [ "192.168.1.15/32" "2001:bc8:2e2a:3:5::1/80" ];
+            persistentKeepalive = 25;
+          }
         ];
         postSetup = ''
           ${pkgs.iptables}/bin/iptables -t nat -I POSTROUTING -o enp0s20f0 -j MASQUERADE
+          ${pkgs.iptables}/bin/ip6tables -A FORWARD -i vpn -j ACCEPT
+          ${pkgs.iptables}/bin/ip6tables -A FORWARD -o vpn -j ACCEPT
         '';
         postShutdown = ''
           ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o enp0s20f0 -j MASQUERADE
+          ${pkgs.iptables}/bin/ip6tables -D FORWARD -i vpn -j ACCEPT
+          ${pkgs.iptables}/bin/ip6tables -D FORWARD -o vpn -j ACCEPT
         '';
       };
     };
