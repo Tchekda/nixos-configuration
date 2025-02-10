@@ -93,7 +93,7 @@ in
     python311Packages.virtualenv
     php81Packages.composer
     unstable.openfortivpn
-    nixpkgs-fmt
+    nixfmt-rfc-style
     nodejs-18_x
     yarn
     pnpm
