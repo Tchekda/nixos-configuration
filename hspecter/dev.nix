@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
 
   environment.systemPackages = [ pkgs.php81 ];
@@ -11,16 +16,20 @@
 
   users.users.tchekda.extraGroups = [ "www-data" ];
 
-
   services = {
     nginx = {
       enable = true;
 
       virtualHosts =
         let
-          vhost = config: ({
-            http2 = true;
-          } // config);
+          vhost =
+            config:
+            (
+              {
+                http2 = true;
+              }
+              // config
+            );
         in
         {
           "avenir.local" = vhost {
@@ -60,17 +69,19 @@
     mysql = {
       enable = true;
       package = pkgs.mariadb;
-      ensureUsers = [{ name = "root"; }];
-      initialDatabases = [{ name = "avenir"; }];
+      ensureUsers = [ { name = "root"; } ];
+      initialDatabases = [ { name = "avenir"; } ];
       settings.mysqld.bind-address = "localhost";
     };
 
     postgresql = {
-      enable = true;
+      enable = false;
       package = pkgs.postgresql;
-      ensureUsers = [{
-        name = "tchekda";
-      }];
+      ensureUsers = [
+        {
+          name = "tchekda";
+        }
+      ];
       authentication = pkgs.lib.mkOverride 10 ''
         #type database  DBuser  auth-method
         local all       all     trust
