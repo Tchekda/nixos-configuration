@@ -1,7 +1,6 @@
 home-manager/hspecter/*-vpn
 home-manager/hspecter/result
 home-manager/swheeler/appart.secrets.nix
-hspecter/wg*
 hspecter/smb-secrets
 result*
 **/dn42/peers/tunnels.nix
@@ -10,5 +9,6 @@ ssl/*pem
 hgunderson/qrcode.config
 kbennett/fider/secrets.nix
 kbennett/cf-apikey
+mross/wg*
 mross/client_id
 mross/hockey-pen-stats.env
