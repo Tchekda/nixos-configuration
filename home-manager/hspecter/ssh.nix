@@ -34,6 +34,11 @@
         hostname = "lgp.tchekda.fr";
         user = "tchekda";
       };
+      lgp-v4 = {
+        hostname = "lgp.tchekda.fr";
+        user = "tchekda";
+        proxyJump = "mross";
+      };
       bastion-siops = {
         hostname = "91.243.117.174";
         user = "proxyjump";
