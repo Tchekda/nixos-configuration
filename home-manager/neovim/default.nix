@@ -1,26 +1,22 @@
 { pkgs, lib, ... }:
-let
-  nixos-23_05 = import <nixos-23.05> { };
-in
 {
   programs.neovim = {
     enable = true;
     # extraConfig = builtins.readFile ./init.vim + builtins.readFile ./keymap.vim;
     # extraLuaConfig = builtins.concatStringsSep "\n" (map (file: builtins.readFile file) (lib.filesystem.listFilesRecursive ./lua));
-    extraPackages = with pkgs;
-      [
-        clang
-        ripgrep
-        tree-sitter
-        xclip # x11
-        wl-clipboard # wayland
-      ];
+    extraPackages = with pkgs; [
+      clang
+      ripgrep
+      tree-sitter
+      xclip # x11
+      wl-clipboard # wayland
+    ];
     plugins = with pkgs.vimPlugins; [
       packer-nvim
       vim-fugitive
       plenary-nvim
       telescope-nvim
-      nixos-23_05.vimPlugins.nvim-treesitter.withAllGrammars
+      nvim-treesitter.withAllGrammars
       nvim-colorizer-lua
       nvim-web-devicons
       nvim-lspconfig
@@ -44,5 +40,8 @@ in
     viAlias = true;
     vimAlias = true;
   };
-  xdg.configFile."nvim" = { source = ./config; recursive = true; };
+  xdg.configFile."nvim" = {
+    source = ./config;
+    recursive = true;
+  };
 }
