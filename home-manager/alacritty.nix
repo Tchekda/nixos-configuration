@@ -21,11 +21,7 @@
         size = 8.5;
       };
 
-
-      shell = {
-        program = "${pkgs.fish}/bin/fish";
-        #args = [ "--init-command" "echo; neofetch; echo" ];
-      };
+      terminal.shell = "${pkgs.fish}/bin/fish";
 
       colors = {
         primary = {
