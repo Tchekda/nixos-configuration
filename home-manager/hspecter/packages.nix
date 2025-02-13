@@ -1,7 +1,15 @@
-{ pkgs, unstable, config, lib, ... }:
+{
+  pkgs,
+  unstable,
+  config,
+  lib,
+  ...
+}:
 let
   unstable = import <nixos-unstable> {
-    config = { allowUnfree = true; };
+    config = {
+      allowUnfree = true;
+    };
     overlays = [
       (final: prev: {
         postman = prev.postman.overrideAttrs (old: rec {
@@ -14,29 +22,17 @@ let
               patchelf --set-rpath "${lib.makeLibraryPath old.buildInputs}:$ORIGIN" $file
             done
             popd
-            wrapProgram $out/bin/postman --set PATH ${lib.makeBinPath [ unstable.openssl pkgs.xdg-utils unstable.toybox]}
+            wrapProgram $out/bin/postman --set PATH ${
+              lib.makeBinPath [
+                unstable.openssl
+                pkgs.xdg-utils
+                unstable.toybox
+              ]
+            }
           '';
         });
       })
     ];
-  };
-  nixos-23_05 = import <nixos-23.05> {
-    config = {
-      permittedInsecurePackages = [
-        "teams-1.5.00.23861"
-      ];
-    };
-    # overlays = [
-    #   (final: prev: {
-    #     postman = prev.postman.override (old: rec {
-    #       # force glib to be 2.68.4
-    #       # buildInputs = old.buildInputs ++ [ pkgs.glib ];
-    #       # glib = pkgs.glib;
-    #       # stdenv = pkgs.stdenv;
-    #       nativeBuildInputs = [ pkgs.wrapGAppsHook prev.copyDesktopItems ];
-    #     });
-    #   })
-    # ];
   };
   pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { };
   aurora = pkgs.callPackage ../aurora.nix { };
@@ -138,7 +134,7 @@ in
     # m68k
     # clang
     # Applications
-    nixos-23_05.teams
+    teams-for-linux
     google-chrome
     # kvirc
     zoom-us
