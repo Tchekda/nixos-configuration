@@ -1,8 +1,18 @@
-{ pkgs, config, lib, environment, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  environment,
+  ...
+}:
 let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  unstable = import <nixos-unstable> {
+    config = {
+      allowUnfree = true;
+    };
+  };
   screenlocker = builtins.fetchurl {
-    url = https://files.tchekda.fr/suits-wallpaper.jpg;
+    url = "https://files.tchekda.fr/suits-wallpaper.jpg";
     sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
   };
 in
@@ -18,7 +28,6 @@ in
     ./git.nix
     ../i3.nix
     # ./polybar.nix
-    ../dunst.nix
     ./vim.nix
     ../neovim/default.nix
     ./helix.nix
@@ -30,7 +39,7 @@ in
       "/home/tchekda/.yarn/bin"
     ];
     sessionVariables = {
-      EDITOR = "vim";
+      EDITOR = "nvim";
 
       HTTPSTAT_SAVE_BODY = "false";
       NIXPKGS_ALLOW_UNFREE = "1";
@@ -45,13 +54,12 @@ in
 
   programs = {
     fish = {
-      shellAbbrs =
-        {
-          deletec = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/deletec-vpn";
-          ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
-          nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
-          hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/hspecter/default.nix switch -b backup";
-        };
+      shellAbbrs = {
+        deletec = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/deletec-vpn";
+        ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
+        nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
+        hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/hspecter/default.nix switch -b backup";
+      };
     };
 
     vscode = {
@@ -131,7 +139,9 @@ in
         PartOf = [ "graphical-session.target" ];
       };
 
-      Install = { WantedBy = [ "graphical-session.target" ]; };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
 
       Service = {
         ExecStart = "${pkgs.yubikey-touch-detector}/bin/yubikey-touch-detector --libnotify";
@@ -139,6 +149,5 @@ in
       };
     };
   };
-
 
 }
