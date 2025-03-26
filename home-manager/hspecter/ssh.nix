@@ -87,6 +87,24 @@
           }
         ];
       };
+      master-panel = {
+        hostname = "192.168.64.13";
+        user = "ubuntu";
+        proxyJump = "bastion-siops";
+        identityFile = "~/.ssh/id_epita";
+        localForwards = [
+          {
+            host = {
+              address = "127.0.0.1";
+              port = 6443;
+            };
+            bind = {
+              address = "127.0.0.1";
+              port = 6443;
+            };
+          }
+        ];
+      };
     };
   };
 }
