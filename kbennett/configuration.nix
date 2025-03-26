@@ -1,15 +1,14 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../tchekda_user.nix
-      ./nginx.nix
-      <home-manager/nixos>
-      ./containers.nix
-      ./immich
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../tchekda_user.nix
+    ./nginx.nix
+    <home-manager/nixos>
+    ./containers.nix
+    ./immich
+  ];
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
@@ -44,7 +43,6 @@
     options = "--delete-older-than 10d";
   };
 
-
   networking = {
     dhcpcd = {
       extraConfig = ''
@@ -58,7 +56,12 @@
 
     hostName = "kbennett";
 
-    nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+    nameservers = [
+      "1.1.1.1"
+      "1.0.0.1"
+      "2606:4700:4700::1111"
+      "2606:4700:4700::1001"
+    ];
 
     tempAddresses = "disabled";
 
@@ -67,7 +70,6 @@
 
   programs.fish.enable = true;
 
-
   services = {
     openssh.enable = true;
     qemuGuest.enable = true;
@@ -75,35 +77,7 @@
 
   system.stateVersion = "21.05"; # Did you read the comment?
 
-  systemd = {
-    # timers."moodle-cron" = {
-    #   wantedBy = [ "timers.target" ];
-    #   timerConfig = {
-    #     OnBootSec = "3m";
-    #     OnUnitActiveSec = "3m";
-    #     Unit = "moodle-cron.service";
-    #   };
-    # };
-
-    services."moodle-cron" = {
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "simple";
-        User = "nginx";
-        Restart = "always";
-        KillMode = "process";
-        ExecStart = ''
-          ${pkgs.php81}/bin/php /var/www/moodle/admin/cli/cron.php
-        '';
-        StandardOutput = "null";
-      };
-    };
-  };
-
-
   time.timeZone = "Europe/Paris";
-
 
   users.users = {
     tchekda.extraGroups = [ "docker" ];
