@@ -9,7 +9,7 @@
   environment.systemPackages = [ pkgs.php81 ];
 
   networking.extraHosts = ''
-    ::1 avenir.local
+    127.0.0.1 avenir.local
     ::1 moodle.local
     127.0.0.1 dev.ivao.aero
   '';
@@ -43,6 +43,17 @@
                 extraConfig = ''
                   fastcgi_pass  unix:${config.services.phpfpm.pools.www.socket};
                   fastcgi_index index.php;
+                '';
+              };
+              "/api/ec_api" = {
+                proxyPass = "https://api.ecoledirecte.com";
+                extraConfig = ''
+                  proxy_hide_header 'access-control-allow-origin';
+                  add_header Access-Control-Allow-Origin http://avenir.local:3000;
+                  add_header Access-Control-Allow-Credentials true;
+                  rewrite ^/api/ec_api/(.*)$ /$1 break;
+                  proxy_cookie_domain ecoledirecte.com avenir.local;
+                  proxy_cookie_flags ~ nosecure samesite=lax;
                 '';
               };
             };
