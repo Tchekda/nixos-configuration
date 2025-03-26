@@ -31,6 +31,7 @@
       "compile_commands.json"
       ".cache/"
       ".clang-format"
+      ".gitconfig"
     ];
     extraConfig.push.autoSetupRemote = true;
   };
