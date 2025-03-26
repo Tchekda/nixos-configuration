@@ -30,7 +30,6 @@ in
     # ./polybar.nix
     ./vim.nix
     ../neovim/default.nix
-    ./helix.nix
     # ./android.nix
   ];
 
