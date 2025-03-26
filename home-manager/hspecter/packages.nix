@@ -84,6 +84,8 @@ in
     aurora.alpha
     # Dev
     awscli2
+    google-cloud-sdk
+    sshuttle
     redli
     python311Packages.autopep8
     python311Packages.virtualenv
@@ -96,6 +98,7 @@ in
     cargo
     docker-compose
     kubectl
+    kubelogin-oidc
     myLens
     # unstable.lens
     unstable.teleport
