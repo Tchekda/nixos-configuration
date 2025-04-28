@@ -10,7 +10,8 @@ in
 
     serviceConfig.Type = "oneshot";
     script =
-      let dockercli = "${config.virtualisation.docker.package}/bin/docker";
+      let
+        dockercli = "${config.virtualisation.docker.package}/bin/docker";
       in
       ''
         # Put a true at the end to prevent getting non-zero return code, which will
@@ -49,7 +50,10 @@ in
         ports = [
           "127.0.0.1:2283:2283"
         ];
-        dependsOn = [ "immich_redis" "immich_postgres" ];
+        dependsOn = [
+          "immich_redis"
+          "immich_postgres"
+        ];
         extraOptions = [ "--network=immich" ];
       };
       immich_machine_learning = {
@@ -60,7 +64,7 @@ in
         extraOptions = [ "--network=immich" ];
       };
       immich_redis = {
-        image = "docker.io/redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8";
+        image = "docker.io/valkey/valkey:8-bookworm@sha256:42cba146593a5ea9a622002c1b7cba5da7be248650cbb64ecb9c6c33d29794b1";
         extraOptions = [ "--network=immich" ];
       };
       immich_postgres = {
@@ -74,7 +78,21 @@ in
         volumes = [
           "/srv/immich-postgres:/var/lib/postgresql/data"
         ];
-        cmd = [ "postgres" "-c" "shared_preload_libraries=vectors.so" "-c" "search_path=\"$$user\", public, vectors" "-c" "logging_collector=on" "-c" "max_wal_size=2GB" "-c" "shared_buffers=512MB" "-c" "wal_compression=on" ];
+        cmd = [
+          "postgres"
+          "-c"
+          "shared_preload_libraries=vectors.so"
+          "-c"
+          "search_path=\"$$user\", public, vectors"
+          "-c"
+          "logging_collector=on"
+          "-c"
+          "max_wal_size=2GB"
+          "-c"
+          "shared_buffers=512MB"
+          "-c"
+          "wal_compression=on"
+        ];
         extraOptions = [ "--network=immich" ];
       };
 
