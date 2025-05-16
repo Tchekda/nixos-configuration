@@ -46,6 +46,10 @@
       };
     '';
     forward = "only";
+    listenOn = [
+      "!10.199.33.0/24"
+      "0.0.0.0/0"
+    ];
     zones = {
       "tchekda.dn42" = {
         file = "/etc/zones/tchekda.dn42";
