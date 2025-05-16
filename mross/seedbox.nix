@@ -5,8 +5,12 @@
   ...
 }:
 let
+  unstable = import <nixos-unstable> {
+    config = {
+      allowUnfree = true;
+    };
+  };
 in
-# unstable = import <nixos-unstable> { };
 {
   users.groups.media.members = [
     "plex"
@@ -39,6 +43,7 @@ in
     plex = {
       enable = true;
       openFirewall = true;
+      package = unstable.plex;
     };
 
     sonarr = {
@@ -75,6 +80,9 @@ in
         system.umask.set = 000
 
         trackers.use_udp.set = 1
+
+        # KB/s - Limit upload to prevent IO overload
+        upload_rate = 30
       '';
     };
   };
