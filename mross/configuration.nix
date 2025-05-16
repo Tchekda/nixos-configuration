@@ -1,6 +1,8 @@
 { pkgs, ... }:
-let client_id = builtins.readFile ./client_id;
-in {
+let
+  client_id = builtins.readFile ./client_id;
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../tchekda_user.nix
@@ -11,6 +13,7 @@ in {
     ./wireguard.nix
     ./dn42
     ./hockey-pen-stats.nix
+    ./lxd.nix
   ];
 
   boot = {
@@ -27,22 +30,22 @@ in {
   documentation.enable = false;
 
   environment = {
-    etc."dhcpcd.duid" =
-      {
-        text = client_id;
-        user = "dhcpcd";
-        group = "dhcpcd";
-      };
-    systemPackages = with pkgs;
-      [
-        dig
-        git
-        htop
-        iotop
-        lnav
-        nano
-        wget
-      ];
+    etc."dhcpcd.duid" = {
+      text = client_id;
+      user = "dhcpcd";
+      group = "dhcpcd";
+    };
+    systemPackages = with pkgs; [
+      dig
+      git
+      htop
+      iotop
+      lnav
+      nano
+      neofetch
+      tcpdump
+      wget
+    ];
   };
 
   home-manager.users.tchekda = {
@@ -82,7 +85,10 @@ in {
     };
 
     firewall = {
-      allowedTCPPorts = [ 1337 1664 ];
+      allowedTCPPorts = [
+        1337
+        1664
+      ];
       logRefusedConnections = false;
       # extraCommands = ''
       #   iptables -t nat -A OUTPUT -d 188.114.97.2/32 -p tcp -m tcp --dport 80 -j DNAT --to-destination 185.117.154.164:80
@@ -92,7 +98,14 @@ in {
 
     hostName = "mross";
 
-    nameservers = [ "51.159.69.156" "51.159.69.162" "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+    nameservers = [
+      "51.159.69.156"
+      "51.159.69.162"
+      "1.1.1.1"
+      "1.0.0.1"
+      "2606:4700:4700::1111"
+      "2606:4700:4700::1001"
+    ];
 
     tempAddresses = "disabled";
 
