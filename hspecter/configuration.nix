@@ -13,14 +13,14 @@ in
   imports = [
     ./hardware-configuration.nix
     # <home-manager/nixos> # Config split between system and user
-    # <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2> # Conflict with AMDGPU-Pro
+    <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2>
     ../tchekda_user.nix
     ./dev.nix
     ./sane-extra-config.nix
   ];
 
   boot = {
-    # kernelPackages = pkgs.linuxPackages_latest; # Defined in AMDGPU-Pro
+    kernelPackages = pkgs.linuxPackages_latest;
     binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     extraModulePackages = with config.boot.kernelPackages; [
@@ -29,7 +29,6 @@ in
     ];
 
     extraModprobeConfig = ''
-      options snd_acp3x_rn dmic_acpi_check=1
       options iwlwifi 11n_disable=8 power_save=1 uapsd_disable=1
       options thinkpad_acpi fan_control=1
       options snd_hda_intel power_save=0
@@ -121,19 +120,34 @@ in
       [
         atomix # puzzle game
         cheese # webcam tool
+        baobab
         epiphany # web browser
         evince # document viewer
         geary # email reader
+        gnome-backgrounds
+        gnome-calendar
         gnome-characters
+        gnome-connections
+        gnome-console
+        gnome-contacts
+        gnome-font-viewer
+        gnome-logs
         gnome-music
         gnome-photos
+        gnome-software
         gnome-terminal
+        gnome-text-editor
         gnome-tour
+        gnome-user-docs
+        gnome-weather
         gedit # text editor
         hitori # sudoku game
+        orca
         iagno # go game
+        snapshot
         tali # poker game
         totem # video player
+        yelp
       ]
     );
 
@@ -152,6 +166,10 @@ in
       wireguard-tools
     ];
 
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      QT_QPA_PLATFORM = "wayland";
+    };
     variables = {
       # MUTTER_DEBUG = "kms";
       # MUTTER_DEBUG_DISABLE_TRIPLE_BUFFERING = "1";
@@ -173,14 +191,14 @@ in
 
   hardware = {
 
-    # amdgpu = {
-    #   amdvlk = {
-    #     enable = true;
-    #     support32Bit.enable = true;
-    #   };
-    #   initrd.enable = true;
-    #   opencl.enable = true;
-    # };
+    amdgpu = {
+      #   amdvlk = {
+      #     enable = true;
+      #     support32Bit.enable = true;
+      #   };
+      initrd.enable = false;
+      #   opencl.enable = true;
+    };
 
     bluetooth = {
       enable = true;
@@ -274,9 +292,11 @@ in
     };
   };
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    pulseaudio = true;
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      pulseaudio = true;
+    };
   };
 
   networking = {
@@ -340,6 +360,8 @@ in
       enable = false;
       package = pkgs.wireshark;
     };
+
+    xwayland.enable = true;
   };
 
   security = {
@@ -580,18 +602,7 @@ in
 
       # useGlamor = true;
 
-      # videoDrivers = [ "amdgpu" ];
-
-      windowManager = {
-        i3 = {
-          enable = true;
-          package = pkgs.i3-gaps;
-          extraSessionCommands = ''
-            eval $(${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --daemonize)
-            export SSH_AUTH_SOCK
-          '';
-        };
-      };
+      videoDrivers = [ "modesetting" ];
 
       xkb = {
         layout = "us";
