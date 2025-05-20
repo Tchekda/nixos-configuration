@@ -18,10 +18,8 @@
       ga = "git add .";
       gc = "git commit -a -m \"\"";
       gp = "git push";
-      gco = "git checkout";
       gl = "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
       s = "sudo";
-      speedtest = "iperf3 -t 0 -c bouygues.testdebit.info -p 9201";
     };
 
     plugins = [

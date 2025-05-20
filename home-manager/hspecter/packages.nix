@@ -92,7 +92,7 @@ in
     php81Packages.composer
     unstable.openfortivpn
     nixfmt-rfc-style
-    nodejs-18_x
+    nodejs_22
     yarn
     pnpm
     cargo
@@ -160,4 +160,12 @@ in
     xsane
     gscan2pdf
   ];
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs
+      obs-backgroundremoval
+      obs-pipewire-audio-capture
+    ];
+  };
 }

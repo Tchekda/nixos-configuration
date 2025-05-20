@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   init-shell-command = pkgs.callPackage ./init-shell-command.nix { };
   my_lnav = if pkgs.system == "x86_64-linux" then [ pkgs.lnav ] else [ ];
@@ -9,30 +14,31 @@ in
     ./git.nix
   ];
 
-
-
   home = {
     username = "tchekda";
     homeDirectory = "/home/tchekda";
     sessionPath = [
       "/home/tchekda/.local/bin"
     ];
-    packages = with pkgs; [
-      bat
-      dnsutils
-      file
-      init-shell-command
-      inetutils
-      iperf3
-      jq
-      mtr
-      neofetch
-      python311
-      python311Packages.pip
-      unrar
-      unzip
-      zip
-    ] ++ my_lnav;
+    packages =
+      with pkgs;
+      [
+        bat
+        dnsutils
+        file
+        init-shell-command
+        inetutils
+        iperf3
+        jq
+        mtr
+        neofetch
+        python311
+        python311Packages.pip
+        unrar
+        unzip
+        zip
+      ]
+      ++ my_lnav;
     stateVersion = "21.05";
   };
 
@@ -57,7 +63,9 @@ in
 
     ssh = {
       enable = true;
-      extraOptionOverrides = { "AddKeysToAgent" = "yes"; };
+      extraOptionOverrides = {
+        "AddKeysToAgent" = "yes";
+      };
       forwardAgent = true;
       serverAliveInterval = 60;
     };
