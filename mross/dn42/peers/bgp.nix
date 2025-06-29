@@ -295,6 +295,13 @@
     }
     {
       multi = true;
+      name = "pfxlabs_1240_uk";
+      neigh = "fe80::1240:1%pfxlabs_1240_uk";
+      as = "4242421240";
+      link = "2";
+    }
+    {
+      multi = true;
       name = "pgnhd_1078";
       neigh = "fe80::1078%pgnhd_1078_de";
       as = "4242421078";
