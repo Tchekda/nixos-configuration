@@ -1,6 +1,5 @@
 {
   pkgs,
-  unstable,
   config,
   lib,
   ...
@@ -10,36 +9,18 @@ let
     config = {
       allowUnfree = true;
     };
-    overlays = [
-      (final: prev: {
-        postman = prev.postman.overrideAttrs (old: rec {
-          postFixup = ''
-            pushd $out/share/postman
-            patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" postman
-            patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" chrome_crashpad_handler
-            for file in $(find . -type f \( -name \*.node -o -name postman -o -name \*.so\* \) ); do
-              ORIGIN=$(patchelf --print-rpath $file); \
-              patchelf --set-rpath "${lib.makeLibraryPath old.buildInputs}:$ORIGIN" $file
-            done
-            popd
-            wrapProgram $out/bin/postman --set PATH ${
-              lib.makeBinPath [
-                unstable.openssl
-                pkgs.xdg-utils
-                unstable.toybox
-              ]
-            }
-          '';
-        });
-      })
-    ];
   };
-  pdfrankenstein = pkgs.callPackage ./pdfrankenstein.nix { };
   aurora = pkgs.callPackage ../aurora.nix { };
-  myLens = pkgs.callPackage ./lens.nix { };
   # m68k = pkgs.qt5.callPackage ./m68k.nix { };
   simtoolkitpro = pkgs.qt5.callPackage ./simtoolkitpro.nix { };
-  myPostman = pkgs.callPackage ./postman.nix { };
+  # myPostman = pkgs.callPackage ./postman.nix { };
+  myLens = pkgs.callPackage ./lens.nix { };
+  myMaestralGui = pkgs.maestral-gui.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      mkdir -p $out/share/icons/hicolor/512x512/apps
+      install -Dm444 src/maestral_qt/resources/maestral.png $out/share/icons/hicolor/512x512/apps
+    '';
+  });
 in
 {
   nixpkgs = {
@@ -53,30 +34,6 @@ in
         "python3.10-cryptography-40.0.1"
       ];
     };
-    # overlays = [
-    #   (final: prev: {
-    #     postman = prev.postman.overrideAttrs (old: rec {
-    #       # version = "10.12.0";
-    #       # src = final.fetchurl {
-    #       #   url = "https://dl.pstmn.io/download/version/${version}/linux64";
-    #       #   sha256 = "sha256-QaIj+SOQGR6teUIdLB3D5klRlYrna1MoE3c6UXYEoB4=";
-    #       #   name = "${old.pname}-${version}.tar.gz";
-    #       # };
-    #       # buildInputs = old.buildInputs ++ [ unstable.xdg-utils unstable.toybox ];
-    #       # postFixup = ''
-    #       #   pushd $out/share/postman
-    #       #   patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" postman
-    #       #   patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" chrome_crashpad_handler
-    #       #   for file in $(find . -type f \( -name \*.node -o -name postman -o -name \*.so\* \) ); do
-    #       #     ORIGIN=$(patchelf --print-rpath $file); \
-    #       #     patchelf --set-rpath "${lib.makeLibraryPath old.buildInputs}:$ORIGIN" $file
-    #       #   done
-    #       #   popd
-    #       #   wrapProgram $out/bin/postman --set PATH ${lib.makeBinPath [ unstable.openssl pkgs.xdg-utils unstable.toybox]}
-    #       # '';
-    #     });
-    #   })
-    # ];
   };
   home.packages = with pkgs; [
     aurora.public
@@ -100,9 +57,8 @@ in
     kubectl
     kubelogin-oidc
     myLens
-    # unstable.lens
     unstable.teleport
-    myPostman
+    unstable.postman
     openssl
     # mongodb-compass
     # wkhtmltopdf
@@ -111,7 +67,6 @@ in
     dbeaver-bin
     # redli # Thanks to me :)
     arandr
-    ventoy-bin
     yubioath-flutter
     # teamviewer
     # mono
@@ -147,8 +102,7 @@ in
     termius
     transmission_4-gtk
     gimp
-    maestral-gui
-    # pdfrankenstein
+    myMaestralGui
     # Virtualisation
     # virt-manager
     # win-virtio
