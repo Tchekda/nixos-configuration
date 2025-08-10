@@ -1,7 +1,10 @@
 { ... }:
 {
   programs.ssh = {
-    includes = [ "tsh-config" ];
+    includes = [
+      "tsh-config"
+      "/home/tchekda/Prog/EPITA/SIGL/UBSI/infra/terraform/environments/staging/ssh_config"
+    ];
     matchBlocks = {
       deletec = {
         hostname = "192.168.230.10";

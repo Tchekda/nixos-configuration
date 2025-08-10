@@ -1,10 +1,16 @@
-{ config, pkgs, nixosConfig, lib, ... }:
+{
+  config,
+  pkgs,
+  nixosConfig,
+  lib,
+  ...
+}:
 let
   # colorscheme = import ./colors.nix;
   inherit (nixosConfig.networking) hostName;
   theme = "Adwaita";
   wallpaper = builtins.fetchurl {
-    url = https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg;
+    url = "https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg";
     sha256 = "0pl43lrzfxdfgaa9plhlzv8z7ramkrdzmsvdmg03vr9klzqgpx0z";
   };
 in
@@ -30,7 +36,6 @@ in
     enable = true;
     package = null; # don't override system-installed one
     wrapperFeatures.gtk = true; # so that gtk works properly
-
 
     extraSessionCommands = ''
       export SDL_VIDEODRIVER=wayland
@@ -65,7 +70,6 @@ in
         # }
       ];
 
-
       input = {
         "type:keyboard" = {
           xkb_layout = "us";
@@ -89,7 +93,13 @@ in
         let
           mod = config.wayland.windowManager.sway.config.modifier;
           inherit (config.wayland.windowManager.sway.config)
-            left down up right menu terminal;
+            left
+            down
+            up
+            right
+            menu
+            terminal
+            ;
         in
         {
           "${mod}+Return" = "exec ${terminal}";
@@ -154,13 +164,17 @@ in
           "${mod}+Ctrl+Right" = "move workspace to output right";
           "${mod}+Ctrl+Up" = "move workspace to output up";
           "${mod}+Ctrl+Down" = "move workspace to output down";
-          "${mod}+Ctrl+Prior" = "exec --no-startup-id ${pkgs.xorg.xrandr}/bin/xrandr --output eDP --rotate inverted";
-          "${mod}+Ctrl+Next" = "exec --no-startup-id ${pkgs.xorg.xrandr}/bin/xrandr --output eDP --rotate normal";
+          "${mod}+Ctrl+Prior" =
+            "exec --no-startup-id ${pkgs.xorg.xrandr}/bin/xrandr --output eDP --rotate inverted";
+          "${mod}+Ctrl+Next" =
+            "exec --no-startup-id ${pkgs.xorg.xrandr}/bin/xrandr --output eDP --rotate normal";
 
-
-          "${mod}+XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
-          "${mod}+XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
-          "XF86AudioMicMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+          "${mod}+XF86AudioRaiseVolume" =
+            "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ +5%";
+          "${mod}+XF86AudioLowerVolume" =
+            "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-volume @DEFAULT_SOURCE@ -5%";
+          "XF86AudioMicMute" =
+            "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 
           "${mod}+Mod1+Left" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl previous";
           "${mod}+Mod1+Right" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
@@ -171,16 +185,20 @@ in
           "XF86AudioNext" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl next";
           "XF86AudioPlay" = "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl play-pause";
 
-          "XF86AudioRaiseVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
-          "XF86AudioLowerVolume" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
-          "XF86AudioMute" = "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          "XF86AudioRaiseVolume" =
+            "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";
+          "XF86AudioLowerVolume" =
+            "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ false, exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%";
+          "XF86AudioMute" =
+            "exec --no-startup-id ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
 
           "${mod}+b" = "exec systemctl hibernate";
           "${mod}+Shift+b" = "exec systemctl poweroff";
           "${mod}+Shift+t" = "exec --no-startup-id ${pkgs.autorandr}/bin/autorandr --match-edid -c";
           "XF86Calculator" = "exec --no-startup-id ${pkgs.gnome-calculator}/bin/gnome-calculator";
 
-          "${mod}+Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
+          "${mod}+Print" =
+            "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot full -c -p \"/home/tchekda/Documents/Screenshots\"";
           "Print" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
           "${mod}+Shift+s" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
 
@@ -216,23 +234,27 @@ in
 
       window.commands = [ ];
 
-      output = { "*".bg = ''"${wallpaper}" fill''; };
+      output = {
+        "*".bg = ''"${wallpaper}" fill'';
+      };
 
       startup = [
         {
-          command = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+          command = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
         }
         { command = "${pkgs.mako}/bin/mako"; }
         {
           command =
-            let lockCmd = "'${pkgs.swaylock}/bin/swaylock -f -i \"${wallpaper}\"'";
+            let
+              lockCmd = "'${pkgs.swaylock}/bin/swaylock -f -i \"${wallpaper}\"'";
             in
-            ''${pkgs.swayidle}/bin/swayidle -w \
-              timeout 600 ${lockCmd} \
-              timeout 1200 'swaymsg "output * dpms off"' \
-              resume 'swaymsg "output * dpms on"' \
-              before-sleep ${lockCmd}
-        '';
+            ''
+              ${pkgs.swayidle}/bin/swayidle -w \
+                            timeout 600 ${lockCmd} \
+                            timeout 1200 'swaymsg "output * dpms off"' \
+                            resume 'swaymsg "output * dpms on"' \
+                            before-sleep ${lockCmd}
+            '';
         }
       ];
 
@@ -241,7 +263,6 @@ in
           { class = "Slack"; }
           { app_id = "Element"; }
         ];
-
 
         workspaceOutputAssign = [
           # { workspace = "1"; output = "Unknown LCD QHD 1 110503_3"; }

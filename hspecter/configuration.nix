@@ -121,6 +121,7 @@ in
         atomix # puzzle game
         cheese # webcam tool
         baobab
+        decibels # music player
         epiphany # web browser
         evince # document viewer
         geary # email reader
@@ -237,7 +238,7 @@ in
       enable32Bit = true;
       extraPackages = with pkgs; [
         # amdvlk
-        mesa.drivers
+        mesa
         # rocm-opencl-icd
         # rocm-opencl-runtime
       ];
@@ -573,7 +574,12 @@ in
         Option "TearFree" "false"
       '';
 
-      desktopManager.gnome.enable = true;
+      desktopManager.gnome = {
+        enable = true;
+        sessionPath = with pkgs; [
+          gnome-shell-extensions
+        ];
+      };
 
       # displayManager.sddm.enable = true;
       displayManager.gdm = {
@@ -667,7 +673,7 @@ in
     };
 
     libvirtd = {
-      enable = false;
+      enable = true;
       onBoot = "ignore";
       # qemu.package = pkgs.qemu_kvm.override { smbdSupport = true; };
     };

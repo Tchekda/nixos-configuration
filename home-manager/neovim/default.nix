@@ -23,7 +23,6 @@
       cmp-nvim-lsp
       mason-nvim
       mason-lspconfig-nvim
-      nvim-compe
       nvim-cmp
       luasnip
       vim-snippets

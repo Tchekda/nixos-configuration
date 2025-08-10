@@ -7,45 +7,44 @@
 }:
 
 let
-  pname = "lens";
-  version = "2025.4.92142";
+  pname = "lens-desktop";
+  version = "2025.6.261308";
   channel = "latest";
   # channel = "beta";
   build = "${version}-${channel}";
-  name = "${pname}-${build}";
 
   src = fetchurl {
     url = "https://api.k8slens.dev/binaries/Lens-${build}.x86_64.AppImage";
     # url = "https://downloads.k8slens.dev/ide/Lens-${build}.x86_64.AppImage";
-    sha256 = "sha256-Qlihuykw/HjQFBENYY/r1EJgfN3m9Dfz4BRBddVO5gQ=";
-    name = "${pname}.AppImage";
+    sha256 = "sha256-R7gRqdbJ9rOTjZ7Tdy0OX7RtXpMAc+6YbcZY11h8h2E=";
   };
 
   appimageContents = appimageTools.extractType2 {
-    inherit name src;
+    inherit pname src version;
   };
 
 in
 appimageTools.wrapType2 {
-  inherit name src;
+  inherit pname src version;
+
+  nativeBuildInputs = [ makeWrapper ];
 
   extraInstallCommands = ''
-    mv $out/bin/${name} $out/bin/${pname}
-    source "${makeWrapper}/nix-support/setup-hook"
     wrapProgram $out/bin/${pname} \
-      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}"
-    install -m 444 -D ${appimageContents}/lens-desktop.desktop $out/share/applications/${pname}.desktop
-    install -m 444 -D ${appimageContents}/usr/share/icons/hicolor/512x512/apps/lens-desktop.png \
+      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}"
+    install -m 444 -D ${appimageContents}/${pname}.desktop $out/share/applications/${pname}.desktop
+    install -m 444 -D ${appimageContents}/usr/share/icons/hicolor/512x512/apps/${pname}.png \
        $out/share/icons/hicolor/512x512/apps/${pname}.png
     substituteInPlace $out/share/applications/${pname}.desktop \
-      --replace 'Icon=lens-desktop' 'Icon=${pname}' \
       --replace 'Exec=AppRun' 'Exec=${pname}'
   '';
+
+  extraPkgs = pkgs: [ pkgs.nss_latest ];
 
   meta = with lib; {
     description = "The Kubernetes IDE";
     homepage = "https://k8slens.dev/";
-    license = licenses.mit;
+    license = licenses.lens;
     maintainers = with maintainers; [
       dbirks
       RossComputerGuy

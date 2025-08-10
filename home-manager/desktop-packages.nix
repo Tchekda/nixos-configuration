@@ -1,6 +1,10 @@
 { pkgs, ... }:
 let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  unstable = import <nixos-unstable> {
+    config = {
+      allowUnfree = true;
+    };
+  };
 in
 {
   home.packages = with pkgs; [
@@ -39,8 +43,7 @@ in
     tdesktop
     signal-desktop
     spotify
-    xournal
-    firefox-devedition-bin
+    firefox-devedition
     vlc
     simplescreenrecorder
   ];
@@ -49,7 +52,7 @@ in
       enable = true;
       # package = flameshot;
     };
-    gpg-agent.pinentryPackage = pkgs.pinentry-gnome3;
+    gpg-agent.pinentry.package = pkgs.pinentry-gnome3;
   };
   systemd.user.targets.tray = {
     Unit = {
@@ -60,31 +63,37 @@ in
   xdg.mimeApps = {
     enable = true;
     associations.added = {
-      "inode/directory" = [ "pcmanfm.desktop" ];
       "application/pdf" = [ "org.gnome.Evince.desktop" ];
+      "application/zip" = [ "org.gnome.Nautilus.desktop" ];
       "image/jpeg" = [ "org.gnome.Loupe.desktop" ];
+      "image/png" = [ "org.gnome.Loupe.desktop" ];
+      "inode/directory" = [ "pcmanfm.desktop" ];
       "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
       "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/postman" = [ "postman.desktop" ];
+      "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
       "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
-      "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
-      "x-scheme-handler/postman" = [ "postman.desktop" ];
-      "image/png" = [ "org.gnome.Loupe.desktop" ];
-      "application/zip" = [ "org.gnome.Nautilus.desktop" ];
     };
     defaultApplications = {
-      "inode/directory" = [ "pcmanfm.desktop" ];
       "application/pdf" = [ "org.gnome.Evince.desktop" ];
-      "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
-      "message/rfc822" = [ "thunderbird.desktop" ];
-      "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
-      "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
-      "text/calendar" = [ "thunderbird.desktop" ];
+      "application/vnd.mozilla.xul+xml" = [ "firefox-devedition.desktop" ];
       "application/x-extension-ics" = [ "thunderbird.desktop" ];
-      "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
-      "x-scheme-handler/postman" = [ "Postman.desktop" ];
+      "application/xhtml+xml" = [ "firefox-devedition.desktop" ];
+      "message/rfc822" = [ "thunderbird.desktop" ];
+      "inode/directory" = [ "pcmanfm.desktop" ];
+      "text/calendar" = [ "thunderbird.desktop" ];
+      "text/html" = [ "firefox-devedition.desktop" ];
+      "text/xml" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/https" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/http" = [ "firefox-devedition.desktop" ];
+      "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
       "x-scheme-handler/msteams" = [ "teams.desktop" ];
+      "x-scheme-handler/postman" = [ "Postman.desktop" ];
       "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
+      "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
+      "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];
     };
   };
 }

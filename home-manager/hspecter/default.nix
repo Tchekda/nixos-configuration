@@ -58,13 +58,14 @@ in
         ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
         nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
         hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/hspecter/default.nix switch -b backup";
+        kb = "kubectl";
       };
     };
 
     vscode = {
       enable = true;
       package = unstable.vscode;
-      extensions = with pkgs.vscode-extensions; [
+      profiles.default.extensions = with pkgs.vscode-extensions; [
         llvm-vs-code-extensions.vscode-clangd
       ];
     };
