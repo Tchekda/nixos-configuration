@@ -10,7 +10,7 @@ require('packer').startup(function(use)
     -- use 'nvim-telescope/telescope.nvim'
     -- use 'BurntSushi/ripgrep'
     -- use 'nvim-treesitter/nvim-treesitter' 
-    use 'MrVyM/tiger-lsp-vim'
+    -- use 'MrVyM/tiger-lsp-vim'
 
     -- -- Color RGB
     -- use 'norcalli/nvim-colorizer.lua'

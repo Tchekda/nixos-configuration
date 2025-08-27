@@ -1,16 +1,20 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  imports =
-    [
-      ../tchekda_user.nix
-      <home-manager/nixos>
-      <nixos-hardware/raspberry-pi/4>
-      ./containers.nix
-      ./nginx.nix
-      ./dn42
-      (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
-    ];
+  imports = [
+    ../tchekda_user.nix
+    <home-manager/nixos>
+    <nixos-hardware/raspberry-pi/4>
+    ./containers.nix
+    ./nginx.nix
+    ./dn42
+    # (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
+  ];
 
   console.enable = true;
 
@@ -19,12 +23,15 @@
   # Generate an immutable /etc/resolv.conf from the nameserver settings
   # above (otherwise DHCP overwrites it):
   environment = {
-    etc."resolv.conf" = with lib; with pkgs; {
-      source = writeText "resolv.conf" ''
-        ${concatStringsSep "\n" (map (ns: "nameserver ${ns}") config.networking.nameservers)}
-        options edns0
-      '';
-    };
+    etc."resolv.conf" =
+      with lib;
+      with pkgs;
+      {
+        source = writeText "resolv.conf" ''
+          ${concatStringsSep "\n" (map (ns: "nameserver ${ns}") config.networking.nameservers)}
+          options edns0
+        '';
+      };
     systemPackages = with pkgs; [
       git
       htop
@@ -43,7 +50,6 @@
     };
   };
 
-
   hardware = {
     raspberry-pi."4".apply-overlays-dtmerge.enable = true;
     deviceTree = {
@@ -52,13 +58,15 @@
     };
   };
 
-
   home-manager.users.tchekda = {
     imports = [ ../home-manager/llitt/default.nix ];
   };
 
   networking = {
-    defaultGateway6 = { address = "fe80::de00:b0ff:fe3a:249e"; interface = "eth0"; };
+    defaultGateway6 = {
+      address = "fe80::de00:b0ff:fe3a:249e";
+      interface = "eth0";
+    };
 
     dhcpcd.extraConfig = ''
       interface eth0
@@ -73,10 +81,18 @@
     hostName = "llitt";
 
     interfaces.eth0 = {
-      ipv6.addresses = [{ address = "2a01:e0a:7a:641::1"; prefixLength = 64; }];
+      ipv6.addresses = [
+        {
+          address = "2a01:e0a:7a:641::1";
+          prefixLength = 64;
+        }
+      ];
     };
 
-    nameservers = [ "1.1.1.1" "2606:4700:4700::1111" ];
+    nameservers = [
+      "1.1.1.1"
+      "2606:4700:4700::1111"
+    ];
 
     resolvconf.enable = false;
   };
@@ -93,15 +109,17 @@
     openssh.enable = true;
     mosquitto = {
       enable = true;
-      listeners = [{
-        address = "0.0.0.0";
-        users.tchekda = {
-          acl = [ "readwrite #" ];
-          hashedPassword = "$6$t/OetPjG29PEKvLc$Vx3CGiLe23IKAWnVGPqFpAbEeIMahC6+wyICKDqPQh1bP0Cu6cHikmmXQMx2uvbZ0E0Bebw/aTnH71R40GJv8A==";
-        };
-      }];
+      listeners = [
+        {
+          address = "0.0.0.0";
+          users.tchekda = {
+            acl = [ "readwrite #" ];
+            hashedPassword = "$6$t/OetPjG29PEKvLc$Vx3CGiLe23IKAWnVGPqFpAbEeIMahC6+wyICKDqPQh1bP0Cu6cHikmmXQMx2uvbZ0E0Bebw/aTnH71R40GJv8A==";
+          };
+        }
+      ];
     };
-    vscode-server.enable = true;
+    # vscode-server.enable = true;
   };
 
   system.stateVersion = "22.05"; # Did you read the comment?

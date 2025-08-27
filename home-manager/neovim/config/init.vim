@@ -3,11 +3,9 @@ lua require('installer')
 
 source ~/.config/nvim/keymap.vim
 
-packadd termdebug
-
 set hidden
 " Add GDB Debugger
-packadd termdebug
+packadd! termdebug
 
 " Gdb Config
 let g:termdebug_wide=1

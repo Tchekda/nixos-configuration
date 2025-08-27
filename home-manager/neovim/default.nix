@@ -2,6 +2,7 @@
 {
   programs.neovim = {
     enable = true;
+    defaultEditor = true;
     # extraConfig = builtins.readFile ./init.vim + builtins.readFile ./keymap.vim;
     # extraLuaConfig = builtins.concatStringsSep "\n" (map (file: builtins.readFile file) (lib.filesystem.listFilesRecursive ./lua));
     extraPackages = with pkgs; [

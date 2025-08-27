@@ -7,7 +7,8 @@
 
     serviceConfig.Type = "oneshot";
     script =
-      let dockercli = "${config.virtualisation.docker.package}/bin/docker";
+      let
+        dockercli = "${config.virtualisation.docker.package}/bin/docker";
       in
       ''
         # Put a true at the end to prevent getting non-zero return code, which will
@@ -29,29 +30,29 @@
     oci-containers = {
       backend = "docker";
       containers = {
-        "pi.hole" = {
-          image = "pihole/pihole:latest";
-          volumes = [
-            "/var/lib/pihole/:/etc/pihole/"
-            "/var/lib/dnsmasq.d:/etc/dnsmasq.d/"
-          ];
-          ports = [
-            "127.0.0.1:3080:80"
-          ];
-          environment = {
-            TZ = "Europe/Paris";
-            PIHOLE_DNS_ = "2606:4700:4700::1111;1.1.1.1;1.0.0.1;2606:4700:4700::1001";
-            DNSSEC = "true";
-            DNS_BOGUS_PRIV = "false";
-            ServerIP = "192.168.0.144";
-          };
-          extraOptions = [
-            "--cap-add=NET_ADMIN"
-            "--hostname=pi.hole"
-            "--network=local_net"
-          ];
-          # workdir = "/var/lib/pihole/";
-        };
+        # "pi.hole" = {
+        #   image = "pihole/pihole:latest";
+        #   volumes = [
+        #     "/var/lib/pihole/:/etc/pihole/"
+        #     "/var/lib/dnsmasq.d:/etc/dnsmasq.d/"
+        #   ];
+        #   ports = [
+        #     "127.0.0.1:3080:80"
+        #   ];
+        #   environment = {
+        #     TZ = "Europe/Paris";
+        #     PIHOLE_DNS_ = "2606:4700:4700::1111;1.1.1.1;1.0.0.1;2606:4700:4700::1001";
+        #     DNSSEC = "true";
+        #     DNS_BOGUS_PRIV = "false";
+        #     ServerIP = "192.168.0.144";
+        #   };
+        #   extraOptions = [
+        #     "--cap-add=NET_ADMIN"
+        #     "--hostname=pi.hole"
+        #     "--network=local_net"
+        #   ];
+        #   # workdir = "/var/lib/pihole/";
+        # };
         home-assistant = {
           #   image = "homeassistant/raspberrypi4-homeassistant:stable";
           image = "ghcr.io/home-assistant/home-assistant:stable";
