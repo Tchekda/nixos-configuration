@@ -8,14 +8,14 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts = {
-      "pi.hole" = {
-        default = true;
-        http2 = true;
-        enableSSL = false;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:3080";
-        };
-      };
+      # "pi.hole" = {
+      #   default = true;
+      #   http2 = true;
+      #   enableSSL = false;
+      #   locations."/" = {
+      #     proxyPass = "http://127.0.0.1:3080";
+      #   };
+      # };
       "ha.tchekda.fr" = {
         http2 = true;
         addSSL = true;
@@ -39,14 +39,14 @@
           '';
         };
       };
-      "solver.tchekda.fr" = {
-        default = false;
-        http2 = true;
-        enableSSL = false;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8191";
-        };
-      };
+      # "solver.tchekda.fr" = {
+      #   default = false;
+      #   http2 = true;
+      #   enableSSL = false;
+      #   locations."/" = {
+      #     proxyPass = "http://127.0.0.1:8191";
+      #   };
+      # };
     };
   };
   security.acme = {

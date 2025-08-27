@@ -8,7 +8,11 @@ let
     ${pkgs.bird2}/bin/birdc reload in all
   '';
   bgp = import peers/bgp.nix { };
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  unstable = import <nixos-unstable> {
+    config = {
+      allowUnfree = true;
+    };
+  };
 in
 {
 
@@ -36,20 +40,26 @@ in
     };
   };
 
-
-
   services = {
     bird-lg = {
       package = pkgs.bird-lg;
       proxy = {
-        allowedIPs = [ "172.20.4.97" "172.20.4.98" "fd54:fe4b:9ed1:1::1" "fd54:fe4b:9ed1:2::1" ];
+        allowedIPs = [
+          "172.20.4.97"
+          "172.20.4.98"
+          "fd54:fe4b:9ed1:1::1"
+          "fd54:fe4b:9ed1:2::1"
+        ];
         birdSocket = "/var/run/bird/bird.ctl";
         enable = true;
         listenAddress = "[fd54:fe4b:9ed1:1::1]:8000";
       };
       frontend = {
         enable = true;
-        servers = [ "fr-par" "fr-lyn" ];
+        servers = [
+          "fr-par"
+          "fr-lyn"
+        ];
         domain = "node.tchekda.dn42";
         listenAddress = "127.0.0.1:5050";
       };
@@ -58,31 +68,47 @@ in
     bird2 = {
       enable = true;
       checkConfig = false; # Can't import ROA before-hand
-      config = builtins.readFile ./bird.conf + lib.concatStrings (builtins.map
-        (x: "
+      config =
+        builtins.readFile ./bird.conf
+        + lib.concatStrings (
+          builtins.map (
+            x:
+            "
       protocol bgp ${x.name} from dnpeers {
         neighbor ${x.neigh} as ${x.as};
-        ${if x.multi || x.v4 then "
+        ${
+                      if x.multi || x.v4 then
+                        "
         ipv4 {
                 extended next hop on;
                 import where dn42_import_filter(${x.link},25,34);
                 export where dn42_export_filter(${x.link},25,34);
                 import keep filtered;
         };
-        " else ""}
-        ${if x.multi || x.v6 then "
+        "
+                      else
+                        ""
+                    }
+        ${
+                      if x.multi || x.v6 then
+                        "
         ipv6 {
                 extended next hop on;
                 import where dn42_import_filter(${x.link},25,34);
                 export where dn42_export_filter(${x.link},25,34);
                 import keep filtered;
         };
-        " else ""}
+        "
+                      else
+                        ""
+                    }
     }
-        ")
-        bgp.sessions) + bgp.extraConfig;
+        "
+          ) bgp.sessions
+        )
+        + bgp.extraConfig;
     };
   };
 
-  users.users.tchekda.extraGroups = [ "bird2" ];
+  users.users.tchekda.extraGroups = [ "bird" ];
 }
