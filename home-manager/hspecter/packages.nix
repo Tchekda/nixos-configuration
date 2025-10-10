@@ -41,8 +41,8 @@ in
     aurora.alpha
     # Dev
     awscli2
-    google-cloud-sdk
-    sshuttle
+    # google-cloud-sdk
+    # sshuttle
     redli
     python311Packages.autopep8
     python311Packages.virtualenv
@@ -60,23 +60,25 @@ in
     unstable.teleport
     unstable.postman
     openssl
+    unstable.k9s
+    unstable.code-cursor
     # mongodb-compass
     # wkhtmltopdf
     # mailcatcher
-    httpstat
+    # httpstat
     dbeaver-bin
     # redli # Thanks to me :)
-    arandr
+    # arandr
     yubioath-flutter
     # teamviewer
     # mono
-    jetbrains.jdk
-    jetbrains.phpstorm
+    # jetbrains.jdk
+    # jetbrains.phpstorm
     # EPITA
-    gnumake
-    gcc
-    krb5
-    sshfs
+    # gnumake
+    # gcc
+    # krb5
+    # sshfs
     # criterion.dev
     # criterion
     # gcovr
@@ -111,7 +113,7 @@ in
     # usbutils
     amdgpu_top
     # Scanner
-    xsane
+    # xsane
     gscan2pdf
   ];
   programs.obs-studio = {

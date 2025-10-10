@@ -61,7 +61,6 @@ in
       # "amdgpu.noretry=0"
       "mem_sleep_default=deep"
       "psmouse.synaptics_intertouch=0"
-      "thinkpad_acpi.fan_control=1"
     ];
 
     loader = {
@@ -247,8 +246,6 @@ in
       ];
 
     };
-
-    pulseaudio.enable = false;
 
     sane = {
       enable = true;
@@ -509,6 +506,8 @@ in
       enable = true;
       logLevel = "error";
     };
+
+    pulseaudio.enable = false;
 
     pcscd.enable = true;
 
