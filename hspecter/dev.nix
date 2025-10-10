@@ -17,6 +17,11 @@
   users.users.tchekda.extraGroups = [ "www-data" ];
 
   services = {
+    netbird = {
+      enable = true;
+      ui.enable = true;
+    };
+
     nginx = {
       enable = true;
 
@@ -135,5 +140,7 @@
         save = [ ];
       };
     };
+
+    resolved.enable = true;
   };
 }
