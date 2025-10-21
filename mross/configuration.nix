@@ -48,8 +48,9 @@ in
     ];
   };
 
-  home-manager.users.tchekda = {
-    imports = [ ../home-manager/mross/default.nix ];
+  home-manager.users = {
+    tchekda.imports = [ ../home-manager/mross/default.nix ];
+    root.imports = [ ../home-manager/root.nix ];
   };
 
   nix.gc = {

@@ -144,6 +144,42 @@
         proxyJump = "bastion-siops";
         identityFile = "~/.ssh/ubsi-2026-staging-key";
       };
+      "ubsi-2026-prod-k3s-master-1" = {
+        hostname = "192.168.96.16";
+        user = "ubuntu";
+        proxyJump = "bastion-siops";
+        identityFile = "~/.ssh/ubsi-2026-prod-key";
+        localForwards = [
+          {
+            host = {
+              address = "127.0.0.1";
+              port = 6443;
+            };
+            bind = {
+              address = "127.0.0.1";
+              port = 6443;
+            };
+          }
+        ];
+      };
+      "ubsi-2026-prod-k3s-worker-1" = {
+        hostname = "192.168.96.7";
+        user = "ubuntu";
+        proxyJump = "bastion-siops";
+        identityFile = "~/.ssh/ubsi-2026-prod-key";
+      };
+      "ubsi-2026-prod-k3s-worker-2" = {
+        hostname = "192.168.96.254";
+        user = "ubuntu";
+        proxyJump = "bastion-siops";
+        identityFile = "~/.ssh/ubsi-2026-prod-key";
+      };
+      "ubsi-2026-prod-k3s-worker-3" = {
+        hostname = "192.168.96.170";
+        user = "ubuntu";
+        proxyJump = "bastion-siops";
+        identityFile = "~/.ssh/ubsi-2026-prod-key";
+      };
     };
   };
 }

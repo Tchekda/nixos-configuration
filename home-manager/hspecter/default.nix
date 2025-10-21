@@ -28,7 +28,6 @@ in
     ./git.nix
     ../i3.nix
     # ./polybar.nix
-    ./vim.nix
     ../neovim/default.nix
     # ./android.nix
   ];

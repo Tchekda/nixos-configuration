@@ -12,7 +12,6 @@ let
   };
   aurora = pkgs.callPackage ../aurora.nix { };
   # m68k = pkgs.qt5.callPackage ./m68k.nix { };
-  simtoolkitpro = pkgs.qt5.callPackage ./simtoolkitpro.nix { };
   # myPostman = pkgs.callPackage ./postman.nix { };
   myLens = pkgs.callPackage ./lens.nix { };
   myMaestralGui = pkgs.maestral-gui.overrideAttrs (old: {
@@ -62,6 +61,7 @@ in
     openssl
     unstable.k9s
     unstable.code-cursor
+    unstable.claude-code
     # mongodb-compass
     # wkhtmltopdf
     # mailcatcher
@@ -75,6 +75,7 @@ in
     # jetbrains.jdk
     # jetbrains.phpstorm
     # EPITA
+    fritzing
     # gnumake
     # gcc
     # krb5

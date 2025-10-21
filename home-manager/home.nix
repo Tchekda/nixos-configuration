@@ -12,6 +12,7 @@ in
   imports = [
     ./fish.nix
     ./git.nix
+    ./vim.nix
   ];
 
   home = {
