@@ -16,10 +16,10 @@ in
   ];
 
   home = {
-    username = "tchekda";
-    homeDirectory = "/home/tchekda";
+    username = "root";
+    homeDirectory = "/root";
     sessionPath = [
-      "/home/tchekda/.local/bin"
+      "/root/.local/bin"
     ];
     packages =
       with pkgs;
@@ -40,7 +40,7 @@ in
         zip
       ]
       ++ my_lnav;
-    stateVersion = "21.05";
+    stateVersion = "25.05";
   };
 
   nixpkgs = {

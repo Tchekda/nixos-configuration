@@ -25,20 +25,20 @@
     #     { multi = false; v4 = true; v6 = false; name = "ashaw_3151_v4"; neigh = "100.64.100.10"; as = "4242423151"; link = "3"; }
     #     { multi = false; v4 = false; v6 = true; name = "ashaw_3151_v6"; neigh = "fdc4:b438:8c09:ffff::12"; as = "4242423151"; link = "3"; }
     #     { multi = true; name = "ashaw_3151_backup"; neigh = "fdc4:b438:8c09:ffff::29"; as = "4242423151"; link = "3"; }
-    {
-      multi = true;
-      name = "burble_2601";
-      neigh = "fe80::42:2601:36:1%burble_2601_rbx";
-      as = "4242422601";
-      link = "2";
-    }
-    {
-      multi = true;
-      name = "camelusferus_1592";
-      neigh = "fe80::1592%camel_1592_ams";
-      as = "4242421592";
-      link = "3";
-    }
+    # {
+    #   multi = true;
+    #   name = "burble_2601";
+    #   neigh = "fe80::42:2601:36:1%burble_2601_rbx";
+    #   as = "4242422601";
+    #   link = "2";
+    # }
+    # {
+    #   multi = true;
+    #   name = "camelusferus_1592";
+    #   neigh = "fe80::1592%camel_1592_ams";
+    #   as = "4242421592";
+    #   link = "3";
+    # }
     {
       multi = true;
       name = "cazagen_3441";
@@ -78,6 +78,15 @@
       neigh = "fe80::3735:1%cperr_3735_rbx";
       as = "4242423735";
       link = "2";
+    }
+    {
+      multi = false;
+      v4 = false;
+      v6 = true;
+      name = "dark_0150_fra";
+      neigh = "fe80::150%dark_0150_fra";
+      as = "4242420150";
+      link = "3";
     }
     {
       multi = true;
@@ -132,13 +141,13 @@
       link = "2";
     }
     #     { multi = false; v4 = false; v6 = true; name = "koala_1488"; neigh = "fe80::3621%koala_1488_fr"; as = "4242421488"; link = "3"; }
-    {
-      multi = true;
-      name = "kskb_1817";
-      neigh = "fe80::42:1817:a%kskb_1817_de";
-      as = "4242421817";
-      link = "3";
-    }
+    # {
+    #   multi = true;
+    #   name = "kskb_1817";
+    #   neigh = "fe80::42:1817:a%kskb_1817_de";
+    #   as = "4242421817";
+    #   link = "3";
+    # }
     {
       multi = true;
       name = "lantian_2547_v6";
@@ -208,13 +217,13 @@
       as = "4242422237";
       link = "1";
     }
-    {
-      multi = true;
-      name = "n0emis_0197";
-      neigh = "fe80::42:42:1%n0emi_0197_rhm";
-      as = "4242420197";
-      link = "3";
-    }
+    # {
+    #   multi = true;
+    #   name = "n0emis_0197";
+    #   neigh = "fe80::42:42:1%n0emi_0197_rhm";
+    #   as = "4242420197";
+    #   link = "3";
+    # }
     {
       multi = true;
       name = "napsterbater_1050";
@@ -286,20 +295,20 @@
       as = "4242421541";
       link = "1";
     }
-    {
-      multi = true;
-      name = "pelethiec_1541";
-      neigh = "fdf6:8994:e4d9:cafe::2";
-      as = "4242421541";
-      link = "2";
-    }
-    {
-      multi = true;
-      name = "pfxlabs_1240_uk";
-      neigh = "fe80::1240:1%pfxlabs_1240_uk";
-      as = "4242421240";
-      link = "2";
-    }
+    # {
+    #   multi = true;
+    #   name = "pelethiec_1541";
+    #   neigh = "fdf6:8994:e4d9:cafe::2";
+    #   as = "4242421541";
+    #   link = "2";
+    # }
+    # {
+    #   multi = true;
+    #   name = "pfxlabs_1240_uk";
+    #   neigh = "fe80::1240:1%pfxlabs_1240_uk";
+    #   as = "4242421240";
+    #   link = "2";
+    # }
     {
       multi = true;
       name = "pgnhd_1078";
@@ -399,13 +408,13 @@
       as = "4242422464";
       link = "4";
     }
-    {
-      multi = true;
-      name = "yuutaw_2980";
-      neigh = "fe80::2980%yuuta_2980_fra";
-      as = "4242422980";
-      link = "3";
-    }
+    # {
+    #   multi = true;
+    #   name = "yuutaw_2980";
+    #   neigh = "fe80::2980%yuuta_2980_fra";
+    #   as = "4242422980";
+    #   link = "3";
+    # }
   ];
   extraConfig = ''
           protocol bgp iBGP_lyn_v4 from dnpeers {

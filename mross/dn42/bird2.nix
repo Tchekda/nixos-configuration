@@ -65,7 +65,7 @@ in
       };
     };
 
-    bird2 = {
+    bird = {
       enable = true;
       checkConfig = false; # Can't import ROA before-hand
       config =
