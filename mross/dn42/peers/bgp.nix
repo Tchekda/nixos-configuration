@@ -80,9 +80,7 @@
       link = "2";
     }
     {
-      multi = false;
-      v4 = false;
-      v6 = true;
+      multi = true;
       name = "dark_0150_fra";
       neigh = "fe80::150%dark_0150_fra";
       as = "4242420150";

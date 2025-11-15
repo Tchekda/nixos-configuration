@@ -75,6 +75,8 @@ in
     # jetbrains.jdk
     # jetbrains.phpstorm
     # EPITA
+    coq_8_20
+    coqPackages_8_20.coqide
     fritzing
     # gnumake
     # gcc

@@ -42,6 +42,10 @@
         user = "tchekda";
         proxyJump = "mross";
       };
+      les2vins = {
+        hostname = "10.116.116.26";
+        user = "les2vins";
+      };
       bastion-siops = {
         hostname = "91.243.117.174";
         user = "proxyjump";

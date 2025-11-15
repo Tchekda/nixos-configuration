@@ -32,6 +32,7 @@
       ".cache/"
       ".clang-format"
       ".gitconfig"
+      "*.code-workspace"
     ];
     extraConfig.push.autoSetupRemote = true;
   };
