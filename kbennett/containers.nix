@@ -7,7 +7,8 @@
 
     serviceConfig.Type = "oneshot";
     script =
-      let dockercli = "${config.virtualisation.docker.package}/bin/docker";
+      let
+        dockercli = "${config.virtualisation.docker.package}/bin/docker";
       in
       ''
         # Put a true at the end to prevent getting non-zero return code, which will
@@ -34,6 +35,7 @@
         volumes = [
           "/etc/localtime:/etc/localtime:ro"
           "/dev/null:/downloads"
+          # Install https://gist.github.com/Clemv95/8bfded23ef23ec78f6678896f42a2b60 in /etc/jackett/cardigans/definitions
           "/etc/jackett:/config"
         ];
         environment = {
