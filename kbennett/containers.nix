@@ -70,6 +70,16 @@
         };
         extraOptions = [ "--network=host" ];
       };
+      bybit-scanner = {
+        image = "ghcr.io/tchekda/bybit-crypto-scanner/bybit-scanner:latest";
+        ports = [
+          "5000:5000"
+        ];
+        volumes = [
+          "/etc/bybit-scanner/data:/app/data"
+        ];
+        extraOptions = [ "--network=host" ];
+      };
     };
   };
 }

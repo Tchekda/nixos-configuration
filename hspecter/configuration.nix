@@ -2,18 +2,17 @@
   config,
   pkgs,
   lib,
+  unstable,
   ...
 }:
 let
-  # unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-  # oldstable = import <nixos-21.11> { };
   dcpj515wDriver = pkgs.callPackage ./dcpj515w.nix { };
 in
 {
   imports = [
     ./hardware-configuration.nix
     # <home-manager/nixos> # Config split between system and user
-    <nixos-hardware/lenovo/thinkpad/p14s/amd/gen2>
+    # nixos-hardware module now imported via flake.nix
     ../tchekda_user.nix
     ./dev.nix
     ./sane-extra-config.nix
@@ -147,6 +146,7 @@ in
         snapshot
         tali # poker game
         totem # video player
+        showtime # video player
         yelp
       ]
     );
@@ -203,8 +203,6 @@ in
     bluetooth = {
       enable = true;
       # hsphfpd.enable = true;
-      # package = oldstable.bluezFull; # https://github.com/NixOS/nixpkgs/issues/177311#issuecomment-1154236306
-      # package = unstable.bluez5-experimental;
       package = pkgs.bluez5-experimental;
       # powerOnBoot = false;
       settings = {
@@ -253,14 +251,20 @@ in
     };
   };
 
-  # home-manager.users.tchekda = {
-  #   programs.home-manager.enable = true;
-  #   home = {
-  #     username = "tchekda";
-  #     homeDirectory = "/home/tchekda";
-  #     packages = [ pkgs.home-manager ];
+  # Disabled so we don't rebuild all user packages on system upgrade
+  # home-manager = {
+  #   extraSpecialArgs = { inherit unstable; };
+  #   # useGlobalPkgs = true;
+  #   # useUserPackages = true;
+  #   users.tchekda = {
+  #     programs.home-manager.enable = true;
+  #     home = {
+  #       username = "tchekda";
+  #       homeDirectory = "/home/tchekda";
+  #       packages = [ pkgs.home-manager ];
+  #     };
+  #     imports = [ ../home-manager/hspecter/default.nix ];
   #   };
-  #   imports = [ ../home-manager/hspecter/default.nix ];
   # };
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -273,7 +277,6 @@ in
   };
 
   nix = {
-    # package = pkgs.nixUnstable;
     extraOptions = "experimental-features = nix-command flakes";
     gc = {
       automatic = true;
@@ -335,6 +338,8 @@ in
   programs = {
     adb.enable = true;
 
+    command-not-found.enable = true;
+
     # gnupg.agent = {
     #   enable = true;
     #   enableExtraSocket = true;
@@ -352,7 +357,7 @@ in
       ];
     };
 
-    ssh.startAgent = true;
+    # ssh.startAgent = true;
 
     wireshark = {
       enable = false;
@@ -419,6 +424,18 @@ in
 
     blueman.enable = true;
 
+    desktopManager.gnome = {
+      enable = true;
+      sessionPath = with pkgs; [
+        gnome-shell-extensions
+      ];
+    };
+
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
+
     dbus.packages = with pkgs; [
       gcr
       gnome2.GConf
@@ -449,7 +466,7 @@ in
     };
 
     logind = {
-      lidSwitch = "suspend";
+      settings.Login.HandleLidSwitch = "suspend";
     };
 
     openssh.enable = true;
@@ -573,18 +590,7 @@ in
         Option "TearFree" "false"
       '';
 
-      desktopManager.gnome = {
-        enable = true;
-        sessionPath = with pkgs; [
-          gnome-shell-extensions
-        ];
-      };
-
       # displayManager.sddm.enable = true;
-      displayManager.gdm = {
-        enable = true;
-        wayland = true;
-      };
 
       # extraConfig = ''
       #   Section "OutputClass"

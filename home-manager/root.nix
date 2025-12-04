@@ -67,8 +67,10 @@ in
       extraOptionOverrides = {
         "AddKeysToAgent" = "yes";
       };
-      forwardAgent = true;
-      serverAliveInterval = 60;
+      matchBlocks."*" = {
+        forwardAgent = true;
+        serverAliveInterval = 60;
+      };
     };
 
     direnv = {

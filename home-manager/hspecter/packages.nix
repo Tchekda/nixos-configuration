@@ -2,14 +2,15 @@
   pkgs,
   config,
   lib,
+  unstable,
   ...
 }:
 let
-  unstable = import <nixos-unstable> {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  # unstable = import <nixos-unstable> {
+  #   config = {
+  #     allowUnfree = true;
+  #   };
+  # };
   aurora = pkgs.callPackage ../aurora.nix { };
   # m68k = pkgs.qt5.callPackage ./m68k.nix { };
   # myPostman = pkgs.callPackage ./postman.nix { };
@@ -33,6 +34,11 @@ in
         "python3.10-cryptography-40.0.1"
       ];
     };
+    overlays = [
+      (final: prev: {
+        fritzing = unstable.fritzing;
+      })
+    ];
   };
   home.packages = with pkgs; [
     aurora.public
@@ -45,7 +51,7 @@ in
     redli
     python311Packages.autopep8
     python311Packages.virtualenv
-    php81Packages.composer
+    php83Packages.composer
     unstable.openfortivpn
     nixfmt-rfc-style
     nodejs_22
@@ -60,8 +66,8 @@ in
     unstable.postman
     openssl
     unstable.k9s
-    unstable.code-cursor
-    unstable.claude-code
+    # unstable.code-cursor
+    # unstable.claude-code
     # mongodb-compass
     # wkhtmltopdf
     # mailcatcher
@@ -108,6 +114,8 @@ in
     transmission_4-gtk
     gimp
     myMaestralGui
+    telegram-desktop
+    signal-desktop
     # Virtualisation
     # virt-manager
     # win-virtio

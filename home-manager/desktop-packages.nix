@@ -1,11 +1,4 @@
 { pkgs, ... }:
-let
-  unstable = import <nixos-unstable> {
-    config = {
-      allowUnfree = true;
-    };
-  };
-in
 {
   home.packages = with pkgs; [
     # Dependencies
@@ -39,9 +32,7 @@ in
     hunspellDicts.en-us-large
     hunspellDicts.fr-moderne
     discord
-    thunderbird
-    tdesktop
-    signal-desktop
+    thunderbird-esr
     spotify
     firefox-devedition
     vlc
@@ -70,7 +61,7 @@ in
       "inode/directory" = [ "pcmanfm.desktop" ];
       "x-scheme-handler/mailto" = [ "thunderbird.desktop" ];
       "x-scheme-handler/mid" = [ "thunderbird.desktop" ];
-      "x-scheme-handler/postman" = [ "postman.desktop" ];
+      "x-scheme-handler/postman" = [ "Postman.desktop" ];
       "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
       "x-scheme-handler/webcal" = [ "thunderbird.desktop" ];
       "x-scheme-handler/webcals" = [ "thunderbird.desktop" ];

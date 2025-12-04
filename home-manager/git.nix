@@ -2,16 +2,7 @@
 {
   programs.git = {
     enable = true;
-    lfs.enable = true;
-    aliases = {
-      co = "checkout";
-      ci = "commit";
-      cp = "cherry-pick";
-      st = "status";
-      sw = "switch";
-    };
-    userName = "David Tchekachev";
-    userEmail = "contact" + "@" + "tchekda.fr";
+
     ignores = [
       "*.pdf"
       "bin"
@@ -34,6 +25,20 @@
       ".gitconfig"
       "*.code-workspace"
     ];
-    extraConfig.push.autoSetupRemote = true;
+    lfs.enable = true;
+    settings = {
+      alias = {
+        co = "checkout";
+        ci = "commit";
+        cp = "cherry-pick";
+        st = "status";
+        sw = "switch";
+      };
+      push.autoSetupRemote = true;
+      user = {
+        name = "David Tchekachev";
+        email = "contact" + "@" + "tchekda.fr";
+      };
+    };
   };
 }
