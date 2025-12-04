@@ -3,18 +3,19 @@
   config,
   lib,
   environment,
+  unstable,
   ...
 }:
 let
-  unstable = import <nixos-unstable> {
-    config = {
-      allowUnfree = true;
-    };
-  };
-  screenlocker = builtins.fetchurl {
-    url = "https://files.tchekda.fr/suits-wallpaper.jpg";
-    sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
-  };
+  # unstable = import <nixos-unstable> {
+  #   config = {
+  #     allowUnfree = true;
+  #   };
+  # };
+  # screenlocker = builtins.fetchurl {
+  #   url = "https://files.tchekda.fr/suits-wallpaper.jpg";
+  #   sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
+  # };
 in
 {
   imports = [
@@ -26,7 +27,7 @@ in
     ../alacritty.nix
     ./autorandr.nix
     ./git.nix
-    ../i3.nix
+    # ../i3.nix
     # ./polybar.nix
     ../neovim/default.nix
     # ./android.nix
@@ -55,8 +56,8 @@ in
       shellAbbrs = {
         deletec = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/deletec-vpn";
         ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
-        nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/hspecter/configuration.nix\" switch";
-        hms = "home-manager -f /home/tchekda/nixos-configuration/home-manager/hspecter/default.nix switch -b backup";
+        nrs = "sudo nixos-rebuild --flake /home/tchekda/nixos-configuration#hspecter switch";
+        hms = "home-manager --flake /home/tchekda/nixos-configuration#hspecter switch -b backup";
         kb = "kubectl";
       };
     };
@@ -64,9 +65,9 @@ in
     vscode = {
       enable = true;
       package = unstable.vscode;
-      profiles.default.extensions = with pkgs.vscode-extensions; [
-        llvm-vs-code-extensions.vscode-clangd
-      ];
+      # profiles.default.extensions = with pkgs.vscode-extensions; [
+      #   llvm-vs-code-extensions.vscode-clangd
+      # ];
     };
   };
 

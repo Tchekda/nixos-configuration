@@ -1,7 +1,7 @@
 { ... }:
 {
   programs.git = {
-    extraConfig.safe.directory = "*";
+    settings.safe.directory = "*";
     includes = [
       {
         path = "~/Prog/IVAO/.gitconfig";

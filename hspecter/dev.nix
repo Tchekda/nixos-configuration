@@ -6,7 +6,7 @@
 }:
 {
 
-  environment.systemPackages = [ pkgs.php81 ];
+  environment.systemPackages = [ pkgs.php83 ];
 
   networking.extraHosts = ''
     127.0.0.1 avenir.local
@@ -54,7 +54,7 @@
                 proxyPass = "https://api.ecoledirecte.com";
                 extraConfig = ''
                   proxy_hide_header 'access-control-allow-origin';
-                  add_header Access-Control-Allow-Origin http://avenir.local:3000;
+                  add_header Access-Control-Allow-Origin http://localhost:3000;
                   add_header Access-Control-Allow-Credentials true;
                   rewrite ^/api/ec_api/(.*)$ /$1 break;
                   proxy_cookie_domain ecoledirecte.com avenir.local;
@@ -106,7 +106,7 @@
     };
 
     phpfpm = {
-      phpPackage = pkgs.php81;
+      phpPackage = pkgs.php83;
       pools.www = {
         user = config.services.nginx.group;
         settings = {
@@ -121,7 +121,7 @@
           "php_admin_value[error_log]" = "stderr";
           "php_admin_flag[log_errors]" = true;
         };
-        phpEnv."PATH" = lib.makeBinPath [ pkgs.php81 ];
+        phpEnv."PATH" = lib.makeBinPath [ pkgs.php83 ];
       };
       phpOptions = ''
         opcache.enable=1
