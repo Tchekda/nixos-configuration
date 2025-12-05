@@ -1,5 +1,8 @@
 { pkgs, ... }:
 {
+  home.packages = [
+    pkgs.nix-your-shell
+  ];
   programs.fish = {
     enable = true;
 
@@ -43,6 +46,12 @@
       }
     ];
 
-    functions = { "fish_greeting" = builtins.readFile ./fish_greeting.fish; };
+    functions = {
+      "fish_greeting" = builtins.readFile ./fish_greeting.fish;
+    };
+
+    interactiveShellInit = ''
+      nix-your-shell fish | source
+    '';
   };
 }
