@@ -16,6 +16,9 @@ let
   # myPostman = pkgs.callPackage ./postman.nix { };
   myLens = pkgs.callPackage ./lens.nix { };
   myMaestralGui = pkgs.maestral-gui.overrideAttrs (old: {
+    dontWrapGApps = true;
+    nativeBuildInputs = [ pkgs.wrapGAppsHook3 ] ++ old.nativeBuildInputs;
+    makeWrapperArgs = [ "\${gappsWrapperArgs[@]}" ] ++ old.makeWrapperArgs;
     postInstall = (old.postInstall or "") + ''
       mkdir -p $out/share/icons/hicolor/512x512/apps
       install -Dm444 src/maestral_qt/resources/maestral.png $out/share/icons/hicolor/512x512/apps
@@ -135,4 +138,7 @@ in
       obs-pipewire-audio-capture
     ];
   };
+  xdg.systemDirs.data = [
+    "${pkgs.gtk3}/share/gsettings-schemas/gtk+3-${pkgs.gtk3.version}"
+  ];
 }

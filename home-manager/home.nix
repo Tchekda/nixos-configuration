@@ -12,6 +12,7 @@ in
     ./fish.nix
     ./git.nix
     ./vim.nix
+    ./neovim/default.nix
   ];
 
   home = {

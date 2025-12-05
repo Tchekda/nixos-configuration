@@ -656,7 +656,7 @@ in
         "docker"
         "audio"
         "networkmanager"
-        "libvirtd"
+        # "libvirtd"
         "lpadmin"
         "scanner"
         "lp"
@@ -678,7 +678,7 @@ in
     };
 
     libvirtd = {
-      enable = true;
+      enable = false;
       onBoot = "ignore";
       # qemu.package = pkgs.qemu_kvm.override { smbdSupport = true; };
     };

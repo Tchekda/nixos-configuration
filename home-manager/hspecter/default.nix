@@ -24,12 +24,9 @@ in
     ./packages.nix
     ../desktop-packages.nix
     ./ssh.nix
-    ../alacritty.nix
-    ./autorandr.nix
     ./git.nix
     # ../i3.nix
     # ./polybar.nix
-    ../neovim/default.nix
     # ./android.nix
   ];
 
