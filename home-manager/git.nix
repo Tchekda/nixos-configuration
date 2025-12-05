@@ -24,6 +24,7 @@
       ".clang-format"
       ".gitconfig"
       "*.code-workspace"
+      "copilot-instructions.md"
     ];
     lfs.enable = true;
     settings = {

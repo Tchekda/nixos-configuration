@@ -23,8 +23,19 @@
     rec {
       # nixos-rebuild switch --flake /home/tchekda/nixos-configuration#hspecter
       nixosConfigurations = {
-        hspecter = import ./hspecter {
-          inherit inputs;
+        hspecter = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            home-manager.nixosModules.home-manager
+            nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
+            ./hspecter/configuration.nix
+          ];
+          specialArgs = {
+            unstable = import unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
         };
       };
 
@@ -34,7 +45,7 @@
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [ ./home-manager/hspecter/default.nix ];
           extraSpecialArgs = {
-            unstable = import inputs.unstable {
+            unstable = import unstable {
               system = "x86_64-linux";
               config.allowUnfree = true;
             };

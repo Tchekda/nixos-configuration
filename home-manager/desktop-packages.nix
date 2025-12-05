@@ -1,11 +1,13 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./alacritty.nix
+  ];
   home.packages = with pkgs; [
     # Dependencies
     feh
     libnotify
     # Utils
-    alacritty
     gparted
     evince
     networkmanagerapplet
