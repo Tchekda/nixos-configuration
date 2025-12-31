@@ -3,6 +3,7 @@
   config,
   lib,
   unstable,
+  nixpkgs25_05,
   ...
 }:
 let
@@ -112,7 +113,7 @@ in
     zoom-us
     slack
     filezilla
-    nixops_unstable_minimal
+    nixpkgs25_05.nixops_unstable_full
     termius
     transmission_4-gtk
     gimp
@@ -128,7 +129,7 @@ in
     amdgpu_top
     # Scanner
     # xsane
-    gscan2pdf
+    unstable.gscan2pdf
   ];
   programs.obs-studio = {
     enable = true;
