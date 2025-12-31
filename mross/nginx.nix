@@ -1,49 +1,70 @@
 { pkgs, ... }:
 let
-  vhostWith = config: extra: ({
-    http2 = true;
-    forceSSL = true;
-    sslCertificate = "/etc/cf-cert";
-    sslCertificateKey = "/etc/cf-key";
-    extraConfig = ''
-      ssl_client_certificate /etc/origin-pull-ca;
-      ssl_verify_client on;
+  vhostWith =
+    config: extra:
+    (
+      {
+        http2 = true;
+        forceSSL = true;
+        sslCertificate = "/etc/nginx/ssl/cf-cert.pem";
+        sslCertificateKey = "/etc/nginx/ssl/cf-key.pem";
+        extraConfig = ''
+          ssl_client_certificate /etc/nginx/ssl/origin-pull-ca.pem;
+          ssl_verify_client on;
 
-      add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
-      add_header X-Content-Type-Options "nosniff" always;
-      add_header X-Frame-Options "SAMEORIGIN" always;
-      add_header Referrer-Policy "no-referrer-when-downgrade" always;
+          add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+          add_header X-Content-Type-Options "nosniff" always;
+          add_header X-Frame-Options "SAMEORIGIN" always;
+          add_header Referrer-Policy "no-referrer-when-downgrade" always;
 
-      # Websockets
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "upgrade";
+          # Websockets
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
 
-      ${extra}
-    '';
-  } // config);
+          ${extra}
+        '';
+      }
+      // config
+    );
   folderWith = path: extra: vhostWith { root = path; } extra;
-  proxyWith = address: extra: vhost { locations."/" = { proxyPass = address; extraConfig = extra; }; };
+  proxyWith =
+    address: extra:
+    vhost {
+      locations."/" = {
+        proxyPass = address;
+        extraConfig = extra;
+      };
+    };
 
-  appFolder = path: vhost {
-    root = path;
-    locations."/" = { tryFiles = "$uri $uri/ /index.html"; };
-  };
+  appFolder =
+    path:
+    vhost {
+      root = path;
+      locations."/" = {
+        tryFiles = "$uri $uri/ /index.html";
+      };
+    };
 
   vhost = config: vhostWith config "";
   folder = path: folderWith path "";
-  proxy = address: proxyWith address ''
-    proxy_http_version 1.1;
+  proxy =
+    address:
+    proxyWith address ''
+      proxy_http_version 1.1;
 
-    proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Upgrade $http_upgrade;
 
-    proxy_set_header Connection $http_connection;
-  '';
+      proxy_set_header Connection $http_connection;
+    '';
 in
 {
   networking = {
     firewall = {
-      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPorts = [
+        80
+        443
+      ];
     };
     hosts = {
       "::1" = [ "seedbox.tchekda.local" ];
@@ -52,7 +73,10 @@ in
     interfaces.lo = {
       ipv6 = {
         addresses = [
-          { address = "2001:bc8:2e2a:2::1"; prefixLength = 128; }
+          {
+            address = "2001:bc8:2e2a:2::1";
+            prefixLength = 128;
+          }
         ];
       };
     };
@@ -63,7 +87,10 @@ in
       add_header Expect-CT "max-age=0";
       charset UTF-8;
     '';
-    defaultListenAddresses = [ "0.0.0.0" "[2001:bc8:2e2a:2::1]" ];
+    defaultListenAddresses = [
+      "0.0.0.0"
+      "[2001:bc8:2e2a:2::1]"
+    ];
     enable = true;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
@@ -161,4 +188,3 @@ in
     "Z '/var/cache/nginx' 0750 nginx nginx -"
   ];
 }
-

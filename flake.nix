@@ -10,6 +10,10 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
+    vscode-server = {
+      url = "github:nix-community/nixos-vscode-server";
+      inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
+    };
   };
 
   outputs =
@@ -20,6 +24,7 @@
       nixos-hardware,
       home-manager,
       unstable,
+      vscode-server,
       ...
     }@inputs:
     rec {
@@ -39,6 +44,21 @@
             };
           };
         };
+        # Not working as some files are not in the git history (dn42 wg tunnels)
+        # mross = nixpkgs.lib.nixosSystem {
+        #   system = "x86_64-linux";
+        #   modules = [
+        #     home-manager.nixosModules.home-manager
+        #     vscode-server.nixosModules.default
+        #     ./mross/configuration.nix
+        #   ];
+        #   specialArgs = {
+        #     unstable = import unstable {
+        #       system = "x86_64-linux";
+        #       config.allowUnfree = true;
+        #     };
+        #   };
+        # };
       };
 
       # home-manager switch --flake /home/tchekda/nixos-configuration#hspecter

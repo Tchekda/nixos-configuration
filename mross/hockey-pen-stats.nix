@@ -3,6 +3,14 @@
   imports = [
     ./docker.nix
   ];
+  environment.etc = {
+    hockey-pen-stats-env = {
+      text = builtins.readFile ./hockey-pen-stats.env;
+      target = "hockey-pen-stats.env";
+      user = "nginx";
+      group = "nginx";
+    };
+  };
   systemd = {
     services.docker-hockey-pen-stats.serviceConfig.Restart = lib.mkForce "on-failure";
 
