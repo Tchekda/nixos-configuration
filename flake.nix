@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs25_05.url = "github:NixOS/nixpkgs/nixos-25.05";
     unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
@@ -15,6 +16,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs25_05,
       nixos-hardware,
       home-manager,
       unstable,
@@ -49,8 +51,22 @@
               system = "x86_64-linux";
               config.allowUnfree = true;
             };
+            nixpkgs25_05 = nixpkgs25_05.legacyPackages.x86_64-linux;
           };
         };
       };
+
+      # https://web.archive.org/web/20220115082831/http://lukebentleyfox.net/posts/building-this-blog/
+      # nixopsConfigurations.default = {
+      #   network = {
+      #     description = "Server deployments";
+      #     nixpkgs = nixpkgs;
+      #   };
+      #   # defaults.nixpkgs.pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      #   # defaults._module.args = {
+      #   #   inherit domain;
+      #   # };
+      #   mross = import ./mross/nixops.nix;
+      # };
     };
 }

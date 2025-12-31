@@ -277,9 +277,13 @@ in
   };
 
   nix = {
-    extraOptions = "experimental-features = nix-command flakes";
+    extraOptions = ''
+      experimental-features = nix-command flakes
+      keep-derivations = true
+      keep-outputs = true
+    '';
     gc = {
-      automatic = true;
+      automatic = false; # Disable for now
       dates = "weekly";
       options = "--delete-older-than 10d";
     };
