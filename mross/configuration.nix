@@ -4,10 +4,10 @@ let
 in
 {
   imports = [
+    (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
+    <home-manager/nixos>
     ./hardware-configuration.nix
     ../tchekda_user.nix
-    <home-manager/nixos>
-    (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ./seedbox.nix
     ./nginx.nix
     ./wireguard.nix
@@ -113,7 +113,18 @@ in
     useDHCP = true;
   };
 
-  programs.fish.enable = true;
+  programs = {
+    fish.enable = true;
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        stdenv.cc.cc # commonly needed
+        zlib # commonly needed
+        openssl # commonly needed
+      ];
+    };
+    ssh.startAgent = true;
+  };
 
   services = {
     endlessh-go = {

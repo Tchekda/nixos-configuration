@@ -1,6 +1,26 @@
 { pkgs, lib, ... }:
 
 {
+  environment.etc = {
+    zone-tchekda-dn42 = {
+      text = builtins.readFile ./zones/tchekda.dn42;
+      target = "zones/tchekda.dn42";
+      user = "named";
+      group = "named";
+    };
+    zone-ipv4-reverse = {
+      text = builtins.readFile ./zones/ipv4.reverse;
+      target = "zones/ipv4.reverse";
+      user = "named";
+      group = "named";
+    };
+    zone-ipv6-reverse = {
+      text = builtins.readFile ./zones/ipv6.reverse;
+      target = "zones/ipv6.reverse";
+      user = "named";
+      group = "named";
+    };
+  };
   services.bind = {
     cacheNetworks = [
       "127.0.0.1/32"

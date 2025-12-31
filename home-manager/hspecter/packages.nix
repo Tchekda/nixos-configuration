@@ -57,7 +57,6 @@ in
     python311Packages.virtualenv
     php83Packages.composer
     unstable.openfortivpn
-    nixfmt-rfc-style
     nodejs_22
     yarn
     pnpm

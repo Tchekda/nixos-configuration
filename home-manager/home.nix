@@ -33,6 +33,7 @@ in
       lnav
       mtr
       neofetch
+      nixfmt-rfc-style
       python311
       python311Packages.pip
       unrar
