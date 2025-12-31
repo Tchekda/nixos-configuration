@@ -7,7 +7,7 @@ in
     ./hardware-configuration.nix
     ../tchekda_user.nix
     <home-manager/nixos>
-    # (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
+    (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ./seedbox.nix
     ./nginx.nix
     ./wireguard.nix
@@ -126,7 +126,7 @@ in
       ports = [ 9137 ];
     };
     qemuGuest.enable = true;
-    # vscode-server.enable = true;
+    vscode-server.enable = true;
   };
 
   system.stateVersion = "22.11"; # Did you read the comment?
