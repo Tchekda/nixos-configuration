@@ -370,6 +370,12 @@ in
     xwayland.enable = true;
   };
 
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
+
   security = {
     polkit.enable = true;
     pam.services = {
