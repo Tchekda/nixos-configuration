@@ -13,6 +13,7 @@ in
     ./git.nix
     ./vim.nix
     ./neovim/default.nix
+    ./ssh.nix
   ];
 
   home = {
@@ -59,18 +60,6 @@ in
     man.enable = false;
 
     htop.enable = true;
-
-    ssh = {
-      enable = true;
-      extraOptionOverrides = {
-        "AddKeysToAgent" = "yes";
-      };
-      enableDefaultConfig = false;
-      matchBlocks."*" = {
-        forwardAgent = true;
-        serverAliveInterval = 60;
-      };
-    };
 
     direnv = {
       enable = true;
