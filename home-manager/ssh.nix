@@ -4,7 +4,7 @@
     extraOptionOverrides = {
       "AddKeysToAgent" = "yes";
     };
-    # enableDefaultConfig = false;
+    enableDefaultConfig = false;
     matchBlocks = {
       "*" = {
         forwardAgent = true;

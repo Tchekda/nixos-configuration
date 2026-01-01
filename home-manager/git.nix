@@ -27,18 +27,19 @@
       "copilot-instructions.md"
     ];
     lfs.enable = true;
-    # settings = {
-    # alias = {
-    #   co = "checkout";
-    #   ci = "commit";
-    #   cp = "cherry-pick";
-    #   st = "status";
-    #   sw = "switch";
-    # };
-    # push.autoSetupRemote = true;
-    userName = "David Tchekachev";
-    userEmail = "contact" + "@" + "tchekda.fr";
-    # };
-    # };
+    settings = {
+      alias = {
+        co = "checkout";
+        ci = "commit";
+        cp = "cherry-pick";
+        st = "status";
+        sw = "switch";
+      };
+      push.autoSetupRemote = true;
+      user = {
+        name = "David Tchekachev";
+        email = "contact" + "@" + "tchekda.fr";
+      };
+    };
   };
 }

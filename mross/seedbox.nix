@@ -88,6 +88,18 @@ in
   };
 
   systemd.services = {
+    rtorrent = {
+      serviceConfig = {
+        # https://github.com/NixOS/nixpkgs/issues/444923#issuecomment-3315988352
+        LimitNOFILE = 10240;
+        # Allow chown/chmod syscalls needed for permission management
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+          "@chown"
+        ];
+      };
+    };
     flood = {
       after = [ "network.target" ];
       partOf = [ "rtorrent.service" ];

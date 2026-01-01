@@ -6,13 +6,13 @@
 }:
 let
   init-shell-command = pkgs.callPackage ./init-shell-command.nix { };
-  my_lnav = if pkgs.system == "x86_64-linux" then [ pkgs.lnav ] else [ ];
 in
 {
   imports = [
     ./fish.nix
     ./git.nix
     ./vim.nix
+    ./ssh.nix
   ];
 
   home = {
@@ -21,25 +21,23 @@ in
     sessionPath = [
       "/root/.local/bin"
     ];
-    packages =
-      with pkgs;
-      [
-        bat
-        dnsutils
-        file
-        init-shell-command
-        inetutils
-        iperf3
-        jq
-        mtr
-        neofetch
-        python311
-        python311Packages.pip
-        unrar
-        unzip
-        zip
-      ]
-      ++ my_lnav;
+    packages = with pkgs; [
+      bat
+      dnsutils
+      file
+      init-shell-command
+      inetutils
+      iperf3
+      jq
+      lnav
+      mtr
+      neofetch
+      python311
+      python311Packages.pip
+      unrar
+      unzip
+      zip
+    ];
     stateVersion = "25.05";
   };
 
@@ -61,17 +59,6 @@ in
     man.enable = false;
 
     htop.enable = true;
-
-    ssh = {
-      enable = true;
-      extraOptionOverrides = {
-        "AddKeysToAgent" = "yes";
-      };
-      matchBlocks."*" = {
-        forwardAgent = true;
-        serverAliveInterval = 60;
-      };
-    };
 
     direnv = {
       enable = true;
