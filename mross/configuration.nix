@@ -13,7 +13,7 @@ in
     ./wireguard.nix
     ./dn42
     ./hockey-pen-stats.nix
-    ./lxd.nix
+    ./virtualisation.nix
   ];
 
   boot = {
