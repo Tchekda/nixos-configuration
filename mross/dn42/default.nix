@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
     ./wireguard.nix
     ./bird2.nix
@@ -17,17 +18,38 @@
   networking = {
     firewall = {
       checkReversePath = false;
-      extraCommands = ''
-        ${pkgs.iptables}/bin/iptables -A INPUT -s 172.20.0.0/14 -j ACCEPT
-        ${pkgs.iptables}/bin/ip6tables -A INPUT -s fd00::/8 -j ACCEPT
-        ${pkgs.iptables}/bin/ip6tables -A INPUT -s fe80::/64 -j ACCEPT
+    };
+    nftables = {
+      enable = true;
+      ruleset = ''
+        table inet dn42filter {
+          chain input {
+            type filter hook input priority filter; policy accept;
+            
+            # Accept DN42 traffic
+            ip saddr 172.20.0.0/14 accept
+            ip6 saddr fd00::/8 accept
+            ip6 saddr fe80::/64 accept
+          }
+        }
       '';
     };
     interfaces.lo = {
-      ipv4.addresses = [{ address = "172.20.4.97"; prefixLength = 32; }];
+      ipv4.addresses = [
+        {
+          address = "172.20.4.97";
+          prefixLength = 32;
+        }
+      ];
       ipv6.addresses = [
-        { address = "fd54:fe4b:9ed1:1::1"; prefixLength = 128; }
-        { address = "fe80::1"; prefixLength = 128; }
+        {
+          address = "fd54:fe4b:9ed1:1::1";
+          prefixLength = 128;
+        }
+        {
+          address = "fe80::1";
+          prefixLength = 128;
+        }
       ];
     };
   };
