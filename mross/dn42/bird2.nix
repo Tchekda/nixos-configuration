@@ -52,7 +52,7 @@ in
         ];
         birdSocket = "/var/run/bird/bird.ctl";
         enable = true;
-        listenAddress = "[fd54:fe4b:9ed1:1::1]:8000";
+        listenAddresses = "[fd54:fe4b:9ed1:1::1]:8000";
       };
       frontend = {
         enable = true;
@@ -61,7 +61,7 @@ in
           "fr-lyn"
         ];
         domain = "node.tchekda.dn42";
-        listenAddress = "127.0.0.1:5050";
+        listenAddresses = "127.0.0.1:5050";
       };
     };
 
