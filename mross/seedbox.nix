@@ -83,6 +83,8 @@ in
 
         # KB/s - Limit upload to prevent IO overload
         upload_rate = 30
+
+        method.redirect=load.start_throw,load.start
       '';
     };
   };
