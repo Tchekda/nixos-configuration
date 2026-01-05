@@ -28,8 +28,8 @@
     };
     oci-containers.containers = {
       jackett = {
-        image = "lscr.io/linuxserver/jackett:latest";
-        # image = "ghcr.io/clemv95/jackett-ygg-nonturbo:latest";
+        # image = "lscr.io/linuxserver/jackett:latest";
+        image = "ghcr.io/clemv95/jackett-ygg-nonturbo:latest";
         ports = [
           "127.0.0.1:9117:9117"
         ];
@@ -37,7 +37,8 @@
           "/etc/localtime:/etc/localtime:ro"
           "/dev/null:/downloads"
           # Install https://gist.github.com/Clemv95/8bfded23ef23ec78f6678896f42a2b60 in /etc/jackett/cardigans/definitions
-          "/etc/jackett:/config"
+          # "/etc/jackett:/config" # For official image
+          "/etc/jackett/Jackett:/config" # For clemv95 image
         ];
         environment = {
           PUID = "1000";
@@ -49,13 +50,14 @@
       };
 
       flaresolverr = {
-        image = "flaresolverr/flaresolverr:latest";
+        # image = "flaresolverr/flaresolverr:latest";
+        image = "ghcr.io/thephaseless/byparr:latest";
         ports = [
           "127.0.0.1:8191:8191"
         ];
         environment = {
-          LOG_LEVEL = "info";
-          CAPTCHA_SOLVER = "hcaptcha-solver";
+          # LOG_LEVEL = "info";
+          # CAPTCHA_SOLVER = "hcaptcha-solver";
         };
         extraOptions = [ "--network=flaresolverr" ];
       };
