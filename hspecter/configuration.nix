@@ -66,6 +66,11 @@ in
       systemd-boot = {
         enable = true;
         configurationLimit = 3;
+        extraInstallCommands = ''
+          # https://wiki.archlinux.org/title/Systemd-boot#Remember_last_entry
+          # Replace `default nixos-generation-651.conf` with `default @saved` in `/boot/loader/loader.conf` 
+          ${pkgs.gnused}/bin/sed -i 's/default nixos-generation-.*\.conf/default @saved/g' /boot/loader/loader.conf
+        '';
       };
       efi.canTouchEfiVariables = true;
     };
