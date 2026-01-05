@@ -29,6 +29,7 @@
     oci-containers.containers = {
       jackett = {
         image = "lscr.io/linuxserver/jackett:latest";
+        # image = "ghcr.io/clemv95/jackett-ygg-nonturbo:latest";
         ports = [
           "127.0.0.1:9117:9117"
         ];
