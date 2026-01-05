@@ -2,6 +2,7 @@
 
 {
   imports = [
+    (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ./hardware-configuration.nix
     ../tchekda_user.nix
     ./nginx.nix
@@ -29,8 +30,8 @@
     iotop
     lnav
     nano
+    php84
     wget
-    pkgs.php81
   ];
 
   home-manager.users.tchekda = {
@@ -73,6 +74,7 @@
   services = {
     openssh.enable = true;
     qemuGuest.enable = true;
+    vscode-server.enable = true;
   };
 
   system.stateVersion = "21.05"; # Did you read the comment?
