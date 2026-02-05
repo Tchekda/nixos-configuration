@@ -50,7 +50,6 @@ in
     aurora.alpha
     # Dev
     awscli2
-    # google-cloud-sdk
     # sshuttle
     redli
     python311Packages.autopep8
@@ -69,48 +68,17 @@ in
     unstable.postman
     openssl
     unstable.k9s
-    # unstable.code-cursor
-    # unstable.claude-code
-    # mongodb-compass
-    # wkhtmltopdf
-    # mailcatcher
-    # httpstat
     dbeaver-bin
-    # redli # Thanks to me :)
-    # arandr
     yubioath-flutter
-    # teamviewer
-    # mono
-    # jetbrains.jdk
-    # jetbrains.phpstorm
     # EPITA
-    coq_8_20
-    coqPackages_8_20.coqide
-    fritzing
-    # gnumake
-    # gcc
-    # krb5
-    # sshfs
-    # criterion.dev
-    # criterion
-    # gcovr
-    # man-pages
-    # gdb
     tree
     ripgrep
     pkg-config
-    # bear
-    # clang-tools
-    # patchelf
     stdenv.cc
-    # m68k
-    # clang
     # Applications
     teams-for-linux
     google-chrome
-    # kvirc
     zoom-us
-    slack
     filezilla
     nixpkgs25_05.nixops_unstable_full
     termius
@@ -119,15 +87,8 @@ in
     myMaestralGui
     telegram-desktop
     signal-desktop
-    # Virtualisation
-    # virt-manager
-    # win-virtio
-    # virt-viewer
-    # libguestfs-with-appliance
-    # usbutils
     amdgpu_top
     # Scanner
-    # xsane
     unstable.gscan2pdf
   ];
   programs.obs-studio = {

@@ -41,7 +41,7 @@ in
 
     kernelModules = [
       "acpi_call"
-      # "amdgpu"
+      "amdgpu"
       "ddcci_backlight"
       "hid_logitech_hidpp"
       "i2c-dev"
@@ -92,6 +92,10 @@ in
   documentation.man.generateCaches = false;
 
   environment = {
+    # https://github.com/NixOS/nixpkgs/issues/149812
+    extraInit = ''
+      export XDG_DATA_DIRS="$XDG_DATA_DIRS:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
+    '';
     extraOutputsToInstall = [
       "out"
       "lib"
@@ -102,8 +106,31 @@ in
       "/include"
       "/lib"
     ];
-    etc."chromium/policies/recommended/spnego.json".text = builtins.toJSON {
-      AuthServerWhitelist = "cri.epita.fr";
+    etc = {
+      "chromium/policies/recommended/spnego.json".text = builtins.toJSON {
+        AuthServerWhitelist = "cri.epita.fr";
+      };
+
+      "systemd/system-sleep/00-prehibernate-clean" = {
+        text = ''
+          #!${pkgs.bash}/bin/sh
+
+          echo "$(${pkgs.coreutils}/bin/date): Sleep hook called with args: $@"
+
+          case "$1" in
+            pre)
+              # Before suspend/hibernate
+              echo "$(${pkgs.coreutils}/bin/date): Running pre-sleep cleanup"
+              ${pkgs.coreutils}/bin/sync && echo "$(${pkgs.coreutils}/bin/date): Sync completed"
+              echo 3 > /proc/sys/vm/drop_caches && echo "$(${pkgs.coreutils}/bin/date): Caches dropped"
+              ;;
+            post)
+              echo "$(${pkgs.coreutils}/bin/date): Post-sleep wakeup"
+              ;;
+          esac
+        '';
+        mode = "0755";
+      };
     };
 
     # etc = {
