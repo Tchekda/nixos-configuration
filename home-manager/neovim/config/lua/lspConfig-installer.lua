@@ -15,10 +15,10 @@ local on_attach = function(client, bufnr)
 end
 
 for _, lsp in pairs(servers) do
-    require('lspconfig')[lsp].setup({
+    vim.lsp.config[lsp] = {
         on_attach = on_attach,
         capabilities = capabilities,
-    })
+    }
 end
 
 require("mason-lspconfig").setup {
