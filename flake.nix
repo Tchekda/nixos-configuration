@@ -14,6 +14,14 @@
       url = "github:nix-community/nixos-vscode-server";
       inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
+    # system-level software and settings (macOS)
+    darwin = {
+      url = "github:lnl7/nix-darwin/nix-darwin-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # declarative homebrew management
+    nix-homebrew.url = "github:zhaofengli/nix-homebrew";
   };
 
   outputs =
@@ -25,6 +33,8 @@
       home-manager,
       unstable,
       vscode-server,
+      darwin,
+      nix-homebrew,
       ...
     }@inputs:
     rec {
@@ -76,17 +86,14 @@
         };
       };
 
-      # https://web.archive.org/web/20220115082831/http://lukebentleyfox.net/posts/building-this-blog/
-      # nixopsConfigurations.default = {
-      #   network = {
-      #     description = "Server deployments";
-      #     nixpkgs = nixpkgs;
-      #   };
-      #   # defaults.nixpkgs.pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      #   # defaults._module.args = {
-      #   #   inherit domain;
-      #   # };
-      #   mross = import ./mross/nixops.nix;
-      # };
+      # $ darwin-rebuild build --flake .#<name>
+      darwinConfigurations."rzane" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          nix-homebrew.darwinModules.default
+          home-manager.darwinModules.home-manager
+          ./rzane/configuration.nix
+        ];
+      };
     };
 }

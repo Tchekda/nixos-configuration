@@ -12,22 +12,22 @@ in
     ./fish.nix
     ./git.nix
     ./vim.nix
-    ./neovim/default.nix
+    ./neovim
     ./ssh.nix
   ];
 
   home = {
-    username = "tchekda";
-    homeDirectory = "/home/tchekda";
+    username = lib.mkDefault "tchekda";
+    homeDirectory = lib.mkDefault ("/home/" + config.home.username);
     sessionPath = [
-      "/home/tchekda/.local/bin"
+      "${config.home.homeDirectory}/.local/bin"
     ];
     packages = with pkgs; [
       bat
       dnsutils
       file
       init-shell-command
-      inetutils
+      (if pkgs.stdenv.isDarwin then pkgs.iproute2mac else pkgs.inetutils)
       iperf3
       jq
       lnav
@@ -56,7 +56,7 @@ in
 
   programs = {
     home-manager.enable = true;
-    command-not-found.enable = true;
+    command-not-found.enable = lib.mkDefault true;
 
     man.enable = false;
 
@@ -73,7 +73,7 @@ in
 
   services = {
     gpg-agent = {
-      enable = true;
+      enable = pkgs.stdenv.isLinux;
       defaultCacheTtl = 7200;
       enableSshSupport = true;
       enableExtraSocket = true;

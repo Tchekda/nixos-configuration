@@ -16,6 +16,6 @@ stdenv.mkDerivation {
   '';
 
   meta = with lib; {
-    platforms = platforms.linux;
+    platforms = platforms.darwin ++ platforms.linux;
   };
 }
