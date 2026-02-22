@@ -6,9 +6,9 @@
     # extraConfig = builtins.readFile ./init.vim + builtins.readFile ./keymap.vim;
     # extraLuaConfig = builtins.concatStringsSep "\n" (map (file: builtins.readFile file) (lib.filesystem.listFilesRecursive ./lua));
     extraPackages = with pkgs; [
-      clang
       ripgrep
       tree-sitter
+    ] ++ lib.optionals stdenv.isLinux [
       xclip # x11
       wl-clipboard # wayland
     ];

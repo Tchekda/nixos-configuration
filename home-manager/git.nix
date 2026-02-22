@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   programs.git = {
     enable = true;
@@ -35,10 +35,11 @@
         st = "status";
         sw = "switch";
       };
+      core.editor = "nvim";
       push.autoSetupRemote = true;
       user = {
         name = "David Tchekachev";
-        email = "contact" + "@" + "tchekda.fr";
+        email = lib.mkDefault ("contact" + "@" + "tchekda.fr");
       };
     };
   };
