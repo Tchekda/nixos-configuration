@@ -1,3 +1,21 @@
+-- nvim-cmp configuration - Autocompletion engine
+-- Provides intelligent code completion with multiple sources
+--
+-- Keybindings:
+--   <C-Space> - Trigger completion
+--   <C-e>     - Close completion menu
+--   <CR>      - Confirm selection
+--   <Tab>     - Next completion item / expand snippet
+--   <S-Tab>   - Previous completion item / jump back in snippet
+--
+-- Completion sources (in order of priority):
+--   - path: File paths
+--   - nvim_lsp: LSP completions
+--   - nvim_lsp_signature_help: Function signatures
+--   - nvim_lua: Neovim Lua API
+--   - buffer: Text from open buffers
+--   - luasnip: Snippets
+
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 

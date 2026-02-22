@@ -1,3 +1,20 @@
+-- Lspsaga configuration - Enhanced LSP UI
+-- Provides a better user interface for LSP actions
+--
+-- Features:
+--   - Better code action UI
+--   - Floating window for hover docs
+--   - Improved rename UI with preview
+--   - LSP finder for definitions/references
+--   - Diagnostic navigation with better visuals
+--
+-- Key features configured:
+--   - Custom diagnostic signs and icons
+--   - Code action preview and execution
+--   - Definition and reference finder
+--   - Rename with preview
+--   - Single border style for windows
+
 require('lspsaga').setup {
     debug = true,
     use_saga_diagnostic_sign = true,
