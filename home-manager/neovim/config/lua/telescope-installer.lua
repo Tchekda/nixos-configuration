@@ -1,3 +1,29 @@
+-- Telescope configuration - Fuzzy finder and picker
+-- Highly extendable fuzzy finder over lists
+--
+-- Common usage:
+--   :Telescope find_files       - Find files in project
+--   :Telescope live_grep        - Search text in project (requires ripgrep)
+--   :Telescope buffers          - List open buffers
+--   :Telescope help_tags        - Search help documentation
+--   :Telescope git_files        - Find files tracked by git
+--   :Telescope lsp_references   - Find LSP references
+--   :Telescope diagnostics      - Show LSP diagnostics
+--
+-- Keybindings in picker:
+--   <C-n>/<Down>  - Next item
+--   <C-p>/<Up>    - Previous item
+--   <C-c>/<Esc>   - Close telescope
+--   <CR>          - Confirm selection
+--   <C-x>         - Open in horizontal split
+--   <C-v>         - Open in vertical split
+--   <C-t>         - Open in new tab
+--
+-- Features:
+--   - Uses ripgrep for fast text search
+--   - Ignores common build artifacts and version control
+--   - Horizontal layout with custom border
+
 require('telescope').setup{
   defaults = {
     vimgrep_arguments = {

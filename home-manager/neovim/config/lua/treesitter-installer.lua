@@ -1,3 +1,29 @@
+-- Treesitter configuration - Advanced syntax highlighting and code understanding
+-- Provides incremental parsing for better syntax highlighting, indentation, and navigation
+--
+-- Features:
+--   - Context-aware syntax highlighting (better than regex-based)
+--   - Smart code selection and navigation
+--   - Folding based on syntax tree
+--   - Indentation based on syntax
+--   - Incremental parsing for performance
+--
+-- Usage:
+--   :TSInstall <language>     - Install parser for specific language
+--   :TSUpdate                 - Update all installed parsers
+--   :TSBufToggle highlight    - Toggle highlighting
+--   :TSPlaygroundToggle       - Open syntax tree viewer (if available)
+--
+-- Configured languages:
+--   c, make, bash, html, javascript, typescript, tsx,
+--   git_config, gitcommit, gitignore, json, yaml,
+--   python, php
+--
+-- Features enabled:
+--   - Auto-install parsers when opening new file types
+--   - Syntax highlighting with treesitter
+--   - Disabled for files larger than 100KB (performance)
+--
 -- Defines a read-write directory for treesitters in nvim's cache dir
 local parser_install_dir = vim.fn.stdpath("cache") .. "/treesitters"
 vim.fn.mkdir(parser_install_dir, "p")
@@ -8,7 +34,7 @@ require'nvim-treesitter.configs'.setup {
 
 
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
-  ensure_installed = { "c", "make", "bash", "html", "javascript", "typescript", "tsx", "git_config", "gitcommit", "gitignore", "json", "yaml", "python", "php" },
+  ensure_installed = { "make", "bash", "html", "css", "javascript", "typescript", "tsx", "git_config", "gitcommit", "gitignore", "csv", "json", "yaml", "python", "php", "dockerfile", "markdown" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,

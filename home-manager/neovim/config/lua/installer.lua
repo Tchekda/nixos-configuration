@@ -1,3 +1,7 @@
+-- Plugin configuration loader
+-- This file loads all plugin configuration files in order
+-- Each installer file configures a specific plugin or set of related plugins
+
 local installer = { 'cmp-installer',
                     'lspConfig-installer',
                     'lspsaga-installer',

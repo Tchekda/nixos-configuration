@@ -1,1 +1,21 @@
+-- ToggleTerm configuration - Terminal manager
+-- Provides floating and split terminal windows within Neovim
+--
+-- Usage:
+--   :ToggleTerm              - Toggle terminal window
+--   :ToggleTerm direction=horizontal - Open horizontal split terminal
+--   :ToggleTerm direction=vertical   - Open vertical split terminal
+--   :ToggleTerm direction=float      - Open floating terminal (default)
+--   :ToggleTerm direction=tab        - Open terminal in new tab
+--   :<count>ToggleTerm       - Toggle specific terminal by ID
+--
+-- Keybindings (in terminal mode):
+--   <C-\><C-n>   - Enter normal mode in terminal
+--   <Esc><Esc>   - Alternative to enter normal mode
+--
+-- Common setup patterns:
+--   - Map <C-\> to toggle terminal
+--   - Use multiple terminals with :1ToggleTerm, :2ToggleTerm, etc.
+--   - Create custom terminal commands for specific tasks
+
 require("toggleterm").setup{}

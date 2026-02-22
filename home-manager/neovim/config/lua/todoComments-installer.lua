@@ -1,1 +1,24 @@
+-- Todo Comments configuration
+-- Highlights and manages TODO, FIXME, HACK, NOTE, and other comment annotations
+--
+-- Usage:
+--   :TodoTelescope       - Search all todos using telescope
+--   :TodoQuickFix        - Load todos into quickfix list
+--   :TodoLocList         - Load todos into location list
+--   :TodoTrouble         - Load todos into trouble.nvim (if available)
+--
+-- Recognized keywords (with highlighting):
+--   TODO:  - Something to be done
+--   FIXME: - Something that needs fixing
+--   HACK:  - Temporary workaround
+--   NOTE:  - Important note or explanation
+--   WARN:  - Warning or potential issue
+--   PERF:  - Performance concern
+--   TEST:  - Testing related comment
+--
+-- Example:
+--   -- TODO: Implement error handling
+--   -- FIXME: This breaks on edge case
+--   -- NOTE: This is important for understanding X
+
 require('todo-comments').setup()
