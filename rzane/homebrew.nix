@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   homebrew = {
@@ -7,21 +7,25 @@
     onActivation = {
       autoUpdate = false;
       upgrade = true;
-      cleanup = "zap";
+      cleanup = "none"; # Leave private packages installed
     };
 
     caskArgs.no_quarantine = true;
     global.brewfile = true;
 
     brews = [
+      "awscli"
       "colima"
       "docker"
       "docker-compose"
       "docker-buildx"
       "docker-credential-helper"
+      "fzf"
       "gh"
       "git"
+      "hashicorp/tap/vault"
       "mise"
+      "terraform-ls"
     ];
 
     casks = [
@@ -31,16 +35,23 @@
       "cursor"
       "dbeaver-community"
       "google-chrome"
+      "gcloud-cli"
+      "insomnia"
+      "session-manager-plugin"
       "slack"
       "spotify"
       "whatsapp"
+    ];
+
+    taps = [
+      "hashicorp/tap"
     ];
   };
 
   nix-homebrew = {
     enable = true;
     enableRosetta = true;
-    user = "dtch";
+    user = config.system.primaryUser;
     autoMigrate = true;
   };
 }
