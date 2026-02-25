@@ -5,6 +5,14 @@
     ../home.nix
     ./git.nix
   ];
+
+  home = {
+    sessionVariables = {
+      TF_CLI_ARGS_plan = "-parallelism=50";
+      TF_CLI_ARGS_apply = "-parallelism=50";
+    };
+  };
+
   programs = {
     command-not-found.enable = lib.mkForce false;
     nix-index = {
@@ -18,7 +26,18 @@
       shellAbbrs = {
         nrs = "sudo darwin-rebuild --flake /Users/dtch/nixos-configuration#rzane switch";
       };
+      shellInit = ''
+        mise activate fish --shims | source
+      '';
     };
+
+    mise = {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      enableFishIntegration = true;
+    };
+
     ssh = {
       enable = true;
       includes = [
