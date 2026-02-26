@@ -13,20 +13,8 @@
     caskArgs.no_quarantine = true;
     global.brewfile = true;
 
-    brews = [
-      "awscli"
-      "colima"
-      "docker"
-      "docker-compose"
-      "docker-buildx"
-      "docker-credential-helper"
-      "fzf"
-      "gh"
-      "git"
-      "hashicorp/tap/vault"
-      "mise"
-      "terraform-ls"
-    ];
+    # brews = [
+    # ];
 
     casks = [
       "1password"
@@ -43,9 +31,8 @@
       "whatsapp"
     ];
 
-    taps = [
-      "hashicorp/tap"
-    ];
+    # taps = [
+    # ];
   };
 
   nix-homebrew = {
