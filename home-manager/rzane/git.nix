@@ -30,11 +30,6 @@
       # Update references when rebasing (useful for stacked pull requests)
       rebase.updateRefs = true;
 
-      # Specify the global excludes file and editor
-      core = {
-        excludesfile = "~/.gitignore_global";
-      };
-
       user.email = [ ]; # Overriden by the global gitconfig
 
       # delete-squashed: delete local branches that were squashed into main

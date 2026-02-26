@@ -4,6 +4,7 @@
   imports = [
     ../home.nix
     ./git.nix
+    ./packages.nix
   ];
 
   home = {
@@ -42,6 +43,7 @@
       enable = true;
       includes = [
         "/Users/dtch/.colima/ssh_config"
+        "/Users/dtch/.ssh/local_config"
       ];
       matchBlocks = {
         "*" = {
