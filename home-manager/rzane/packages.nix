@@ -17,6 +17,7 @@
     mise
     nss
     pre-commit
+    shellcheck
     terraform-ls
     vault
   ];

@@ -62,7 +62,7 @@ set wildmenu
 " Use space characters instead of tabs.
 set expandtab
 
-set colorcolumn=80
+" set colorcolumn=80
 
 set nobackup
 
