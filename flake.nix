@@ -22,6 +22,10 @@
 
     # declarative homebrew management
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    phps = {
+      url = "github:fossar/nix-phps";
+      inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
+    };
   };
 
   outputs =
@@ -35,6 +39,7 @@
       vscode-server,
       darwin,
       nix-homebrew,
+      phps,
       ...
     }@inputs:
     rec {
@@ -52,6 +57,7 @@
               system = "x86_64-linux";
               config.allowUnfree = true;
             };
+            phps = phps.packages.x86_64-linux;
           };
         };
         # Not working as some files are not in the git history (dn42 wg tunnels)
