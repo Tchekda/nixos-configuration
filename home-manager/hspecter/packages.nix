@@ -54,7 +54,6 @@ in
     redli
     python311Packages.autopep8
     python311Packages.virtualenv
-    php83Packages.composer
     unstable.openfortivpn
     nodejs_22
     yarn
