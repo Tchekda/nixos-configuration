@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, unstable, ... }:
 
 {
   imports = [
@@ -37,6 +37,7 @@
       enableBashIntegration = true;
       enableZshIntegration = true;
       enableFishIntegration = true;
+      package = unstable.mise;
     };
 
     ssh = {
