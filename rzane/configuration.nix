@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  unstable,
+  ...
+}:
 
 {
   imports = [
@@ -7,6 +12,9 @@
 
   home-manager = {
     backupFileExtension = "bak";
+    extraSpecialArgs = {
+      inherit unstable;
+    };
     useUserPackages = true;
     users.dtch = {
       imports = [ ../home-manager/rzane/default.nix ];

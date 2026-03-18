@@ -100,6 +100,12 @@
           home-manager.darwinModules.home-manager
           ./rzane/configuration.nix
         ];
+        specialArgs = {
+          unstable = import unstable {
+            system = "aarch64-darwin";
+            config.allowUnfree = true;
+          };
+        };
       };
     };
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, unstable, ... }:
 {
   home.packages = with pkgs; [
     actionlint
@@ -8,13 +8,13 @@
     docker-compose
     docker-buildx
     docker-credential-helpers
+    unstable.fastlane
     fzf
     gh
     git
     k9s
     kubectl
     mkcert
-    mise
     nss
     pre-commit
     shellcheck

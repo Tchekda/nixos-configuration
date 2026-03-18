@@ -13,8 +13,9 @@
     caskArgs.no_quarantine = true;
     global.brewfile = true;
 
-    # brews = [
-    # ];
+    brews = [
+      "mint"
+    ];
 
     casks = [
       "1password"
@@ -29,6 +30,7 @@
       "slack"
       "spotify"
       "whatsapp"
+      "xcodes"
     ];
 
     # taps = [
