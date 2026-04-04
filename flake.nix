@@ -24,7 +24,7 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     phps = {
       url = "github:fossar/nix-phps";
-      inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
+      # inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
   };
 
