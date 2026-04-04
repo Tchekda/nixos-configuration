@@ -7,9 +7,8 @@ result*
 ssl/*pem
 **/**.key
 hgunderson/qrcode.config
-kbennett/fider/secrets.nix
-kbennett/cf-apikey
 mross/wg*
 mross/client_id
 mross/hockey-pen-stats.env
 mross/openssh_server_password
+secret-key*

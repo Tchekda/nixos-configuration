@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  secrets = import ./secrets.nix;
+  secrets = import ./secrets/values.nix;
 in
 {
   systemd.services.init-immich-docker-network = {

@@ -65,7 +65,7 @@
       cloudflare-ddns = {
         image = "oznu/cloudflare-ddns";
         environment = {
-          API_KEY = builtins.readFile ./cf-apikey;
+          API_KEY = builtins.readFile ./secrets/cf-apikey;
           ZONE = "tchekda.fr";
           SUBDOMAIN = "lgp";
           RRTYPE = "AAAA";

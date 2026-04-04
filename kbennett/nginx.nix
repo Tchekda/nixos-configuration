@@ -4,7 +4,11 @@
   pkgs,
   ...
 }:
-
+let
+  cfCert = ./secrets/cf-cert.pem;
+  cfKey = ./secrets/cf-key.pem;
+  originPullCa = ./secrets/origin-pull-ca.pem;
+in
 {
   networking.firewall.allowedTCPPorts = [
     80
@@ -23,10 +27,10 @@
           default = true;
           http2 = true;
           onlySSL = true;
-          sslCertificate = "/var/certs/cf-cert.pem";
-          sslCertificateKey = "/var/certs/cf-key.pem";
+          sslCertificate = cfCert;
+          sslCertificateKey = cfKey;
           extraConfig = ''
-            ssl_client_certificate /var/certs/origin-pull-ca.pem;
+            ssl_client_certificate ${originPullCa};
             ssl_verify_client on;
           '';
           locations."/" = {
@@ -36,10 +40,10 @@
         "jackett.tchekda.fr" = {
           http2 = true;
           onlySSL = true;
-          sslCertificate = "/var/certs/cf-cert.pem";
-          sslCertificateKey = "/var/certs/cf-key.pem";
+          sslCertificate = cfCert;
+          sslCertificateKey = cfKey;
           extraConfig = ''
-            ssl_client_certificate /var/certs/origin-pull-ca.pem;
+            ssl_client_certificate ${originPullCa};
             ssl_verify_client on;
           '';
           locations."/" = {
@@ -52,7 +56,6 @@
           enableACME = true;
           forceSSL = true;
           extraConfig = ''
-            client_body_temp_path /srv/nginx-tmp 1 2;
             client_max_body_size 50000M;
             proxy_read_timeout 600s;
             proxy_send_timeout 600s;
@@ -67,7 +70,6 @@
           http2 = true;
           http3 = true;
           extraConfig = ''
-            client_body_temp_path /srv/nginx-tmp 1 2;
             client_max_body_size 50000M;
             proxy_read_timeout 600s;
             proxy_send_timeout 600s;
@@ -81,10 +83,10 @@
         "bybit.tchekda.fr" = {
           http2 = true;
           onlySSL = true;
-          sslCertificate = "/var/certs/cf-cert.pem";
-          sslCertificateKey = "/var/certs/cf-key.pem";
+          sslCertificate = cfCert;
+          sslCertificateKey = cfKey;
           extraConfig = ''
-            ssl_client_certificate /var/certs/origin-pull-ca.pem;
+            ssl_client_certificate ${originPullCa};
             ssl_verify_client on;
           '';
           locations."/" = {
@@ -94,10 +96,10 @@
         "seerr.tchekda.fr" = {
           http2 = true;
           onlySSL = true;
-          sslCertificate = "/var/certs/cf-cert.pem";
-          sslCertificateKey = "/var/certs/cf-key.pem";
+          sslCertificate = cfCert;
+          sslCertificateKey = cfKey;
           extraConfig = ''
-            ssl_client_certificate /var/certs/origin-pull-ca.pem;
+            ssl_client_certificate ${originPullCa};
             ssl_verify_client on;
           '';
           locations."/" = {
@@ -111,5 +113,5 @@
     acceptTerms = true;
     defaults.email = "contact@tchekda.fr";
   };
-  systemd.services.nginx.serviceConfig.ReadWritePaths = [ "/srv/nginx-tmp" ];
+  systemd.services.nginx.serviceConfig.ReadWritePaths = [ "/var/spool/nginx/logs/" ];
 }
