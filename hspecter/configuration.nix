@@ -186,17 +186,18 @@ in
 
     systemPackages = with pkgs; [
       acpi
-      git
-      seahorse
       adwaita-icon-theme
-      gnome-tweaks
+      cachix
+      git
       gnomeExtensions.appindicator
+      gnome-tweaks
       gnupg
       home-manager
       nano
       ntfs3g
-      wget
+      seahorse
       wireguard-tools
+      wget
     ];
 
     sessionVariables = {
@@ -325,8 +326,15 @@ in
         "root"
         "tchekda"
       ];
-      # substituters = [ "http://cache.nixos.org" "http://s3.cri.epita.fr/cri-nix-cache.s3.cri.epita.fr" ];
-      # trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "cache.nix.cri.epita.fr:qDIfJpZWGBWaGXKO3wZL1zmC+DikhMwFRO4RVE6VVeo=" ];
+      substituters = [
+        "http://cache.nixos.org"
+        "https://cache.nixos.org/"
+        "https://fossar.cachix.org"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "fossar.cachix.org-1:Zv6FuqIboeHPWQS7ysLCJ7UT7xExb4OE8c4LyGb5AsE="
+      ];
     };
   };
 

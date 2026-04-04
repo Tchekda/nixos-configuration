@@ -6,13 +6,16 @@
   ...
 }:
 let
-  phpPackage = phps.php80;
+  php80 = phps.php80;
+  php84 = phps.php84;
 in
 {
 
   environment.systemPackages = [
-    phpPackage
-    phpPackage.packages.composer
+    php80
+    php80.packages.composer
+    php84
+    php84.packages.composer
   ];
 
   networking.extraHosts = ''
@@ -53,7 +56,7 @@ in
               };
               "~ /.*\.php$" = {
                 extraConfig = ''
-                  fastcgi_pass  unix:${config.services.phpfpm.pools.www.socket};
+                  fastcgi_pass  unix:${config.services.phpfpm.pools.avenir.socket};
                   fastcgi_index index.php;
                 '';
               };
@@ -71,7 +74,7 @@ in
             };
           };
           "moodle.local" = vhost {
-            root = "/var/www/moodle";
+            root = "/var/www/moodle/public";
             locations."/" = {
               index = "index.php";
               tryFiles = "$uri $uri/ =404";
@@ -79,7 +82,7 @@ in
             locations."~ [^/]\.php(/|$)" = {
               extraConfig = ''
                 fastcgi_index index.php;
-                fastcgi_pass  unix:${config.services.phpfpm.pools.www.socket};
+                fastcgi_pass  unix:${config.services.phpfpm.pools.moodle.socket};
                 fastcgi_split_path_info  ^(.+\.php)(/.+)$;
                 include ${pkgs.nginx}/conf/fastcgi.conf;
                 fastcgi_param   PATH_INFO       $fastcgi_path_info;
@@ -113,8 +116,8 @@ in
     };
 
     phpfpm = {
-      phpPackage = phpPackage;
-      pools.www = {
+      pools.avenir = {
+        phpPackage = php80;
         user = config.services.nginx.group;
         settings = {
           pm = "dynamic";
@@ -128,7 +131,24 @@ in
           "php_admin_value[error_log]" = "stderr";
           "php_admin_flag[log_errors]" = true;
         };
-        phpEnv."PATH" = lib.makeBinPath [ pkgs.php83 ];
+        phpEnv."PATH" = lib.makeBinPath [ php80 ];
+      };
+      pools.moodle = {
+        phpPackage = php84;
+        user = config.services.nginx.group;
+        settings = {
+          pm = "dynamic";
+          "listen.owner" = config.services.nginx.user;
+          "pm.max_children" = 5;
+          "pm.start_servers" = 2;
+          "pm.min_spare_servers" = 1;
+          "pm.max_spare_servers" = 3;
+          "pm.max_requests" = 500;
+          "security.limit_extensions" = ".php";
+          "php_admin_value[error_log]" = "stderr";
+          "php_admin_flag[log_errors]" = true;
+        };
+        phpEnv."PATH" = lib.makeBinPath [ php84 ];
       };
       phpOptions = ''
         opcache.enable=1
