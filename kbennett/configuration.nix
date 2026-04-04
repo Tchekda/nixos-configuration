@@ -74,6 +74,9 @@
   services = {
     openssh.enable = true;
     qemuGuest.enable = true;
+    seerr = {
+      enable = true;
+    };
     vscode-server.enable = true;
   };
 
