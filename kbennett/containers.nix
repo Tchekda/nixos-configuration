@@ -51,7 +51,7 @@
 
       flaresolverr = {
         # image = "flaresolverr/flaresolverr:latest";
-        image = "ghcr.io/thephaseless/byparr:latest";
+        image = "ghcr.io/thephaseless/byparr:2.0.1";
         ports = [
           "127.0.0.1:8191:8191"
         ];
