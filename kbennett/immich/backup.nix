@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  secrets = import ./secrets.nix;
+  secrets = import ./secrets/values.nix;
 in
 {
   # https://doc.ubuntu-fr.org/curlftpfs#montage_automatique
@@ -81,7 +81,6 @@ in
       };
     };
   };
-
 
   virtualisation.oci-containers.containers.immich_db_backup = {
     image = "prodrigestivill/postgres-backup-local";
