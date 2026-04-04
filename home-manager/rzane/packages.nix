@@ -17,8 +17,10 @@
     mkcert
     nss
     pre-commit
+    ripgrep
     shellcheck
     terraform-ls
+    uv
     vault
   ];
 }

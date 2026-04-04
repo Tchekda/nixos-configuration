@@ -15,6 +15,7 @@
 
     brews = [
       "mint"
+      "graphite"
     ];
 
     casks = [
@@ -30,11 +31,11 @@
       "slack"
       "spotify"
       "whatsapp"
-      "xcodes"
     ];
 
-    # taps = [
-    # ];
+    taps = [
+      "withgraphite/tap"
+    ];
   };
 
   nix-homebrew = {
