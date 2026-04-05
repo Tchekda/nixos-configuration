@@ -44,7 +44,7 @@
           "2001:bc8:2e2a:3::1/64"
         ];
         listenPort = 51822;
-        privateKey = builtins.readFile ./wg-vpn.key;
+        privateKey = builtins.readFile ./secrets/wg-vpn.key;
         allowedIPsAsRoutes = true;
         peers = [
           {

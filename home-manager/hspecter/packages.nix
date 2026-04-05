@@ -7,11 +7,6 @@
   ...
 }:
 let
-  # unstable = import <nixos-unstable> {
-  #   config = {
-  #     allowUnfree = true;
-  #   };
-  # };
   aurora = pkgs.callPackage ../aurora.nix { };
   # m68k = pkgs.qt5.callPackage ./m68k.nix { };
   # myPostman = pkgs.callPackage ./postman.nix { };

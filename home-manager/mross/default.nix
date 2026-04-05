@@ -8,7 +8,7 @@
   programs = {
     fish = {
       shellAbbrs = {
-        nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/mross/configuration.nix\" switch";
+        nrs = "sudo nixos-rebuild switch --flake /home/tchekda/nixos-configuration#mross";
       };
     };
   };
