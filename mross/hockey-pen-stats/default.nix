@@ -1,16 +1,11 @@
 { lib, ... }:
+let
+  envFile = ./secrets/.env;
+in
 {
   imports = [
-    ./docker.nix
+    ../docker.nix
   ];
-  environment.etc = {
-    hockey-pen-stats-env = {
-      text = builtins.readFile ./hockey-pen-stats.env;
-      target = "hockey-pen-stats.env";
-      user = "nginx";
-      group = "nginx";
-    };
-  };
   systemd = {
     services.docker-hockey-pen-stats.serviceConfig.Restart = lib.mkForce "on-failure";
 
@@ -32,6 +27,6 @@
     volumes = [
       "/var/www/hockey-pen-stats/:/app/data"
     ];
-    environmentFiles = [ "/etc/hockey-pen-stats.env" ];
+    environmentFiles = [ envFile ];
   };
 }

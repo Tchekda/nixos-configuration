@@ -2,15 +2,9 @@
   pkgs,
   config,
   lib,
+  unstable,
   ...
 }:
-let
-  unstable = import <nixos-unstable> {
-    config = {
-      allowUnfree = true;
-    };
-  };
-in
 {
   users.groups.media.members = [
     "plex"

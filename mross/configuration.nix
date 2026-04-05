@@ -1,22 +1,23 @@
 { pkgs, ... }:
 let
-  client_id = builtins.readFile ./client_id;
+  client_id = builtins.readFile ./secrets/client_id;
 in
 {
   imports = [
-    (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
-    <home-manager/nixos>
     ./hardware-configuration.nix
     ../tchekda_user.nix
     ./seedbox.nix
     ./nginx.nix
-    ./wireguard.nix
+    ./wireguard
     ./dn42
-    ./hockey-pen-stats.nix
+    ./hockey-pen-stats
     ./virtualisation.nix
   ];
 
   boot = {
+    kernel.sysctl = {
+      "kernel.task_delayacct" = 1;
+    };
     kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       grub = {

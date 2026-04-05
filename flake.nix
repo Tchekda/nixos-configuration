@@ -61,20 +61,20 @@
           };
         };
         # Not working as some files are not in the git history (dn42 wg tunnels)
-        # mross = nixpkgs.lib.nixosSystem {
-        #   system = "x86_64-linux";
-        #   modules = [
-        #     home-manager.nixosModules.home-manager
-        #     vscode-server.nixosModules.default
-        #     ./mross/configuration.nix
-        #   ];
-        #   specialArgs = {
-        #     unstable = import unstable {
-        #       system = "x86_64-linux";
-        #       config.allowUnfree = true;
-        #     };
-        #   };
-        # };
+        mross = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            home-manager.nixosModules.home-manager
+            vscode-server.nixosModules.default
+            ./mross/configuration.nix
+          ];
+          specialArgs = {
+            unstable = import unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
+        };
         kbennett = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

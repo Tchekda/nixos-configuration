@@ -1,12 +1,8 @@
 home-manager/hspecter/result
 home-manager/swheeler/appart.secrets.nix
 result*
-**/dn42/peers/tunnels.nix
+llitt/dn42/peers/tunnels.nix
 ssl/*pem
-**/**.key
 hgunderson/qrcode.config
 mross/wg*
-mross/client_id
-mross/hockey-pen-stats.env
-mross/openssh_server_password
 secret-key*

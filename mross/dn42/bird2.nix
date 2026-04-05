@@ -8,11 +8,6 @@ let
     ${pkgs.bird2}/bin/birdc reload in all
   '';
   bgp = import peers/bgp.nix { };
-  unstable = import <nixos-unstable> {
-    config = {
-      allowUnfree = true;
-    };
-  };
 in
 {
 
