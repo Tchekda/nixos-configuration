@@ -75,6 +75,20 @@
         #     };
         #   };
         # };
+        kbennett = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            home-manager.nixosModules.home-manager
+            vscode-server.nixosModules.default
+            ./kbennett/configuration.nix
+          ];
+          specialArgs = {
+            unstable = import unstable {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
+            };
+          };
+        };
       };
 
       # home-manager switch --flake /home/tchekda/nixos-configuration#hspecter
