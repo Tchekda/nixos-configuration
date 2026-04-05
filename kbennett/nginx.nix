@@ -56,6 +56,7 @@ in
           enableACME = true;
           forceSSL = true;
           extraConfig = ''
+            client_body_temp_path /srv/nginx-tmp 1 2;
             client_max_body_size 50000M;
             proxy_read_timeout 600s;
             proxy_send_timeout 600s;
@@ -70,6 +71,7 @@ in
           http2 = true;
           http3 = true;
           extraConfig = ''
+            client_body_temp_path /srv/nginx-tmp 1 2;
             client_max_body_size 50000M;
             proxy_read_timeout 600s;
             proxy_send_timeout 600s;
@@ -113,5 +115,5 @@ in
     acceptTerms = true;
     defaults.email = "contact@tchekda.fr";
   };
-  systemd.services.nginx.serviceConfig.ReadWritePaths = [ "/var/spool/nginx/logs/" ];
+  systemd.services.nginx.serviceConfig.ReadWritePaths = [ "/srv/nginx-tmp" ];
 }
