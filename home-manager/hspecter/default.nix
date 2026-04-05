@@ -7,15 +7,7 @@
   ...
 }:
 let
-  # unstable = import <nixos-unstable> {
-  #   config = {
-  #     allowUnfree = true;
-  #   };
-  # };
-  # screenlocker = builtins.fetchurl {
-  #   url = "https://files.tchekda.fr/suits-wallpaper.jpg";
-  #   sha256 = "sha256:18i26c2szmsas9r962ndncikp2lzqljg9rr4v2szp03hfp2sah0q";
-  # };
+  deletecVpnConfig = ./secrets/deletec-vpn;
 in
 {
   imports = [
@@ -51,8 +43,7 @@ in
   programs = {
     fish = {
       shellAbbrs = {
-        deletec = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/deletec-vpn";
-        ambition = "sudo openfortivpn -c /home/tchekda/nixos-configuration/home-manager/hspecter/ambition-vpn";
+        deletec = "sudo openfortivpn -c ${deletecVpnConfig}";
         nrs = "sudo nixos-rebuild --flake /home/tchekda/nixos-configuration#hspecter switch";
         hms = "home-manager --flake /home/tchekda/nixos-configuration#hspecter switch -b backup";
         kb = "kubectl";
