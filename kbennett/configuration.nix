@@ -2,11 +2,9 @@
 
 {
   imports = [
-    (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ./hardware-configuration.nix
     ../tchekda_user.nix
     ./nginx.nix
-    <home-manager/nixos>
     ./containers.nix
     ./immich
   ];

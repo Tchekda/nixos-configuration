@@ -9,7 +9,7 @@
   programs = {
     fish = {
       shellAbbrs = {
-        nrs = "sudo nixos-rebuild -I \"nixos-config=/home/tchekda/nixos-configuration/kbennett/configuration.nix\" switch";
+        nrs = "sudo nixos-rebuild switch --flake /home/tchekda/nixos-configuration#kbennett";
       };
     };
     git.settings.safe.directory = "*";
