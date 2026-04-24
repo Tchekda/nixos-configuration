@@ -64,6 +64,7 @@ in
     unstable.k9s
     dbeaver-bin
     yubioath-flutter
+    claude-code
     # EPITA
     tree
     ripgrep
