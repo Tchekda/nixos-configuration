@@ -10,6 +10,10 @@
     ./homebrew.nix
   ];
 
+  environment.systemPackages = with pkgs; [
+    awscli2 # system level for Lens app
+  ];
+
   home-manager = {
     backupFileExtension = "bak";
     extraSpecialArgs = {

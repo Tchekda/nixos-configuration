@@ -2,7 +2,7 @@
 {
   home.packages = with pkgs; [
     actionlint
-    awscli2
+    # awscli2 # system level for Lens app
     colima
     docker
     docker-compose
@@ -14,6 +14,7 @@
     git
     k9s
     kubectl
+    mailcatcher
     mkcert
     nss
     pre-commit
