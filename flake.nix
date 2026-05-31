@@ -26,7 +26,6 @@
       url = "github:fossar/nix-phps";
       # inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
-    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
   outputs =
@@ -41,7 +40,6 @@
       darwin,
       nix-homebrew,
       phps,
-      claude-code,
       ...
     }@inputs:
     rec {
@@ -98,7 +96,6 @@
         hspecter = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [
-            { nixpkgs.overlays = [ claude-code.overlays.default ]; }
             ./home-manager/hspecter/default.nix
           ];
           extraSpecialArgs = {
