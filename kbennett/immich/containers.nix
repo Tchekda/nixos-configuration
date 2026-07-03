@@ -68,30 +68,16 @@ in
         extraOptions = [ "--network=immich" ];
       };
       immich_postgres = {
-        image = "docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0";
+        image = "ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0";
         environment = {
           POSTGRES_USER = secrets.DB_USERNAME;
           POSTGRES_PASSWORD = secrets.DB_PASSWORD;
           POSTGRES_DB = secrets.DB_DATABASE_NAME;
           POSTGRES_INITDB_ARGS = "'--data-checksums'";
+          DB_STORAGE_TYPE = "HDD";
         };
         volumes = [
           "/srv/immich-postgres:/var/lib/postgresql/data"
-        ];
-        cmd = [
-          "postgres"
-          "-c"
-          "shared_preload_libraries=vectors.so"
-          "-c"
-          "search_path=\"$$user\", public, vectors"
-          "-c"
-          "logging_collector=on"
-          "-c"
-          "max_wal_size=2GB"
-          "-c"
-          "shared_buffers=512MB"
-          "-c"
-          "wal_compression=on"
         ];
         extraOptions = [ "--network=immich" ];
       };
