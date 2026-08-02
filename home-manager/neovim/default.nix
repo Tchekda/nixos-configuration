@@ -3,15 +3,20 @@
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    withPython3 = true;
+    withRuby = false;
     # extraConfig = builtins.readFile ./init.vim + builtins.readFile ./keymap.vim;
     # extraLuaConfig = builtins.concatStringsSep "\n" (map (file: builtins.readFile file) (lib.filesystem.listFilesRecursive ./lua));
-    extraPackages = with pkgs; [
-      ripgrep
-      tree-sitter
-    ] ++ lib.optionals stdenv.isLinux [
-      xclip # x11
-      wl-clipboard # wayland
-    ];
+    extraPackages =
+      with pkgs;
+      [
+        ripgrep
+        tree-sitter
+      ]
+      ++ lib.optionals stdenv.isLinux [
+        xclip # x11
+        wl-clipboard # wayland
+      ];
     plugins = with pkgs.vimPlugins; [
       # Plugin manager (not actively used on NixOS since plugins are managed via Nix)
       packer-nvim

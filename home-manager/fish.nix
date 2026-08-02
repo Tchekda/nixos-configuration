@@ -52,6 +52,9 @@
 
     interactiveShellInit = ''
       nix-your-shell fish | source
+      if test -n "$CMUX_SURFACE_ID"
+        fish_add_path -gP /Applications/cmux.app/Contents/Resources/bin
+      end
     '';
   };
 }

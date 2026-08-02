@@ -32,10 +32,14 @@ in
       jq
       lnav
       mtr
-      neofetch
-      nixfmt-rfc-style
-      python311
-      python311Packages.pip
+      hyfetch
+      nixfmt
+      (python311.withPackages (
+        ps: with ps; [
+          pip
+          pyyaml
+        ]
+      ))
       unrar
       unzip
       zip

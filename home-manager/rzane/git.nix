@@ -5,12 +5,12 @@
   ];
   # Define overrides
   programs.git = {
-    signing = {
-      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK1GCcwzSkhPhlOZz+iYO59ehl+HfwYftQVGHs82Qs61";
-      format = "ssh";
-      signByDefault = true;
-      signer = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-    };
+    # signing = {
+    #   key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK1GCcwzSkhPhlOZz+iYO59ehl+HfwYftQVGHs82Qs61";
+    #   format = "ssh";
+    #   signByDefault = true;
+    #   signer = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+    # };
     settings = {
       # Always use SSH cloning instead of HTTPS (to avoid entering credentials)
       url."ssh://git@github.com".insteadOf = "https://github.com";

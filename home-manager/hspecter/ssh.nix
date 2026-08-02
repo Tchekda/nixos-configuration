@@ -5,42 +5,42 @@
       "tsh-config"
       "/home/tchekda/Prog/EPITA/SIGL/UBSI/infra/terraform/environments/staging/ssh_config"
     ];
-    matchBlocks = {
+    settings = {
       deletec = {
-        hostname = "192.168.230.10";
-        user = "david";
+        HostName = "192.168.230.10";
+        User = "david";
       };
       "git.cri.epita.fr" = {
-        hostname = "git.cri.epita.fr";
-        user = "david.tchekachev";
+        HostName = "git.cri.epita.fr";
+        User = "david.tchekachev";
       };
       les2vins = {
-        hostname = "10.116.116.26";
-        user = "les2vins";
+        HostName = "10.116.116.26";
+        User = "les2vins";
       };
       bastion-siops = {
-        hostname = "91.243.117.175";
-        user = "proxyjump";
-        identityFile = "~/.ssh/id_epita";
+        HostName = "91.243.117.175";
+        User = "proxyjump";
+        IdentityFile = "~/.ssh/id_epita";
       };
       bitwarden = {
-        hostname = "192.168.64.7";
-        user = "ubuntu";
-        identityFile = "~/.ssh/id_epita";
-        proxyJump = "bastion-siops";
+        HostName = "192.168.64.7";
+        User = "ubuntu";
+        IdentityFile = "~/.ssh/id_epita";
+        ProxyJump = "bastion-siops";
       };
       RE_PROD = {
-        hostname = "192.168.64.67";
-        user = "ubuntu";
-        identityFile = "~/.ssh/id_epita";
-        proxyJump = "bastion-siops";
+        HostName = "192.168.64.67";
+        User = "ubuntu";
+        IdentityFile = "~/.ssh/id_epita";
+        ProxyJump = "bastion-siops";
       };
       RE_PROD_BDD = {
-        hostname = "192.168.64.44";
-        user = "ubuntu";
-        identityFile = "~/.ssh/id_epita";
-        proxyJump = "RE_PROD";
-        localForwards = [
+        HostName = "192.168.64.44";
+        User = "ubuntu";
+        IdentityFile = "~/.ssh/id_epita";
+        ProxyJump = "RE_PROD";
+        LocalForward = [
           {
             host = {
               address = "127.0.0.1";
@@ -54,11 +54,11 @@
         ];
       };
       master-panel = {
-        hostname = "192.168.64.13";
-        user = "ubuntu";
-        proxyJump = "bastion-siops";
-        identityFile = "~/.ssh/id_epita";
-        localForwards = [
+        HostName = "192.168.64.13";
+        User = "ubuntu";
+        ProxyJump = "bastion-siops";
+        IdentityFile = "~/.ssh/id_epita";
+        LocalForward = [
           {
             host = {
               address = "127.0.0.1";

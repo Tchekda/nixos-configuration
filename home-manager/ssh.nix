@@ -5,38 +5,38 @@
       "AddKeysToAgent" = "yes";
     };
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        forwardAgent = true;
-        serverAliveInterval = 60;
+        ForwardAgent = true;
+        ServerAliveInterval = 60;
       };
       mross = {
-        hostname = "mross.tchekda.fr";
-        user = "tchekda";
-        port = 9137;
+        HostName = "mross.tchekda.fr";
+        User = "tchekda";
+        Port = 9137;
       };
       llitt = {
-        hostname = "192.168.0.144";
-        user = "tchekda";
+        HostName = "192.168.0.144";
+        User = "tchekda";
       };
       rllitt = {
-        hostname = "appart.tchekda.fr";
-        user = "tchekda";
-        port = 2218;
+        HostName = "appart.tchekda.fr";
+        User = "tchekda";
+        Port = 2218;
       };
       delta = {
-        hostname = "swheeler.tchekda.fr";
-        port = 2217;
-        user = "tchekda";
+        HostName = "swheeler.tchekda.fr";
+        Port = 2217;
+        User = "tchekda";
       };
       lgp = {
-        hostname = "lgp.tchekda.fr";
-        user = "tchekda";
+        HostName = "lgp.tchekda.fr";
+        User = "tchekda";
       };
       lgp-v4 = {
-        hostname = "lgp.tchekda.fr";
-        user = "tchekda";
-        proxyJump = "mross";
+        HostName = "lgp.tchekda.fr";
+        User = "tchekda";
+        ProxyJump = "mross";
       };
     };
   };
