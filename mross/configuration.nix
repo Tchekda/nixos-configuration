@@ -43,7 +43,7 @@ in
       iotop
       lnav
       nano
-      neofetch
+      hyfetch
       tcpdump
       wget
     ];

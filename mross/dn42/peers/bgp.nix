@@ -79,13 +79,13 @@
       as = "4242423735";
       link = "2";
     }
-#    {
-#      multi = true;
-#      name = "dark_0150_fra";
-#      neigh = "fe80::150%dark_0150_fra";
-#      as = "4242420150";
-#      link = "3";
-#    }
+    #    {
+    #      multi = true;
+    #      name = "dark_0150_fra";
+    #      neigh = "fe80::150%dark_0150_fra";
+    #      as = "4242420150";
+    #      link = "3";
+    #    }
     {
       multi = true;
       name = "diypiandco_1908";
@@ -93,13 +93,13 @@
       as = "4242421908";
       link = "1";
     }
-    {
-      multi = true;
-      name = "eastbound_2633";
-      neigh = "fe80::2633%eastb_2633_au";
-      as = "4242422633";
-      link = "4";
-    }
+    # {
+    #   multi = true;
+    #   name = "eastbound_2633";
+    #   neigh = "fe80::2633%eastb_2633_au";
+    #   as = "4242422633";
+    #   link = "4";
+    # }
     {
       multi = true;
       name = "fixmix_1876";

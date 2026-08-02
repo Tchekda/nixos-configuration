@@ -31,7 +31,7 @@ in
       jq
       lnav
       mtr
-      neofetch
+      hyfetch
       python311
       python311Packages.pip
       unrar

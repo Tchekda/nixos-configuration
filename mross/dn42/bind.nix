@@ -28,6 +28,7 @@
       "fd00::/8"
       "::1/128"
     ];
+    checkConfig = false; # Above copied files aren't available in check sandbox
     enable = true;
     extraOptions = ''
       empty-zones-enable no;
