@@ -92,6 +92,21 @@
             };
           };
         };
+        # nixos-rebuild switch --flake /home/tchekda/nixos-configuration#llitt
+        llitt = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            home-manager.nixosModules.home-manager
+            nixos-hardware.nixosModules.raspberry-pi-4
+            ./llitt/configuration.nix
+          ];
+          specialArgs = {
+            unstable = import unstable {
+              system = "aarch64-linux";
+              config.allowUnfree = true;
+            };
+          };
+        };
       };
 
       # home-manager switch --flake /home/tchekda/nixos-configuration#hspecter

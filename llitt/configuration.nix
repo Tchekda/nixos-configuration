@@ -8,8 +8,6 @@
 {
   imports = [
     ../tchekda_user.nix
-    <home-manager/nixos>
-    <nixos-hardware/raspberry-pi/4>
     ./containers.nix
     ./nginx.nix
     ./dn42

@@ -1,8 +1,6 @@
 home-manager/hspecter/result
 home-manager/swheeler/appart.secrets.nix
 result*
-llitt/dn42/peers/tunnels.nix
-ssl/*pem
 hgunderson/qrcode.config
 mross/wg*
 secret-key*

@@ -11,7 +11,7 @@ in
 {
   environment.systemPackages = [ pkgs.wireguard-tools ];
 
-  networking.wireguard.interfaces = import peers/tunnels.nix rec {
+  networking.wireguard.interfaces = import peers/secrets/tunnels.nix rec {
     customTunnel =
       listenPort: privateKey: publicKey: endpoint: name: tunnelIPv4: tunnelIPv6: localIPv4: localIPv6: isOspf: {
         listenPort = listenPort;

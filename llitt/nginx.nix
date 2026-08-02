@@ -1,5 +1,9 @@
 { ... }:
-
+let
+  cfCert = ./secrets/cf-cert.pem;
+  cfKey = ./secrets/cf-key.pem;
+  originPullCa = ./secrets/origin-pull-ca.pem;
+in
 {
   services.nginx = {
     enable = true;
@@ -19,10 +23,10 @@
       "ha.tchekda.fr" = {
         http2 = true;
         addSSL = true;
-        sslCertificate = "/etc/cf-cert";
-        sslCertificateKey = "/etc/cf-key";
+        sslCertificate = cfCert;
+        sslCertificateKey = cfKey;
         extraConfig = ''
-          ssl_client_certificate /etc/origin-pull-ca;
+          ssl_client_certificate ${originPullCa};
           ssl_verify_client on;
           proxy_buffering off;
           error_log /var/log/nginx/error.log debug;
