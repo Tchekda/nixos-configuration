@@ -12,6 +12,7 @@ in
 {
 
   environment.systemPackages = [
+    pkgs.android-tools
     php80
     php80.packages.composer
     php84
@@ -22,6 +23,7 @@ in
     127.0.0.1 avenir.local
     ::1 moodle.local
     127.0.0.1 dev.ivao.aero
+    127.0.0.1 rabbitmq-stage.trojan.ivao.aero
   '';
 
   users.users.tchekda.extraGroups = [ "www-data" ];

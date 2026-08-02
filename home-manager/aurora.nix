@@ -35,11 +35,10 @@ let
 
       extraInstallCommands = ''
         # ls -la ${appimageContents}
-        install -m 444 -D ${appimageContents}/Aurora.desktop $out/share/applications/${pname}.desktop
+        install -m 444 -D ${appimageContents}/aurora-electron.desktop $out/share/applications/${pname}.desktop
         substituteInPlace $out/share/applications/${pname}.desktop \
           --replace-fail 'Exec=AppRun' 'Exec=${pname}' \
-          --replace-fail 'Name=Aurora' 'Name=Aurora ${channel} (${version})' \
-          --replace-fail 'Icon=Aurora' 'Icon=Aurora.png'
+          --replace-fail 'Name=Aurora' 'Name=Aurora ${channel} (${version})'
       ''
       + pkgs.lib.strings.optionalString (channel == "public") ''
         mkdir -p $out/share/icons/hicolor/1024x1024/apps
@@ -59,19 +58,19 @@ in
   alpha = generic {
     channel = "alpha";
     downloadId = "70";
-    sha256 = "sha256-DvUOZfCsS1dV/GZkRIUMH35UkqNeBEc7WOgh46duMvw=";
+    sha256 = "sha256-UhykWRv1PDRHMgyHm1J615b9nyWyLaUg2v/W3zwZtqg=";
     version = "1.0.36a";
   };
   beta = generic {
     channel = "beta";
     downloadId = "90";
-    sha256 = "sha256-nTLc1SDetAPQogiR1U3iQEuOlWnIyx1YdWqIkyg++6A=";
+    sha256 = "sha256-waWmWNmSG+di6Yot4iKgI++yRU/f8ZjyDOASoE2aPDw=";
     version = "1.0.36b";
   };
   public = generic {
     channel = "public";
     downloadId = "98";
-    sha256 = "sha256-Vt8WPsipVHFot6ggqUjvKxuPA43V0B6i2uV2TEiQNyY=";
+    sha256 = "sha256-2tgXv2C/T/98nmDT1pKScLXI+xB7VXVbql+gvoSk4fU=";
     version = "1.0.36b";
   };
 }

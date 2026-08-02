@@ -384,8 +384,6 @@ in
   };
 
   programs = {
-    adb.enable = true;
-
     command-not-found.enable = true;
 
     # gnupg.agent = {
@@ -487,7 +485,7 @@ in
 
     displayManager.gdm = {
       enable = true;
-      wayland = true;
+      # wayland = true;
     };
 
     dbus.packages = with pkgs; [
