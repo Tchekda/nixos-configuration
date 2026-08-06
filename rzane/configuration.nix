@@ -53,6 +53,19 @@
     fi
   '';
 
+  # GUI apps (Dock/Spotlight-launched, e.g. cmux.app) inherit the launchd session
+  # PATH, NOT environment.systemPath below (that only feeds login shells via
+  # path_helper). cmux restores agent panes with
+  #   login -flp dtch /bin/bash --noprofile --norc -c 'exec -l /bin/sh -c "opencode attach …"'
+  # and --noprofile --norc skips every init, so without this the pane gets
+  # PATH=/usr/bin:/bin and dies with "opencode: command not found" (opencode is a
+  # Homebrew binary at /opt/homebrew/bin). Set the launchd user-domain PATH so GUI
+  # apps see /opt/homebrew/bin. Writes /var/db/com.apple.xpc.launchd/config/user.plist;
+  # takes effect after a reboot.
+  system.activationScripts.launchdUserPath.text = ''
+    /bin/launchctl config user path "/opt/homebrew/bin:/Users/dtch/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" || true
+  '';
+
   # touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
   system = {

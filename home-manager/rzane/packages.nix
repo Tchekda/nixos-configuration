@@ -7,6 +7,7 @@
   home.packages = with pkgs; [
     actionlint
     asdf-vm
+    bun
     # awscli2 # system level for Lens app
     unstable.fastlane
     git
