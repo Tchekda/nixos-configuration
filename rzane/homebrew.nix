@@ -26,7 +26,7 @@
       "docker-credential-helper"
       "fzf"
       "gh"
-      "kubectl"
+      # "kubectl" # ASDF managed
       "mise"
       # vault not here: hashicorp/tap/vault has no macOS bottle and the
       # source build needs xcode-select pointed at /Library/Developer/CommandLineTools
