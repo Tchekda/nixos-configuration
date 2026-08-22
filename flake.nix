@@ -103,7 +103,7 @@
           system = "aarch64-linux";
           modules = [
             home-manager.nixosModules.home-manager
-            nixos-hardware.nixosModules.raspberry-pi-4
+            # nixos-hardware.nixosModules.raspberry-pi-4
             ./llitt/configuration.nix
           ];
           specialArgs = {

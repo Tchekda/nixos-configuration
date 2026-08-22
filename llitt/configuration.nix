@@ -21,7 +21,13 @@
   # minimal.nix disables logrotate, but nginx here logs to a file at `debug`
   # level, so keep rotation on to avoid filling the SD card.
   services.logrotate.enable = true;
-
+  boot = {
+    kernel.sysctl."vm.mmap_rnd_bits" = 24;
+    loader = {
+      grub.enable = false;
+      generic-extlinux-compatible.enable = true;
+    };
+  };
   console.enable = true;
 
   documentation.enable = false;
@@ -57,7 +63,7 @@
   };
 
   hardware = {
-    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+    # raspberry-pi."4".apply-overlays-dtmerge.enable = true;
     deviceTree = {
       enable = true;
       filter = "*rpi-4-*.dtb";
