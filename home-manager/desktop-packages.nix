@@ -21,7 +21,7 @@
     wirelesstools
     # Applications
     gsettings-desktop-schemas
-    ddcui
+    # ddcui
     lxappearance
     # adapta-gtk-theme
     adwaita-icon-theme

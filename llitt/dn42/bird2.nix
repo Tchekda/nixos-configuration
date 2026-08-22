@@ -1,4 +1,9 @@
-{ pkgs, lib, unstable, ... }:
+{
+  pkgs,
+  lib,
+  unstable,
+  ...
+}:
 let
   script = pkgs.writeShellScriptBin "update-roa" ''
     mkdir -p /etc/bird/
@@ -40,7 +45,7 @@ in
       package = unstable.bird-lg;
       proxy = {
         enable = true;
-        listenAddress = "0.0.0.0:8000";
+        listenAddresses = "0.0.0.0:8000";
         allowedIPs = [
           "172.20.4.97"
           "172.20.4.98"

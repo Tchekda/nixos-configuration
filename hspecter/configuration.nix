@@ -24,7 +24,7 @@ in
 
     extraModulePackages = with config.boot.kernelPackages; [
       acpi_call
-      ddcci-driver
+      # ddcci-driver
     ];
 
     extraModprobeConfig = ''
@@ -42,7 +42,7 @@ in
     kernelModules = [
       "acpi_call"
       "amdgpu"
-      "ddcci_backlight"
+      # "ddcci_backlight"
       "hid_logitech_hidpp"
       "i2c-dev"
       "kvm-amd"

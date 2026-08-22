@@ -2,17 +2,25 @@
   config,
   pkgs,
   lib,
+  modulesPath,
   ...
 }:
 
 {
   imports = [
+    # NixOS "light": drops docs, default packages (perl/rsync/strace),
+    # command-not-found, udisks2, xdg autostart/icons/mime/sounds, etc.
+    (modulesPath + "/profiles/minimal.nix")
     ../tchekda_user.nix
     ./containers.nix
     ./nginx.nix
     ./dn42
     # (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
   ];
+
+  # minimal.nix disables logrotate, but nginx here logs to a file at `debug`
+  # level, so keep rotation on to avoid filling the SD card.
+  services.logrotate.enable = true;
 
   console.enable = true;
 
@@ -105,18 +113,18 @@
 
   services = {
     openssh.enable = true;
-    mosquitto = {
-      enable = true;
-      listeners = [
-        {
-          address = "0.0.0.0";
-          users.tchekda = {
-            acl = [ "readwrite #" ];
-            hashedPassword = "$6$t/OetPjG29PEKvLc$Vx3CGiLe23IKAWnVGPqFpAbEeIMahC6+wyICKDqPQh1bP0Cu6cHikmmXQMx2uvbZ0E0Bebw/aTnH71R40GJv8A==";
-          };
-        }
-      ];
-    };
+    # mosquitto = {
+    #   enable = false;
+    #   listeners = [
+    #     {
+    #       address = "0.0.0.0";
+    #       users.tchekda = {
+    #         acl = [ "readwrite #" ];
+    #         hashedPassword = "$6$t/OetPjG29PEKvLc$Vx3CGiLe23IKAWnVGPqFpAbEeIMahC6+wyICKDqPQh1bP0Cu6cHikmmXQMx2uvbZ0E0Bebw/aTnH71R40GJv8A==";
+    #       };
+    #     }
+    #   ];
+    # };
     # vscode-server.enable = true;
   };
 

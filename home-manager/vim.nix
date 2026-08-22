@@ -2,8 +2,9 @@
 {
   programs.vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline ];
-    settings = { ignorecase = true; };
+    settings = {
+      ignorecase = true;
+    };
     extraConfig = ''
       syntax on
       set expandtab

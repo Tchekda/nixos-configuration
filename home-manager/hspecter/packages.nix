@@ -4,6 +4,7 @@
   lib,
   unstable,
   nixpkgs25_05,
+  opencode,
   ...
 }:
 let
@@ -58,6 +59,7 @@ in
     unstable.teleport
     unstable.postman
     openssl
+    opencode.opencode
     unstable.k9s
     dbeaver-bin
     yubioath-flutter
@@ -83,13 +85,15 @@ in
     # Scanner
     unstable.gscan2pdf
   ];
-  programs.obs-studio = {
-    enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      wlrobs
-      obs-backgroundremoval
-      obs-pipewire-audio-capture
-    ];
+  programs = {
+    obs-studio = {
+      enable = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+      ];
+    };
   };
   xdg.systemDirs.data = [
     "${pkgs.gtk3}/share/gsettings-schemas/gtk+3-${pkgs.gtk3.version}"
