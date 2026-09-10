@@ -41,28 +41,30 @@
 
   programs.fish.enable = true;
 
-  # nix-darwin pins SDKROOT to its bundled Apple SDK, which causes `xcode-select -p`
-  # to return a Nix store path instead of /Library/Developer/CommandLineTools.
-  # This breaks Homebrew source builds and third-party scripts that rely on the
-  # standard CLT location. Reset it on every activation so the system path wins.
-  system.activationScripts.fixXcodeSelect.text = ''
+  # nix-darwin 26.05 only executes specific activation-script slots
+  # (postActivation / preActivation / extraActivation). Arbitrary-named entries
+  # (a former `fixXcodeSelect` / `launchdUserPath`) are defined-but-never-run, so
+  # both activation concerns below live under postActivation, which runs as root
+  # on every `darwin-rebuild activate`.
+  system.activationScripts.postActivation.text = ''
+    # (1) nix-darwin pins SDKROOT to its bundled Apple SDK, which makes
+    # `xcode-select -p` return a Nix store path and breaks Homebrew source builds
+    # / CLT-dependent scripts. Reset it to the standard CLT location.
     CURRENT=$(xcode-select -p 2>/dev/null || true)
     if [[ "$CURRENT" != "/Library/Developer/CommandLineTools" && "$CURRENT" != */Xcode*.app/* ]]; then
       echo "Resetting xcode-select from $CURRENT to /Library/Developer/CommandLineTools"
       xcode-select --switch /Library/Developer/CommandLineTools
     fi
-  '';
 
-  # GUI apps (Dock/Spotlight-launched, e.g. cmux.app) inherit the launchd session
-  # PATH, NOT environment.systemPath below (that only feeds login shells via
-  # path_helper). cmux restores agent panes with
-  #   login -flp dtch /bin/bash --noprofile --norc -c 'exec -l /bin/sh -c "opencode attach …"'
-  # and --noprofile --norc skips every init, so without this the pane gets
-  # PATH=/usr/bin:/bin and dies with "opencode: command not found" (opencode is a
-  # Homebrew binary at /opt/homebrew/bin). Set the launchd user-domain PATH so GUI
-  # apps see /opt/homebrew/bin. Writes /var/db/com.apple.xpc.launchd/config/user.plist;
-  # takes effect after a reboot.
-  system.activationScripts.launchdUserPath.text = ''
+    # (2) GUI apps (Dock/Spotlight-launched, e.g. cmux.app) inherit the launchd
+    # session PATH, NOT environment.systemPath below (that only feeds login shells
+    # via path_helper). cmux restores agent panes with
+    #   login -flp dtch /bin/bash --noprofile --norc -c 'exec -l /bin/sh -c "opencode attach …"'
+    # and --noprofile --norc skips every init, so without this the pane gets
+    # PATH=/usr/bin:/bin and dies with "opencode: command not found" (opencode is a
+    # Homebrew binary at /opt/homebrew/bin). Set the launchd user-domain PATH so
+    # GUI apps see /opt/homebrew/bin. Writes
+    # /var/db/com.apple.xpc.launchd/config/user.plist; applies after a reboot.
     /bin/launchctl config user path "/opt/homebrew/bin:/Users/dtch/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" || true
   '';
 

@@ -51,14 +51,9 @@
         "/Users/dtch/.ssh/local_config"
       ];
       settings = {
-        # Route github.com auth through the secure-enclave-agent Secure Enclave agent.
-        # Must precede "*": ssh uses the first match per keyword, and home-manager
-        # emits the "*" catch-all last, so this wins for github.com only.
-        "github.com" = {
-          IdentityAgent = "\"~/Library/Application Support/secure-enclave-agent/agent.sock\"";
-        };
+        # Route all SSH auth through the secure-enclave-agent Secure Enclave agent.
         "*" = {
-          IdentityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
+          IdentityAgent = "\"~/Library/Application Support/secure-enclave-agent/agent.sock\"";
         };
       };
     };

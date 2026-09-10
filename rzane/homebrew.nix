@@ -28,6 +28,7 @@
       "gh"
       # "kubectl" # ASDF managed
       "mise"
+      "pup"
       # vault not here: hashicorp/tap/vault has no macOS bottle and the
       # source build needs xcode-select pointed at /Library/Developer/CommandLineTools
       # (conflicts with the nix-darwin SDK pin). Installed via home-manager instead.
@@ -36,9 +37,7 @@
     casks = [
       "1password"
       "1password-cli"
-      "aerospace"
       "bitwarden"
-      "claude-code@latest"
       "cursor"
       "dbeaver-community"
       "google-chrome"
