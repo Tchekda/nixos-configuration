@@ -50,6 +50,10 @@
       "fish_greeting" = builtins.readFile ./fish_greeting.fish;
     };
 
+    shellInit = ''
+      fish_add_path -g -m -P $HOME/.local/bin
+    '';
+
     interactiveShellInit = ''
       nix-your-shell fish | source
       if test -n "$CMUX_SURFACE_ID"

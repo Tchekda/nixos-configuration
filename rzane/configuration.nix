@@ -63,9 +63,9 @@
     # and --noprofile --norc skips every init, so without this the pane gets
     # PATH=/usr/bin:/bin and dies with "opencode: command not found" (opencode is a
     # Homebrew binary at /opt/homebrew/bin). Set the launchd user-domain PATH so
-    # GUI apps see /opt/homebrew/bin. Writes
+    # GUI apps see ~/.local/bin (secure-enclave-agent shims) and /opt/homebrew/bin. Writes
     # /var/db/com.apple.xpc.launchd/config/user.plist; applies after a reboot.
-    /bin/launchctl config user path "/opt/homebrew/bin:/Users/dtch/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" || true
+    /bin/launchctl config user path "/Users/dtch/.local/bin:/opt/homebrew/bin:/Users/dtch/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" || true
   '';
 
   # touch ID for sudo
@@ -94,6 +94,17 @@
       "/Users/dtch/bin"
     ];
     pathsToLink = [ "/Applications" ];
+
+    # nix-homebrew injects `eval "$(brew shellenv)"` into the generated /etc/zshrc,
+    # which PREPENDS /opt/homebrew/bin to PATH in every interactive zsh — ahead of
+    # ~/.local/bin (secure-enclave-agent op/gh shims). /etc/zshrc sources /etc/zshrc.local
+    # at its end, i.e. after brew shellenv, so re-prepending ~/.local/bin here keeps
+    # the shims first in interactive zsh (mirrors fish's fish_add_path in home-manager).
+    etc."zshrc.local".text = ''
+      # Managed by nix-darwin. Keep ~/.local/bin (secure-enclave-agent shims) ahead of
+      # Homebrew after /etc/zshrc's `brew shellenv` reorders PATH.
+      export PATH="$HOME/.local/bin:$PATH"
+    '';
 
     # Pin <nixpkgs> system-wide to the nixpkgs this system is built from
     # (pkgs.path = the flake's nixpkgs input), so every `nix-shell` / `import
