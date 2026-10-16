@@ -90,6 +90,7 @@
   };
   environment = {
     systemPath = [
+      "/Users/dtch/.opencode/bin"
       "/opt/homebrew/bin"
       "/Users/dtch/bin"
     ];
@@ -103,7 +104,7 @@
     etc."zshrc.local".text = ''
       # Managed by nix-darwin. Keep ~/.local/bin (secure-enclave-agent shims) ahead of
       # Homebrew after /etc/zshrc's `brew shellenv` reorders PATH.
-      export PATH="$HOME/.local/bin:$PATH"
+      export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
     '';
 
     # Pin <nixpkgs> system-wide to the nixpkgs this system is built from
