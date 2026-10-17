@@ -89,7 +89,7 @@ in
     keyMap = "us";
   };
 
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 
   environment = {
     # https://github.com/NixOS/nixpkgs/issues/149812
@@ -343,6 +343,25 @@ in
       allowUnfree = true;
       pulseaudio = true;
     };
+
+    # nixpkgs 26.05 ships solaar 1.1.19, whose test suite fails inside the
+    # build sandbox (it needs a running D-Bus session / machine-id), which
+    # breaks the build and forced hardware.logitech.wireless to be disabled.
+    # 1.1.20 mocks the libnotify backend in its tests, so bump just this
+    # package until 26.05 picks up the fix.
+    overlays = [
+      (final: prev: {
+        solaar = prev.solaar.overrideAttrs (old: {
+          version = "1.1.20";
+          src = prev.fetchFromGitHub {
+            owner = "pwr-Solaar";
+            repo = "Solaar";
+            tag = "1.1.20";
+            hash = "sha256-h/uiy0TtMicKch2cdXHur5DkvQun2sAw2HpFI7Qstqg=";
+          };
+        });
+      })
+    ];
   };
 
   networking = {

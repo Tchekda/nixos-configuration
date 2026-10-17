@@ -178,27 +178,6 @@
         "type": "github"
       }
     },
-    "opencode": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792158882,
-        "narHash": "sha256-NGzt7vlK8W/U6KKv57MOGr1U6iJACokN5O785QKOBGU=",
-        "owner": "anomalyco",
-        "repo": "opencode",
-        "rev": "ed772f5009755b5262805a7ba07e66e1417f140a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "anomalyco",
-        "ref": "dev",
-        "repo": "opencode",
-        "type": "github"
-      }
-    },
     "phps": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -228,7 +207,6 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs25_05": "nixpkgs25_05",
-        "opencode": "opencode",
         "phps": "phps",
         "unstable": "unstable",
         "vscode-server": "vscode-server"

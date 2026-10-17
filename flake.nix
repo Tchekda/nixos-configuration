@@ -29,10 +29,6 @@
       url = "github:fossar/nix-phps";
       inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
     };
-    opencode = {
-      url = "github:anomalyco/opencode/dev";
-      inputs.nixpkgs.follows = "nixpkgs"; # Use system packages list where available
-    };
   };
 
   outputs =
@@ -47,7 +43,6 @@
       darwin,
       nix-homebrew,
       phps,
-      opencode,
       ...
     }@inputs:
     rec {
@@ -66,7 +61,6 @@
               config.allowUnfree = true;
             };
             phps = phps.packages.x86_64-linux;
-            opencode = opencode.packages.x86_64-linux;
           };
         };
         # Not working as some files are not in the git history (dn42 wg tunnels)
@@ -128,7 +122,6 @@
               config.allowUnfree = true;
             };
             nixpkgs25_05 = nixpkgs25_05.legacyPackages.x86_64-linux;
-            opencode = opencode.packages.x86_64-linux;
           };
         };
       };

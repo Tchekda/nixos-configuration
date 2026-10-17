@@ -32,7 +32,6 @@
       shellAbbrs = {
         nrs = "sudo darwin-rebuild --flake /Users/dtch/nixos-configuration#rzane switch";
         cc = "claude --dangerously-skip-permissions --effort max";
-        oo = "opencode --auto";
       };
       shellInit = ''
         mise activate fish --shims | source

@@ -4,14 +4,13 @@
   lib,
   unstable,
   nixpkgs25_05,
-  opencode,
   ...
 }:
 let
   aurora = pkgs.callPackage ../aurora.nix { };
   # m68k = pkgs.qt5.callPackage ./m68k.nix { };
   # myPostman = pkgs.callPackage ./postman.nix { };
-  myLens = pkgs.callPackage ./lens.nix { };
+  # myLens = pkgs.callPackage ./lens.nix { };
   myMaestralGui = pkgs.maestral-gui.overrideAttrs (old: {
     postInstall = (old.postInstall or "") + ''
       mkdir -p $out/share/icons/hicolor/512x512/apps
@@ -31,16 +30,16 @@ in
         "python3.10-cryptography-40.0.1"
       ];
     };
-    overlays = [
-      (final: prev: {
-        fritzing = unstable.fritzing;
-      })
-    ];
+    # overlays = [
+    #   (final: prev: {
+    #     fritzing = unstable.fritzing;
+    #   })
+    # ];
   };
   home.packages = with pkgs; [
-    aurora.public
-    aurora.beta
-    aurora.alpha
+    # aurora.public
+    # aurora.beta
+    # aurora.alpha
     # Dev
     awscli2
     # sshuttle
@@ -55,11 +54,10 @@ in
     docker-compose
     kubectl
     kubelogin-oidc
-    myLens
+    # myLens
     unstable.teleport
     unstable.postman
     openssl
-    opencode.opencode
     unstable.k9s
     dbeaver-bin
     yubioath-flutter
@@ -70,9 +68,9 @@ in
     pkg-config
     stdenv.cc
     # Applications
-    teams-for-linux
+    # teams-for-linux
     google-chrome
-    zoom-us
+    # zoom-us
     filezilla
     nixpkgs25_05.nixops_unstable_full
     termius

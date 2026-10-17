@@ -23,6 +23,7 @@
       gp = "git push";
       gl = "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
       s = "sudo";
+      oo = "opencode --auto";
     };
 
     plugins = [
@@ -52,6 +53,7 @@
 
     shellInit = ''
       fish_add_path -g -m -P $HOME/.local/bin
+      fish_add_path $HOME/.opencode/bin
     '';
 
     interactiveShellInit = ''
