@@ -6,6 +6,7 @@
 
   home.packages = with pkgs; [
     speedtest-cli
+    screen
   ];
 
   # services.vscode-server.enable = true;
