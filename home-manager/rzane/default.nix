@@ -54,6 +54,15 @@
         "*" = {
           IdentityAgent = "\"~/Library/Application Support/secure-enclave-agent/agent.sock\"";
         };
+        # Explicit github.com stanza: secure-enclave-agent' `doctor` ssh-config check
+        # only recognises this block (a wildcard-only IdentityAgent reads as
+        # "SSH isn't wired to your Secure Enclave key"). Must match the stanza
+        # the tool would write, or it reports a hand-edited conflict.
+        "github.com" = {
+          IdentityAgent = "\"~/Library/Application Support/secure-enclave-agent/agent.sock\"";
+          IdentityFile = "\"~/Library/Application Support/secure-enclave-agent/secure-enclave-agent.pub\"";
+          IdentitiesOnly = "yes";
+        };
       };
     };
   };
