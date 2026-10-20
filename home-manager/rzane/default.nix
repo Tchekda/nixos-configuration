@@ -10,12 +10,13 @@
     ../home.nix
     ./git.nix
     ./packages.nix
+    # Secure-Enclave agent SSH wiring. Kept in a git-crypt'd module so the
+    # public repo never carries the agent name, socket path or key filename.
+    ./secrets/agent.nix
   ];
 
-  # SSH auth here goes through the secure-enclave-agent Secure Enclave agent (see
-  # `programs.ssh.settings` below), so the fish-ssh-agent plugin would only
-  # spawn an extra empty ssh-agent per shell and re-export SSH_AUTH_SOCK.
-  # Other hosts keep the plugin: they have no Secure Enclave agent.
+  # The fish-ssh-agent plugin is redundant on hosts whose SSH auth is delegated
+  # to an agent socket (see ./secrets/agent.nix). Other hosts keep it.
   tchekda.fishSshAgent.enable = false;
 
   home = {
@@ -43,18 +44,6 @@
         mise activate fish --shims | source
         source "${pkgs.asdf-vm}/share/fish/vendor_completions.d/asdf.fish"
       '';
-      # secure-enclave-agent: mint/refresh the 24h grant for this shell, so every
-      # descendant (brew -> git -> ssh) matches a live grant. Without it the
-      # daemon only mints short-lived "session-shell-reactive" grants anchored
-      # on the throwaway bash Homebrew spawns, and the grant reaper kills them
-      # before `git fetch` spawns ssh -- surfacing as "agent refused operation"
-      # then "Permission denied (publickey)" and a tap-fetch failure.
-      # Idempotent: a silent no-op while a grant already covers this shell.
-      interactiveShellInit = ''
-        if not set -q SECURE_ENCLAVE_AGENT_INTERNAL
-          secure-enclave-agent authorize >/dev/null 2>&1 &
-        end
-      '';
     };
 
     # mise is installed via Homebrew (see ../../rzane/homebrew.nix). Fish activation
@@ -67,21 +56,6 @@
         "/Users/dtch/.colima/ssh_config"
         "/Users/dtch/.ssh/local_config"
       ];
-      settings = {
-        # Route all SSH auth through the secure-enclave-agent Secure Enclave agent.
-        "*" = {
-          IdentityAgent = "\"~/Library/Application Support/secure-enclave-agent/agent.sock\"";
-        };
-        # Explicit github.com stanza: secure-enclave-agent' `doctor` ssh-config check
-        # only recognises this block (a wildcard-only IdentityAgent reads as
-        # "SSH isn't wired to your Secure Enclave key"). Must match the stanza
-        # the tool would write, or it reports a hand-edited conflict.
-        "github.com" = {
-          IdentityAgent = "\"~/Library/Application Support/secure-enclave-agent/agent.sock\"";
-          IdentityFile = "\"~/Library/Application Support/secure-enclave-agent/secure-enclave-agent.pub\"";
-          IdentitiesOnly = "yes";
-        };
-      };
     };
   };
 }
