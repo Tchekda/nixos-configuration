@@ -43,6 +43,18 @@
         mise activate fish --shims | source
         source "${pkgs.asdf-vm}/share/fish/vendor_completions.d/asdf.fish"
       '';
+      # secure-enclave-agent: mint/refresh the 24h grant for this shell, so every
+      # descendant (brew -> git -> ssh) matches a live grant. Without it the
+      # daemon only mints short-lived "session-shell-reactive" grants anchored
+      # on the throwaway bash Homebrew spawns, and the grant reaper kills them
+      # before `git fetch` spawns ssh -- surfacing as "agent refused operation"
+      # then "Permission denied (publickey)" and a tap-fetch failure.
+      # Idempotent: a silent no-op while a grant already covers this shell.
+      interactiveShellInit = ''
+        if not set -q SECURE_ENCLAVE_AGENT_INTERNAL
+          secure-enclave-agent authorize >/dev/null 2>&1 &
+        end
+      '';
     };
 
     # mise is installed via Homebrew (see ../../rzane/homebrew.nix). Fish activation
