@@ -12,6 +12,12 @@
     ./packages.nix
   ];
 
+  # SSH auth here goes through the secure-enclave-agent Secure Enclave agent (see
+  # `programs.ssh.settings` below), so the fish-ssh-agent plugin would only
+  # spawn an extra empty ssh-agent per shell and re-export SSH_AUTH_SOCK.
+  # Other hosts keep the plugin: they have no Secure Enclave agent.
+  tchekda.fishSshAgent.enable = false;
+
   home = {
     sessionVariables = {
       TF_CLI_ARGS_plan = "-parallelism=50";

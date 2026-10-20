@@ -1,42 +1,62 @@
-{ pkgs, ... }:
 {
-  home.packages = [
-    pkgs.nix-your-shell
-  ];
-  programs.fish = {
-    enable = true;
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.tchekda.fishSshAgent;
+in
+{
+  options.tchekda.fishSshAgent.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = ''
+      Enable the fish-ssh-agent plugin, which spawns an ssh-agent per login
+      shell and exports SSH_AUTH_SOCK. Turn off on hosts whose SSH auth is
+      already provided by an agent socket via `programs.ssh.settings`.
+    '';
+  };
 
-    shellAliases = {
-      ".." = "cd ..";
-      cl = "clear";
-      grep = "grep --color=auto";
-      ls = "ls --color=auto";
-      mkdir = "mkdir -pv";
-    };
+  config = {
+    home.packages = [
+      pkgs.nix-your-shell
+    ];
+    programs.fish = {
+      enable = true;
 
-    shellAbbrs = {
-      ia = "ip a";
-      ls = "ls -lsah";
-      gs = "git status -u";
-      ga = "git add .";
-      gc = "git commit -a -m \"\"";
-      gp = "git push";
-      gl = "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
-      s = "sudo";
-      oo = "opencode --auto";
-    };
+      shellAliases = {
+        ".." = "cd ..";
+        cl = "clear";
+        grep = "grep --color=auto";
+        ls = "ls --color=auto";
+        mkdir = "mkdir -pv";
+      };
 
-    plugins = [
-      {
-        name = "theme-lambda";
-        src = pkgs.fetchFromGitHub {
-          owner = "hasanozgan";
-          repo = "theme-lambda";
-          rev = "9cf5825c31a1d09d37d87e681ac2fa1d771ef6d2";
-          sha256 = "1aq8r27n4ifickg7my039k618d7dllknyi4g7x742hcy19zr1336";
-        };
-      }
-      {
+      shellAbbrs = {
+        ia = "ip a";
+        ls = "ls -lsah";
+        gs = "git status -u";
+        ga = "git add .";
+        gc = "git commit -a -m \"\"";
+        gp = "git push";
+        gl = "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        s = "sudo";
+        oo = "opencode --auto";
+      };
+
+      plugins = [
+        {
+          name = "theme-lambda";
+          src = pkgs.fetchFromGitHub {
+            owner = "hasanozgan";
+            repo = "theme-lambda";
+            rev = "9cf5825c31a1d09d37d87e681ac2fa1d771ef6d2";
+            sha256 = "1aq8r27n4ifickg7my039k618d7dllknyi4g7x742hcy19zr1336";
+          };
+        }
+      ]
+      ++ lib.optional cfg.enable {
         name = "fish-ssh-agent";
         src = pkgs.fetchFromGitHub {
           owner = "danhper";
@@ -44,23 +64,23 @@
           rev = "fd70a2afdd03caf9bf609746bf6b993b9e83be57";
           sha256 = "1fvl23y9lylj4nz6k7yfja6v9jlsg8jffs2m5mq0ql4ja5vi5pkv";
         };
-      }
-    ];
+      };
 
-    functions = {
-      "fish_greeting" = builtins.readFile ./fish_greeting.fish;
+      functions = {
+        "fish_greeting" = builtins.readFile ./fish_greeting.fish;
+      };
+
+      shellInit = ''
+        fish_add_path -g -m -P $HOME/.local/bin
+        fish_add_path $HOME/.opencode/bin
+      '';
+
+      interactiveShellInit = ''
+        nix-your-shell fish | source
+        if test -n "$CMUX_SURFACE_ID"
+          fish_add_path -gP /Applications/cmux.app/Contents/Resources/bin
+        end
+      '';
     };
-
-    shellInit = ''
-      fish_add_path -g -m -P $HOME/.local/bin
-      fish_add_path $HOME/.opencode/bin
-    '';
-
-    interactiveShellInit = ''
-      nix-your-shell fish | source
-      if test -n "$CMUX_SURFACE_ID"
-        fish_add_path -gP /Applications/cmux.app/Contents/Resources/bin
-      end
-    '';
   };
 }
