@@ -69,7 +69,13 @@
   '';
 
   # touch ID for sudo
-  security.pam.services.sudo_local.touchIdAuth = true;
+  security = {
+    pam.services.sudo_local.touchIdAuth = true;
+    pki.caCertificateBlacklist = [
+      "Comodo AAA Services root"
+      "emSign ECC Root CA - G3"
+    ];
+  };
   system = {
     defaults = {
       finder = {
