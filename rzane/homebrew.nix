@@ -6,7 +6,7 @@
 
     onActivation = {
       autoUpdate = false;
-      upgrade = true;
+      upgrade = false;
       cleanup = "none"; # Leave private packages installed
     };
 
