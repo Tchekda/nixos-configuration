@@ -97,7 +97,12 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts = {
-      "hockey-pen-stats.tchekda.fr" = folder "/var/www/hockey-pen-stats/";
+      "hockey-pen-stats.tchekda.fr" = folderWith "/var/www/hockey-pen-stats/" ''
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;
+        add_header CDN-Cache-Control "no-store" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+      '';
       "lg42.tchekda.fr" = proxy "http://127.0.0.1:5050";
       "pac.tchekda.fr" = folderWith "/var/www/pac.tchekda.fr/" ''
         auth_basic "Security";
